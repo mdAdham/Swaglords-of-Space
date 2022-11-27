@@ -3,6 +3,8 @@
 constexpr auto SCREEN_HEIGHT = 1920;
 constexpr auto SCREEN_WIDTH = 1080;
 
+constexpr auto DEV_SCREEN = 400;
+
 constexpr auto SPLASH_STATE_SHOW_TIME = 1;
 
 constexpr auto SPLASH_SCENE_BACKGROUND_FILEPATH = "Resources/res/Splash Background.png";

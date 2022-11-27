@@ -43,14 +43,14 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -143,6 +143,7 @@
   <ItemGroup>
     <ClCompile Include="src\Layer\LayerMachine.cpp" />
     <ClCompile Include="src\Manager\FileManager.cpp" />
+    <ClCompile Include="src\States\Dev States\DevMainState.cpp" />
     <ClCompile Include="src\States\LevelState.cpp" />
     <ClCompile Include="src\States\OptionState.cpp" />
     <ClCompile Include="src\Game.cpp" />
@@ -170,6 +171,7 @@
     <ClInclude Include="src\Manager\InputManager.h" />
     <ClInclude Include="src\Manager\logManager.h" />
     <ClInclude Include="src\Manager\FileManager.h" />
+    <ClInclude Include="src\States\Dev States\DevMainState.h" />
     <ClInclude Include="src\States\GameState.h" />
     <ClInclude Include="src\States\LevelState.h" />
     <ClInclude Include="src\States\MainMenuState.h" />
@@ -186,12 +188,31 @@
     <ResourceCompile Include="Swaglords of Space.rc" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="Resources\res\Bullet.png" />
+    <Image Include="Resources\res\Game Background.jpg" />
+    <Image Include="Resources\res\Home Button.png" />
     <Image Include="Resources\res\ICON.ico" />
+    <Image Include="Resources\res\Main Menu Background.png" />
+    <Image Include="Resources\res\Option Button.png" />
+    <Image Include="Resources\res\Pause Button.png" />
+    <Image Include="Resources\res\Play Button.png" />
+    <Image Include="Resources\res\Quit Button.png" />
+    <Image Include="Resources\res\Ship.png" />
+    <Image Include="Resources\res\Splash Background.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="resources\res\Swag Space.htm">
       <DeploymentContent>true</DeploymentContent>
     </None>
+    <None Include="Resources\sound\BackgroundMusic.ogg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="Resources\fonts\ALGER.ttf" />
+    <Font Include="Resources\fonts\PartyConfettiRegular.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="Resources\sound\Bullet Sound.wav" />
+    <Media Include="Resources\sound\Rock Break.wav" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

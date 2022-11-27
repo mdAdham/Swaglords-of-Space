@@ -16,7 +16,7 @@ int main()
 
 	SWAG_TRACE("SwagLord v{}.{}", 2, 20);
 
-	Swag::Game game(SCREEN_HEIGHT, SCREEN_WIDTH, "SWAGLORDS OF SPACE");
+	Swag::Game game(SCREEN_HEIGHT, SCREEN_WIDTH, "SWAGLORDS OF SPACE", DEV_SCREEN, DEV_SCREEN + 50, "DEVELOPER WINDOW");
 
 	SWAG_INFO("Game Destroyed");
 

@@ -66,6 +66,9 @@
     <ClCompile Include="src\Layer\LayerMachine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\States\Dev States\DevMainState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Core\DEFFINITIONS.h">
@@ -131,6 +134,9 @@
     <ClInclude Include="src\Layer\LayerMachine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\States\Dev States\DevMainState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Swaglords of Space.rc">
@@ -141,8 +147,51 @@
     <Image Include="Resources\res\ICON.ico">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="Resources\res\Home Button.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\res\Bullet.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\res\Game Background.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\res\Main Menu Background.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\res\Option Button.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\res\Pause Button.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\res\Play Button.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\res\Quit Button.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\res\Ship.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\res\Splash Background.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <None Include="resources\res\Swag Space.htm" />
+    <None Include="Resources\sound\BackgroundMusic.ogg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="Resources\fonts\ALGER.ttf" />
+    <Font Include="Resources\fonts\PartyConfettiRegular.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="Resources\sound\Bullet Sound.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="Resources\sound\Rock Break.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
   </ItemGroup>
 </Project>
