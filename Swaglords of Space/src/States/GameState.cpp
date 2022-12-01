@@ -205,6 +205,7 @@ namespace Swag
 				{
 					delete i;
 				}
+			
 				this->entityDeleted = true;
 			SWAG_TRACE("Player Points - {0}",this->points);
 			SWAG_INFO("Player Died");
@@ -231,7 +232,12 @@ namespace Swag
 		this->_data->window.clear();
 
 		this->_data->window.draw(this->_background);
-		this->player->render(this->_data->window);
+		if (this->player->getHp() <= 0)
+		{
+		}
+		else
+			this->player->render(this->_data->window);
+
 
 		if (this->player->getHp() != 0)
 		{

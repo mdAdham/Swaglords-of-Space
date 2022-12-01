@@ -137,6 +137,9 @@
     <ClInclude Include="src\States\Dev States\DevMainState.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Core\Core.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Swaglords of Space.rc">
