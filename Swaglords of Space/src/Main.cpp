@@ -21,9 +21,9 @@ int main()
 	SWAG_INFO("Game Destroyed");
 
 	Swag::LogManager::ShutDown();
-	free(game);
 
 	std::cin.get();
-
+	
+	delete game;
 	return	EXIT_SUCCESS;
 }

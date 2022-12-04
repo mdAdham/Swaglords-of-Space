@@ -184,6 +184,7 @@
   <ItemGroup>
     <None Include="resources\res\Swag Space.htm" />
     <None Include="Resources\sound\BackgroundMusic.ogg" />
+    <None Include="Swaglords of Space.aps" />
   </ItemGroup>
   <ItemGroup>
     <Font Include="Resources\fonts\ALGER.ttf" />
