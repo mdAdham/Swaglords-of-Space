@@ -1,7 +1,7 @@
 #include "Game.h"
 #include "States/SplashState.h"
 #include "States/LevelState.h"
-
+#include "Core/DEFFINITIONS.h"
 #include "States/Dev States/DevMainState.h"
 
 namespace Swag
@@ -19,6 +19,9 @@ namespace Swag
 
 		}
 		_data->window.setKeyRepeatEnabled(false);
+		
+		this->AppIcon.loadFromFile(APP_ICON_FILEPATH);
+		this->_data->window.setIcon(this->AppIcon.getSize().x, this->AppIcon.getSize().y, this->AppIcon.getPixelsPtr());
 		SWAG_INFO("Game Created");
 		this->Run();
 	}

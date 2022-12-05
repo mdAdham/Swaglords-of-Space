@@ -116,6 +116,7 @@ namespace Swag
 			music.play();
 			this->music_count++;
 		}
+
 	}
 
 	void MainMenuState::Draw(float dt)

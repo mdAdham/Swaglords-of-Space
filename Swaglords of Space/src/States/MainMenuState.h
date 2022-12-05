@@ -46,6 +46,7 @@ namespace Swag
 			click
 		};
 
+
 		ButtonStatus optionButtonStatus;
 		ButtonStatus quitButtonStatus;
 		ButtonStatus playButtonStatus;

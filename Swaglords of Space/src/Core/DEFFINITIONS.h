@@ -9,6 +9,8 @@ constexpr auto SPLASH_STATE_SHOW_TIME = 1;
 
 constexpr auto SPLASH_SCENE_BACKGROUND_FILEPATH = "Resources/res/Splash Background.png";
 
+#define APP_ICON_FILEPATH "Resources/res/Ship.png"
+
 #define MAIN_MENU_BACKGROUND_FILEPATH "Resources/res/Main Menu Background.png"
 
 #define GAME_BACKGROUND_FILEPATH "Resources/res/Game Background.jpg"

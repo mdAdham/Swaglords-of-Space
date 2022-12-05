@@ -33,6 +33,8 @@ namespace Swag
 
 		bool EnableDevWindow = false;
 
+		sf::Image AppIcon;
+
 		GameDataRef _data = std::make_shared<GameData>();
 		GameDataRef _data2 = std::make_shared<GameData>();
 
