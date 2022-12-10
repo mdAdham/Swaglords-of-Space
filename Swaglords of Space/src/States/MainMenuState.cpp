@@ -57,7 +57,10 @@ namespace Swag
 		while (this->_data->window.pollEvent(event))
 		{
 			if (sf::Event::Closed == event.type)
+			{
+				this->music.stop();
 				this->_data->window.close();
+			}
 
 			if (this->_data->input.isSpriteClicked(this->_playButton, sf::Mouse::Left, this->_data->window))
 			{

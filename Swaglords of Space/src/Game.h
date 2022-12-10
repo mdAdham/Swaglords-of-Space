@@ -26,6 +26,10 @@ namespace Swag
 	{
 	public:
 		Game(int width, int height, std::string title, int DevWin_height, int DevWin_width, std::string DevWin_Title, bool DevWin);
+		~Game()
+		{
+			
+		}
 
 	private:
 		const float dt = 1.0f / 144.0f;
