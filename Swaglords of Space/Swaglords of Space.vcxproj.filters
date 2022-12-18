@@ -185,7 +185,6 @@
     <None Include="resources\res\Swag Space.htm" />
     <None Include="Resources\sound\BackgroundMusic.ogg" />
     <None Include="Swaglords of Space.aps" />
-    <None Include="cpp.hint" />
   </ItemGroup>
   <ItemGroup>
     <Font Include="Resources\fonts\ALGER.ttf" />
