@@ -33,8 +33,6 @@ namespace Swag
 		sf::Text _optionButton;
 
 		///////////////////////////////////
-		sf::SoundBuffer musicBuff;
-		sf::Sound music;
 		short int music_count = 0;
 		///////////////////////////////////
 

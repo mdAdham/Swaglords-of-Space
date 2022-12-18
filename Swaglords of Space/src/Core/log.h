@@ -18,7 +18,7 @@
 #define SWAG_INFO(...)  
 #define SWAG_WARN(...)  
 #define SWAG_ERROR(...) 
-#define SWAG_DEBUG(...) 
+#define SWAG_DEBUGS(...) 
 #define SWAG_CRITICAL(...) 
 
 #endif // SWAG_RELEASE

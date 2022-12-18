@@ -22,8 +22,10 @@ int main()
 
 	Swag::LogManager::ShutDown();
 
+	#ifdef SWAG_DEBUG
 	std::cin.get();
-	
+	#endif // SWAG_DEBUG
+
 	delete game;
 	return	EXIT_SUCCESS;
 }

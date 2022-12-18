@@ -22,6 +22,7 @@ namespace Swag
 		
 		this->AppIcon.loadFromFile(APP_ICON_FILEPATH);
 		this->_data->window.setIcon(this->AppIcon.getSize().x, this->AppIcon.getSize().y, this->AppIcon.getPixelsPtr());
+		this->_data->window.setFramerateLimit(120);
 		SWAG_INFO("Game Created");
 		this->Run();
 	}

@@ -23,14 +23,14 @@ namespace Swag
 		this->quitButtonStatus = ButtonStatus::idle;
 		this->playButtonStatus = ButtonStatus::idle;
 
-		this->musicBuff.loadFromFile("Resources/sound/BackgroundMusic.ogg");
-		this->music.setBuffer(this->musicBuff);
+		asserts.LoadMusic("BackgroundMusic", "Resources/sound/BackgroundMusic.ogg");
+		asserts.GetMusic("BackgroundMusic").setLoop(true);
 
-		this->_data->assets.LoadTexture("Background", MAIN_MENU_BACKGROUND_FILEPATH);
-		this->_data->assets.LoadTexture("Play Button", PLAY_BUTTON);
-		this->_data->assets.LoadTexture("Quit Button", QUIT_BUTTON);
-		this->_data->assets.LoadTexture("Option Button", OPTION_BUTTON);
-		this->_data->assets.LoadFont("Alger Font", ALGER_FONT);
+		asserts.LoadTexture("Background", MAIN_MENU_BACKGROUND_FILEPATH);
+		asserts.LoadTexture("Play Button", PLAY_BUTTON);
+		asserts.LoadTexture("Quit Button", QUIT_BUTTON);
+		asserts.LoadTexture("Option Button", OPTION_BUTTON);
+		asserts.LoadFont("Alger Font", ALGER_FONT);
 		
 
 		this->_background.setTexture(this->_data->assets.GetTexture("Background"));
@@ -58,13 +58,13 @@ namespace Swag
 		{
 			if (sf::Event::Closed == event.type)
 			{
-				this->music.stop();
+				asserts.GetMusic("BackgroundMusic").stop();
 				this->_data->window.close();
 			}
 
 			if (this->_data->input.isSpriteClicked(this->_playButton, sf::Mouse::Left, this->_data->window))
 			{
-				this->music.stop();
+				asserts.GetMusic("BackgroundMusic").stop();
 				this->_data->machine.AddState(StateRef(new GameState(_data)), true);
 			}
 
@@ -116,7 +116,7 @@ namespace Swag
 
 		if (this->music_count == 0)
 		{
-			music.play();
+			asserts.GetMusic("BackgroundMusic").play();
 			this->music_count++;
 		}
 

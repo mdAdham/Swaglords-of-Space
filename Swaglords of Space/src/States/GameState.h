@@ -56,10 +56,6 @@ namespace Swag
 
 		sf::Text gameOverText;
 
-		//Sound		
-		std::map<std::string, sf::SoundBuffer> soundBuffers;
-		std::map<std::string, sf::Sound> sounds;
-
 		//World
 		sf::Sprite worldBackground;
 		sf::Image screenshot;

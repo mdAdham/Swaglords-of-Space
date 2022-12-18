@@ -66,19 +66,14 @@ namespace Swag
 
 	void GameState::initSound()
 	{
-		if (!this->soundBuffers["FIRE_BUFFER"].loadFromFile("Resources/sound/Bullet Sound.wav"))
-		{
-			SWAG_ERROR("ERROR::GAME::INITSOUND::Failed to Load Bullet Sound");
-		}else
-		{ this->sounds["FIRE_SOUND"].setBuffer(this->soundBuffers["FIRE_BUFFER"]); }
+		asserts.LoadSoundBuffer("FIRE_BUFFER", "Resources/sound/Bullet Sound.wav");
+		asserts.LoadSound("FIRE_SOUND", asserts.GetSoundBuffer("FIRE_BUFFER"));
 
+		asserts.LoadSoundBuffer("BREAK_BUFFER", "Resources/sound/Rock Break.wav");
+		asserts.LoadSound("BREAK_SOUND", asserts.GetSoundBuffer("BREAK_BUFFER"));
 
-		if (!this->soundBuffers["BREAK_BUFFER"].loadFromFile("Resources/sound/Rock Break.wav"))
-		{
-			SWAG_ERROR("ERROR::GAME::INITSOUND::Failed to Load Rock Break Sound");
-		}else
-		{ this->sounds["BREAK_SOUND"].setBuffer(this->soundBuffers["BREAK_BUFFER"]); }
-
+		//Background Music already Loaded in MainMenuState
+		asserts.GetMusic("BackgroundMusic").setLoop(true);
 	}
 
 	void GameState::initPlayer()
@@ -102,11 +97,6 @@ namespace Swag
 	{
 		this->_data->assets.LoadTexture("Game Background", GAME_BACKGROUND_FILEPATH);
 		this->_data->assets.LoadTexture("Home Button", HOME_BUTTON);
-		
-		this->soundBuffers["BackgroungMusicBuffer"].loadFromFile("Resources/sound/BackgroundMusic.ogg");
-		this->sounds["BackgroundMusic"].setBuffer(this->soundBuffers["BackgroungMusicBuffer"]);
-		this->sounds["BackgroundMusic"].setLoop(true);
-
 
 		_background.setTexture(this->_data->assets.GetTexture("Game Background"));
 		_homeButton.setTexture(this->_data->assets.GetTexture("Home Button"));
@@ -132,18 +122,14 @@ namespace Swag
 		{
 			if (sf::Event::Closed == event.type)
 			{
-				this->sounds["BackgroundMusic"].stop();
+				asserts.GetMusic("BackgroundMusic").stop();
 				this->_data->window.close();
 			}
-
-			if (sf::Event::LostFocus == event.type)
-				this->_data->window.clear();
 
 			if (event.key.code == sf::Keyboard::C)
 			{
 				this->current_screen_texture.create(this->windowSize.x, this->windowSize.y);
 				this->screencap = true;
-
 			}
 
 			if (this->player->getHp() == 0)
@@ -151,7 +137,8 @@ namespace Swag
 				if (this->_data->input.isSpriteClicked(this->_homeButton, sf::Mouse::Left, this->_data->window))
 				{
 					SWAG_TRACE("Player Points - {0}", this->points);
-					this->sounds["BackgroundMusic"].stop();
+					asserts.GetMusic("BackgroundMusic").stop();
+					
 					this->_data->machine.AddState(StateRef(new MainMenuState(this->_data)), true);
 				}
 			}
@@ -160,7 +147,6 @@ namespace Swag
 			{
 				if (event.Event::KeyPressed && event.Event::key.code == sf::Keyboard::P)
 				{
-					
 					this->_data->machine.AddState(StateRef(new PauseState(this->_data)), false);
 				}
 			}
@@ -222,7 +208,7 @@ namespace Swag
 		}
 		if (this->Background_music_count == 0)
 		{
-			this->sounds["BackgroundMusic"].play();
+			asserts.GetMusic("BackgroundMusic").play();
 			this->Background_music_count++;
 		}
 	}
@@ -293,7 +279,7 @@ namespace Swag
 
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && this->player->canAttack() || sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && this->player->canAttack())
 		{
-			this->sounds["FIRE_SOUND"].play();
+			asserts.GetSound("FIRE_SOUND").play();
 			this->bullets.push_back(new Bullet(this->textures["BULLET"], this->player->getPos().x + this->player->getBounds().width / 2.f - 5.f,
 				this->player->getPos().y,
 				0.f,
@@ -399,7 +385,7 @@ namespace Swag
 				delete this->ememies.at(counter);
 				this->ememies.erase(this->ememies.begin() + counter);
 
-				this->sounds["BREAK_SOUND"].play();
+				asserts.GetSound("BREAK_SOUND").play();
 			}
 
 			++counter;
@@ -423,7 +409,7 @@ namespace Swag
 					delete this->bullets[k];
 					this->bullets.erase(this->bullets.begin() + k);
 
-					this->sounds["BREAK_SOUND"].play();
+					asserts.GetSound("BREAK_SOUND").play();
 					enemy_deleted = true;
 				}
 			}

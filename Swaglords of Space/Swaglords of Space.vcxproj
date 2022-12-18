@@ -204,6 +204,7 @@
     <Image Include="Resources\res\Splash Background.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="cpp.hint" />
     <None Include="resources\res\Swag Space.htm">
       <DeploymentContent>true</DeploymentContent>
     </None>
