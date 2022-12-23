@@ -57,7 +57,7 @@ namespace Swag
 		{
 			if (ev.type == sf::Event::Closed)
 			{
-				int msg = MessageBox(this->_data->window.getSystemHandle(), "Do Want To Close???", "Developer", 1);
+				int msg = 10;
 				switch (msg)
 				{
 				case 1:

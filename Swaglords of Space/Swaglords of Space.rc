@@ -68,7 +68,7 @@ BEGIN
         BLOCK "400904b0"
         BEGIN
             VALUE "CompanyName", "Cookies Blast"
-            VALUE "FileDescription", "Anyone can use this APP"
+            VALUE "FileDescription", "This Game Was Created by Adham.."
             VALUE "FileVersion", "2.0.0.2"
             VALUE "InternalName", "Swaglords of Space"
             VALUE "LegalCopyright", "Copyright (C) 2022 BackupCookie686"

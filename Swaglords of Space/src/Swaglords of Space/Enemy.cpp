@@ -13,8 +13,8 @@ void Enemy::initVariables()
 
 void Enemy::initShape()
 {
-	this->shape.setRadius(this->pointCount * 5);
-	this->shape.setPointCount(this->pointCount);
+	this->shape.setRadius(static_cast<float>(this->pointCount) * 5);
+	this->shape.setPointCount(static_cast<size_t>(this->pointCount));
 	this->shape.setFillColor(sf::Color(rand() % 255 + 1, rand() % 255 + 1, rand() % 255 + 1, 255));
 }
 
