@@ -28,8 +28,6 @@ namespace Swag
 
 		asserts.LoadTexture("Background", MAIN_MENU_BACKGROUND_FILEPATH);
 		asserts.LoadTexture("Play Button", PLAY_BUTTON);
-		asserts.LoadTexture("Quit Button", QUIT_BUTTON);
-		asserts.LoadTexture("Option Button", OPTION_BUTTON);
 		asserts.LoadFont("Alger Font", ALGER_FONT);
 		
 

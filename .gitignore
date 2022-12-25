@@ -7,3 +7,7 @@ bin-int
 *.exe
 *.out
 *.app
+*.sln
+*.user
+*.filters
+*.vcxproj

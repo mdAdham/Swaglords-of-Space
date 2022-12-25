@@ -19,6 +19,7 @@ namespace Swag
 
 		}
 		_data->window.setKeyRepeatEnabled(false);
+		_data->window.setVerticalSyncEnabled(true);
 		
 		this->AppIcon.loadFromFile(APP_ICON_FILEPATH);
 		this->_data->window.setIcon(this->AppIcon.getSize().x, this->AppIcon.getSize().y, this->AppIcon.getPixelsPtr());
