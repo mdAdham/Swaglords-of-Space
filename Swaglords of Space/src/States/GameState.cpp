@@ -277,6 +277,16 @@ namespace Swag
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
 			this->player->move(0.f, 1.f);
 
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+			this->player->move(-1.f, 0.f);
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+			this->player->move(1.f, 0.f);
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+			this->player->move(0.f, -1.f);
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+			this->player->move(0.f, 1.f);
+
+
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && this->player->canAttack() || sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && this->player->canAttack())
 		{
 			asserts.GetSound("FIRE_SOUND").play();
@@ -284,7 +294,7 @@ namespace Swag
 				this->player->getPos().y,
 				0.f,
 				-1.f,
-				5.f
+				14.f
 			)
 			);
 		}

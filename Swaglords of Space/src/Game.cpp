@@ -23,7 +23,7 @@ namespace Swag
 		
 		this->AppIcon.loadFromFile(APP_ICON_FILEPATH);
 		this->_data->window.setIcon(this->AppIcon.getSize().x, this->AppIcon.getSize().y, this->AppIcon.getPixelsPtr());
-		this->_data->window.setFramerateLimit(120);
+		this->_data->window.setFramerateLimit(144);
 		SWAG_INFO("Game Created");
 		this->Run();
 	}
@@ -38,6 +38,8 @@ namespace Swag
 
 		while (this->_data->window.isOpen() || this->_data2->window.isOpen())
 		{
+			SWAG_TRACE("RUN");
+
 			this->_data->machine.ProcessStateChanges();
 			if(EnableDevWindow)
 				this->_data2->machine.ProcessStateChanges();
@@ -69,6 +71,7 @@ namespace Swag
 
 			interpolation = accumulator / dt;
 			this->_data->machine.GetActiveState()->Draw(interpolation);
+
 			if(EnableDevWindow)
 				this->_data2->machine.GetActiveState()->Draw(interpolation);
 		}

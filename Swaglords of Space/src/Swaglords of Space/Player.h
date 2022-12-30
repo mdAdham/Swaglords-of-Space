@@ -38,6 +38,7 @@ public:
 	void setPosition(const float x, const float y);
 	void setHp(const int hp);
 	void loseHp(const int value);
+	void Rotate(float angle);
 
 	//Functions
 	void move(const float dirX, const float dirY);

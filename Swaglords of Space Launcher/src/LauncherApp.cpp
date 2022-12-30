@@ -15,7 +15,7 @@ int main()
 	sf::Text launchText;
 
 	sf::Music music;
-	music.openFromFile("Resources/audio/test1.ogg");
+	music.openFromFile("Resources/audio/test.ogg");
 	music.setLoop(true);
 
 	sf::RectangleShape launchButt;

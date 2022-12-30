@@ -2,7 +2,7 @@
 
 void Player::initVariables()
 {
-	this->movememtSpeed = 3.f;
+	this->movememtSpeed = 4.05f;
 
 	this->attackColldownMax = 10.f;
 	this->attackCooldown = this->attackColldownMax;
@@ -86,6 +86,11 @@ void Player::loseHp(const int value)
 	this->hp -= value;
 	if (this->hp < 0)
 		this->hp = 0;
+}
+
+void Player::Rotate(float angle)
+{
+	this->sprite.rotate(angle);
 }
 
 //Functions
