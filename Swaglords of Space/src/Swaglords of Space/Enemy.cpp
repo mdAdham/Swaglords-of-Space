@@ -4,11 +4,11 @@ void Enemy::initVariables()
 {
 	this->pointCount = rand() % 8 + 3; //min = 3, max = 10
 	this->type = 0;
-	this->speed = static_cast<float>(this->pointCount / 2);
+	this->speed = static_cast<float>(this->pointCount / 2); // (this->pointcount / 2) * ememie_speed_factor
 	this->hpMax = static_cast<int>(this->pointCount);
 	this->hp = this->hpMax;
-	this->damage = this->pointCount;
-	this->points = this->pointCount;
+	this->damage = this->pointCount * 1; //1 = Damage factor
+	this->points = this->pointCount * 1; //1= ememy
 
 	//this->light.Init(sf::Color::White, this->shape.getPosition(), this->damage * 200);
 }

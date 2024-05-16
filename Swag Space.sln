@@ -5,6 +5,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Swaglords of Space", "Swagl
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FileManager", "FileManager\FileManager.vcxproj", "{40AE1777-AC63-906C-3558-8A43A10C8770}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Swaglords of Space 2.0", "Swaglords of Space 2.0\Swaglords of Space 2.0.vcxproj", "{4CEBADA3-38E5-D6F5-2152-6D060DEB3C62}"
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Swaglords of Space Launcher", "Swaglords of Space Launcher\Swaglords of Space Launcher.vcxproj", "{4E20DDD2-BA2D-0BB9-4314-07A4AF20D76F}"
 EndProject
 Global
@@ -26,6 +28,12 @@ Global
 		{40AE1777-AC63-906C-3558-8A43A10C8770}.Dist|x64.Build.0 = Dist|x64
 		{40AE1777-AC63-906C-3558-8A43A10C8770}.Release|x64.ActiveCfg = Release|x64
 		{40AE1777-AC63-906C-3558-8A43A10C8770}.Release|x64.Build.0 = Release|x64
+		{4CEBADA3-38E5-D6F5-2152-6D060DEB3C62}.Debug|x64.ActiveCfg = Debug|x64
+		{4CEBADA3-38E5-D6F5-2152-6D060DEB3C62}.Debug|x64.Build.0 = Debug|x64
+		{4CEBADA3-38E5-D6F5-2152-6D060DEB3C62}.Dist|x64.ActiveCfg = Dist|x64
+		{4CEBADA3-38E5-D6F5-2152-6D060DEB3C62}.Dist|x64.Build.0 = Dist|x64
+		{4CEBADA3-38E5-D6F5-2152-6D060DEB3C62}.Release|x64.ActiveCfg = Release|x64
+		{4CEBADA3-38E5-D6F5-2152-6D060DEB3C62}.Release|x64.Build.0 = Release|x64
 		{4E20DDD2-BA2D-0BB9-4314-07A4AF20D76F}.Debug|x64.ActiveCfg = Debug|x64
 		{4E20DDD2-BA2D-0BB9-4314-07A4AF20D76F}.Debug|x64.Build.0 = Debug|x64
 		{4E20DDD2-BA2D-0BB9-4314-07A4AF20D76F}.Dist|x64.ActiveCfg = Dist|x64

@@ -14,7 +14,7 @@ private:
 
 
 public:
-	Bullet();
+	Bullet() = delete;
 	Bullet(sf::Texture* texture, float posX, float posY, float dir_X, float dir_Y, float movement_speed);
 	virtual ~Bullet();
 

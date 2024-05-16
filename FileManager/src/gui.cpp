@@ -60,7 +60,9 @@ void Gui::Run()
 {
 	ImGui::SetNextWindowPos(ImVec2(50, 50));
 	ImGui::SetNextWindowSize(ImVec2(200, 60));
+
 	ImGui::Begin("Option", NULL, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoSavedSettings);
+	
 	static const char* items[] = { "Encrypt", "Decrypt" };
 	static int currentItem = 0;
 	if (ImGui::Combo("Mode", &currentItem, items, IM_ARRAYSIZE(items))) {
@@ -90,7 +92,7 @@ void Gui::Encrypt()
 	ImGui::Begin("OriginalFileName", NULL, ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoScrollWithMouse | 
 		ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove |
 		ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar);
-	ImGui::Text("Original File");
+	ImGui::Text("Original File Path");
 	ImGui::InputText("File Path", enbufferorgname, 255);
 	if(ImGui::Button("OpenFile"))
 	{
@@ -108,7 +110,8 @@ void Gui::Encrypt()
 		ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove |
 		ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar);
 	ImGui::Text("Encrypted File Name");
-	ImGui::InputText("File Path", enbufferrename, 255);
+	ImGui::InputText("File Name", enbufferrename, 255);
+	ImGui::Text(" with any Extentions(filename.data)");
 	ImGui::End();
 
 
@@ -152,6 +155,8 @@ void Gui::Encrypt()
 	ImGui::End();
 }
 
+#include <iostream>
+
 void Gui::Decrypt()
 {
 	ImGui::SetNextWindowSize(ImVec2(600, 80));
@@ -159,11 +164,12 @@ void Gui::Decrypt()
 	ImGui::Begin("EncryptedFileName", NULL, ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoScrollWithMouse |
 		ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove |
 		ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar);
-	ImGui::Text("Encrypted File");
+	ImGui::Text("Encrypted File Path");
 	ImGui::InputText("File Path", debufferorgname, 255);
 	if (ImGui::Button("OpenFile"))
 	{
 		DecryptFileName = FileDialogs::OpenFile("", *this->window);
+		std::cout << DecryptFileName;
 		for (int i = 0; i < DecryptFileName.size(); i++)
 		{
 			debufferorgname[i] = EncryptFileName[i];
@@ -177,7 +183,8 @@ void Gui::Decrypt()
 		ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove |
 		ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar);
 	ImGui::Text("Decrypted File Name");
-	ImGui::InputText("File Path", debufferrename, 255);
+	ImGui::InputText("File Name", debufferrename, 255);
+	ImGui::Text(" with specified file type extension like (filename.png)(filename.wav)");
 	ImGui::End();
 
 

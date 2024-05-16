@@ -1,0 +1,226 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Dist|x64">
+      <Configuration>Dist</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{4CEBADA3-38E5-D6F5-2152-6D060DEB3C62}</ProjectGuid>
+    <IgnoreWarnCompileDuplicatedFilename>true</IgnoreWarnCompileDuplicatedFilename>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>Swaglords of Space 2.0</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Dist|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>..\bin\Debug-windows-x86_64\Swaglords of Space 2.0\</OutDir>
+    <IntDir>..\bin-int\Debug-windows-x86_64\Swaglords of Space 2.0\</IntDir>
+    <TargetName>Swaglords of Space 2.0</TargetName>
+    <TargetExt>.exe</TargetExt>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>..\bin\Release-windows-x86_64\Swaglords of Space 2.0\</OutDir>
+    <IntDir>..\bin-int\Release-windows-x86_64\Swaglords of Space 2.0\</IntDir>
+    <TargetName>Swaglords of Space 2.0</TargetName>
+    <TargetExt>.exe</TargetExt>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>..\bin\Dist-windows-x86_64\Swaglords of Space 2.0\</OutDir>
+    <IntDir>..\bin-int\Dist-windows-x86_64\Swaglords of Space 2.0\</IntDir>
+    <TargetName>Swaglords of Space 2.0</TargetName>
+    <TargetExt>.exe</TargetExt>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>SFML_STATIC;SWAG_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\vendor\SFML\include;..\vendor\spdlog\include;src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+      <MinimalRebuild>false</MinimalRebuild>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <ExternalWarningLevel>Level3</ExternalWarningLevel>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>SFML_STATIC;SWAG_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\vendor\SFML\include;..\vendor\spdlog\include;src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>opengl32.lib;..\vendor\SFML\lib\openal32.lib;winmm.lib;gdi32.lib;..\vendor\SFML\lib\flac.lib;..\vendor\SFML\lib\vorbisenc.lib;..\vendor\SFML\lib\vorbis.lib;..\vendor\SFML\lib\vorbisfile.lib;..\vendor\SFML\lib\ogg.lib;ws2_32.lib;..\vendor\SFML\lib\freetype.lib;..\vendor\SFML\lib\sfml-main.lib;..\vendor\SFML\lib\sfml-window-s-d.lib;..\vendor\SFML\lib\sfml-graphics-s-d.lib;..\vendor\SFML\lib\sfml-system-s-d.lib;..\vendor\SFML\lib\sfml-audio-s-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\vendor\SFML\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>SFML_STATIC;SWAG_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\vendor\SFML\include;..\vendor\spdlog\include;src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <Optimization>Full</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <StringPooling>true</StringPooling>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <ExternalWarningLevel>Level3</ExternalWarningLevel>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>SFML_STATIC;SWAG_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\vendor\SFML\include;..\vendor\spdlog\include;src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>opengl32.lib;..\vendor\SFML\lib\openal32.lib;winmm.lib;gdi32.lib;..\vendor\SFML\lib\flac.lib;..\vendor\SFML\lib\vorbisenc.lib;..\vendor\SFML\lib\vorbis.lib;..\vendor\SFML\lib\vorbisfile.lib;..\vendor\SFML\lib\ogg.lib;ws2_32.lib;..\vendor\SFML\lib\freetype.lib;..\vendor\SFML\lib\sfml-main.lib;..\vendor\SFML\lib\sfml-window-s.lib;..\vendor\SFML\lib\sfml-graphics-s.lib;..\vendor\SFML\lib\sfml-system-s.lib;..\vendor\SFML\lib\sfml-audio-s.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\vendor\SFML\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>SFML_STATIC;SWAG_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\vendor\SFML\include;..\vendor\spdlog\include;src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <Optimization>Full</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <StringPooling>true</StringPooling>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <ExternalWarningLevel>Level3</ExternalWarningLevel>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>SFML_STATIC;SWAG_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\vendor\SFML\include;..\vendor\spdlog\include;src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>opengl32.lib;..\vendor\SFML\lib\openal32.lib;winmm.lib;gdi32.lib;..\vendor\SFML\lib\flac.lib;..\vendor\SFML\lib\vorbisenc.lib;..\vendor\SFML\lib\vorbis.lib;..\vendor\SFML\lib\vorbisfile.lib;..\vendor\SFML\lib\ogg.lib;ws2_32.lib;..\vendor\SFML\lib\freetype.lib;..\vendor\SFML\lib\sfml-main.lib;..\vendor\SFML\lib\sfml-window-s.lib;..\vendor\SFML\lib\sfml-graphics-s.lib;..\vendor\SFML\lib\sfml-system-s.lib;..\vendor\SFML\lib\sfml-audio-s.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\vendor\SFML\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="src\States\DifficultyLevelState.hpp" />
+    <ClInclude Include="src\States\GameState.hpp" />
+    <ClInclude Include="src\States\Game_Impl\Bullet.hpp" />
+    <ClInclude Include="src\States\Game_Impl\Colliders.hpp" />
+    <ClInclude Include="src\States\Game_Impl\Enemy.hpp" />
+    <ClInclude Include="src\States\Game_Impl\Player.hpp" />
+    <ClInclude Include="src\States\MainMenuState.hpp" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="src\Assets_Data_Impl\Metadata.hpp" />
+    <ClInclude Include="src\Core\AppData.hpp" />
+    <ClInclude Include="src\Core\Buffer.hpp" />
+    <ClInclude Include="src\Core\Core.hpp" />
+    <ClInclude Include="src\Core\Deffinitions.hpp" />
+    <ClInclude Include="src\Core\Log.hpp" />
+    <ClInclude Include="src\Engine_2.0_Impl\Engine_2.0_Impl.h" />
+    <ClInclude Include="src\Gui_Impl\Gui.hpp" />
+    <ClInclude Include="src\Managers_Impl\AssetManager.hpp" />
+    <ClInclude Include="src\Managers_Impl\AssetManager_Export.hpp" />
+    <ClInclude Include="src\Managers_Impl\InputManager.hpp" />
+    <ClInclude Include="src\Managers_Impl\LogManager.hpp" />
+    <ClInclude Include="src\State_Impl\State.hpp" />
+    <ClInclude Include="src\State_Impl\StateMachine.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\fonts\ALGER.ttf" />
+    <None Include="Resources\fonts\PartyConfettiRegular.ttf" />
+    <None Include="Resources\res\ICON.ico" />
+    <None Include="Resources\res\Swag Space.htm" />
+    <None Include="Resources\sound\BackgroundMusic.ogg" />
+    <None Include="Resources\sound\Bullet Sound.wav" />
+    <None Include="Resources\sound\Megham-Karukatha.ogg" />
+    <None Include="Resources\sound\Rock Break.wav" />
+    <None Include="Resources\sound\Thaai-Kelavi.ogg" />
+    <None Include="Resources\sound\scott-buckley-signal-to-noise.ogg" />
+    <None Include="Swaglords of Space.aps" />
+    <None Include="premake5.lua" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Swaglords of Space.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Resources\res\Main Menu Background.png" />
+    <Image Include="Resources\res\Splash Background.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\States\DifficultyLevelState.cpp" />
+    <ClCompile Include="src\States\GameState.cpp" />
+    <ClCompile Include="src\States\Game_Impl\Bullet.cpp" />
+    <ClCompile Include="src\States\Game_Impl\Colliders.cpp" />
+    <ClCompile Include="src\States\Game_Impl\Enemy.cpp" />
+    <ClCompile Include="src\States\Game_Impl\Player.cpp" />
+    <ClCompile Include="src\States\MainMenuState.cpp" />
+    <ClCompile Include="src\Assets_Data_Impl\Metadata.cpp" />
+    <ClCompile Include="src\Engine_2.0_Impl\Engine_2.0_Impl.cpp" />
+    <ClCompile Include="src\Gui_Impl\Gui.cpp" />
+    <ClCompile Include="src\Main.cpp" />
+    <ClCompile Include="src\Managers_Impl\AssetManager.cpp" />
+    <ClCompile Include="src\Managers_Impl\InputManager.cpp" />
+    <ClCompile Include="src\Managers_Impl\LogManager.cpp" />
+    <ClCompile Include="src\State_Impl\StateMachine.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="TODO.txt" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

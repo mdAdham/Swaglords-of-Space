@@ -296,7 +296,8 @@ namespace Swag
 		this->_data->window.clear();
 		sf::RenderStates st;
 		st.shader = &this->PlayerLight.m_shader;
-		this->_data->window.draw(this->_background, st);
+		//this->_data->window.draw(this->_background, st);
+		this->_data->window.draw(this->_background);
 		if (this->player->getHp() <= 0)
 		{
 		}
@@ -331,7 +332,8 @@ namespace Swag
 			this->PlayerLight.UpdateColor(sf::Color::Red);
 			this->PlayerLight.UpdatePosition(this->lightPosition);
 
-			this->_data->window.draw(this->gameOverText, sf::RenderStates(&this->PlayerLight.m_shader));
+			//this->_data->window.draw(this->gameOverText, sf::RenderStates(&this->PlayerLight.m_shader));
+			this->_data->window.draw(this->gameOverText);
 			this->_data->window.draw(this->_homeButton);
 		}
 

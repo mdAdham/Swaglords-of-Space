@@ -225,18 +225,6 @@
     <ResourceCompile Include="Swaglords of Space.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Resources\Capture\Capture0.jpg" />
-    <Image Include="Resources\Capture\Capture1.jpg" />
-    <Image Include="Resources\Capture\Capture10.jpg" />
-    <Image Include="Resources\Capture\Capture11.jpg" />
-    <Image Include="Resources\Capture\Capture2.jpg" />
-    <Image Include="Resources\Capture\Capture3.jpg" />
-    <Image Include="Resources\Capture\Capture4.jpg" />
-    <Image Include="Resources\Capture\Capture5.jpg" />
-    <Image Include="Resources\Capture\Capture6.jpg" />
-    <Image Include="Resources\Capture\Capture7.jpg" />
-    <Image Include="Resources\Capture\Capture8.jpg" />
-    <Image Include="Resources\Capture\Capture9.jpg" />
     <Image Include="Resources\res\Main Menu Background.png" />
     <Image Include="Resources\res\Splash Background.png" />
   </ItemGroup>

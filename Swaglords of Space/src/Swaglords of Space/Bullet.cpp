@@ -1,9 +1,5 @@
 #include "Bullet.h"
 
-Bullet::Bullet()
-{
-
-}
 
 Bullet::Bullet(sf::Texture* texture, float pos_X, float pos_Y, float dir_X, float dir_Y, float movement_speed)
 {
