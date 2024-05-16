@@ -6,6 +6,7 @@
 #include "State/State.h"
 #include "States/LevelState.h"
 #include "Game.h"
+#include "Core/Core.hpp"
 
 namespace Swag
 {
@@ -21,34 +22,33 @@ namespace Swag
 		void Update(float dt);
 		void Draw(float dt);
 
+		void DontDestroyOnLoad();
+
 	private:
 		GameDataRef _data;
 
 		sf::Sprite _background;
 
 		sf::Sprite _playButton;
-
 		sf::Text _quitButton;
-
 		sf::Text _optionButton;
+		sf::Text _newGameButton;
+
+		sf::VertexArray m_quadVertexArray;
+		sf::Shader m_quadShader;
+
+		sf::Shader m_coreshader;
 
 		///////////////////////////////////
-		sf::SoundBuffer musicBuff;
-		sf::Sound music;
 		short int music_count = 0;
 		///////////////////////////////////
 
 	private:
-		enum class ButtonStatus
-		{
-			idle,
-			hover,
-			click
-		};
 
 		ButtonStatus optionButtonStatus;
 		ButtonStatus quitButtonStatus;
 		ButtonStatus playButtonStatus;
+		ButtonStatus newGameButtonStatus;
 	};
 }
 

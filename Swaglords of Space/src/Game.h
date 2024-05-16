@@ -7,7 +7,6 @@
 #include "Manager/AssetManager.h"
 #include "Manager/InputManager.h"
 
-//#include "Manager/logManager.h"
 #include "Core/log.h"
 
 namespace Swag
@@ -15,6 +14,7 @@ namespace Swag
 	struct GameData
 	{
 		StateMachine machine;
+		sf::RenderTexture window_t;
 		sf::RenderWindow window;
 		AssetManager assets;
 		InputManager input;
@@ -25,12 +25,22 @@ namespace Swag
 	class Game
 	{
 	public:
-		Game(int width, int height, std::string title, int DevWin_height, int DevWin_width, std::string DevWin_Title);
-
+		Game(int width, int height, std::string title, int DevWin_height, int DevWin_width, std::string DevWin_Title, bool DevWin);
+		~Game()
+		{
+			this->_data->assets.ShutDown();
+		}
+		GameDataRef& GetGameData()
+		{
+			return this->_data;
+		}
 	private:
-		const float dt = 1.0f / 144.0f;
+		const float dt = 1.0f / 120.0f;
 		sf::Clock _clock;
 
+		bool EnableDevWindow = false;
+
+		sf::Image AppIcon;
 
 		GameDataRef _data = std::make_shared<GameData>();
 		GameDataRef _data2 = std::make_shared<GameData>();

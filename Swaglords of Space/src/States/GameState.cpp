@@ -11,15 +11,17 @@ namespace Swag
 {
 	void GameState::initVariables()
 	{
-		this->level = 1;
+		this->lightPosition = { 400.f, 300.f };
+
+		this->PlayerLight.Init(sf::Color::White, this->lightPosition, 2.0f);
+		//this->player->setShader(this->PlayerLight.m_shader);
 	}
 
 	void GameState::initTextures()
 	{
+		asserts.LoadTexture("Bullet", "Resources/res/Bullet.dat", true);
 		this->textures["BULLET"] = new sf::Texture();
-		if (!this->textures["BULLET"]->loadFromFile("Resources/res/Bullet.png"))
-			SWAG_ERROR("Failed to load Bullet Image");
-
+		this->textures["BULLET"]->loadFromImage(Asset::DatToImg("Resources/res/Bullet.dat"));
 	}
 
 	void GameState::initGui()
@@ -56,6 +58,20 @@ namespace Swag
 
 		this->playerHpBarBack = this->playerHpBar;
 		this->playerHpBarBack.setFillColor(sf::Color(25, 25, 25, 200));
+
+		this->playerboostBar.setSize(sf::Vector2f(250.f, 20.f));
+		this->playerboostBar.setFillColor(sf::Color::Blue);
+		this->playerboostBar.setPosition(sf::Vector2f(20.f, 50.f));
+
+		this->playerboostBarBack = this->playerboostBar;
+		this->playerboostBarBack.setFillColor(sf::Color(25, 25, 50, 200));
+
+		//if (!this->lightShader.loadFromFile(LIGHT_VERTEX_SHADER, LIGHT_FRAGMENT_SHADER))
+		//{
+		//	SWAG_ERROR("GameState: Failed to load the shader");
+		//}
+		//this->player->setShader(PlayerLight);
+		this->lightPosition = { 400.f, 300.f };
 	}
 
 	void GameState::initSystems()
@@ -66,19 +82,69 @@ namespace Swag
 
 	void GameState::initSound()
 	{
-		if (!this->soundBuffers["FIRE_BUFFER"].loadFromFile("Resources/sound/Bullet Sound.wav"))
-		{
-			SWAG_ERROR("ERROR::GAME::INITSOUND::Failed to Load Bullet Sound");
-		}else
-		{ this->sounds["FIRE_SOUND"].setBuffer(this->soundBuffers["FIRE_BUFFER"]); }
+		asserts.LoadSoundBuffer("FIRE_BUFFER", "Resources/sound/Bullet Sound.wav", false);
+		asserts.LoadSound("FIRE_SOUND", asserts.GetSoundBuffer("FIRE_BUFFER"));
+
+		asserts.LoadSoundBuffer("BREAK_BUFFER", "Resources/sound/Rock Break.wav", false);
+		asserts.LoadSound("BREAK_SOUND", asserts.GetSoundBuffer("BREAK_BUFFER"));
+
+		//Background Music already Loaded in MainMenuState
+		asserts.GetMusic("BackgroundMusic").setLoop(true);
+	}
+
+	void GameState::initSpeed()
+	{
+		this->playerSpeed = 2;
+
+		this->playerSpeedTEX1.clear();
+		this->playerSpeedTEX2.clear();
+		this->playerSpeedTEX3.clear();
+
+		this->playerSpeedTEX1 = sf::VertexArray(sf::Quads, 4);
+		this->playerSpeedTEX2 = sf::VertexArray(sf::Quads, 4);
+		this->playerSpeedTEX3 = sf::VertexArray(sf::Quads, 4);
+
+		//First Box
+		sf::Vertex Box1_1, Box1_2, Box1_3, Box1_4;
+
+		Box1_1.color = sf::Color::Green;
+		Box1_1.position = sf::Vector2f(5, 100);
+
+		Box1_2.color = sf::Color::Green;
+		Box1_2.position = sf::Vector2f(5, 150);
+
+		Box1_3.color = sf::Color::Green;
+		Box1_3.position = sf::Vector2f(105, 150);
+
+		Box1_4.color = sf::Color::Green;
+		Box1_4.position = sf::Vector2f(105, 100);
+		
+		
+		this->playerSpeedTEX1[0] = Box1_1;
+		this->playerSpeedTEX1[1] = Box1_2;
+		this->playerSpeedTEX1[2] = Box1_3;
+		this->playerSpeedTEX1[3] = Box1_4;
+
+		//Second Box
+		sf::Vertex Box2_1, Box2_2, Box2_3, Box2_4;
+
+		Box2_1.color = sf::Color::Yellow;
+		Box2_1.position = sf::Vector2f(5, 150);
+
+		Box2_2.color = sf::Color::Yellow;
+		Box2_2.position = sf::Vector2f(5, 200);
+
+		Box2_3.color = sf::Color::Yellow;
+		Box2_3.position = sf::Vector2f(105, 200);
+
+		Box2_4.color = sf::Color::Yellow;
+		Box2_4.position = sf::Vector2f(105, 150);
 
 
-		if (!this->soundBuffers["BREAK_BUFFER"].loadFromFile("Resources/sound/Rock Break.wav"))
-		{
-			SWAG_ERROR("ERROR::GAME::INITSOUND::Failed to Load Rock Break Sound");
-		}else
-		{ this->sounds["BREAK_SOUND"].setBuffer(this->soundBuffers["BREAK_BUFFER"]); }
-
+		this->playerSpeedTEX2[0] = Box2_1;
+		this->playerSpeedTEX2[1] = Box2_2;
+		this->playerSpeedTEX2[2] = Box2_3;
+		this->playerSpeedTEX2[3] = Box2_4;
 	}
 
 	void GameState::initPlayer()
@@ -95,22 +161,21 @@ namespace Swag
 	GameState::GameState(GameDataRef data)
 		: _data(data)
 	{
-		
+
+	}
+
+	GameState::~GameState()
+	{
+		delete this->textures["BULLET"];
 	}
 
 	void GameState::Init()
 	{
-		this->_data->assets.LoadTexture("Game Background", GAME_BACKGROUND_FILEPATH);
-		this->_data->assets.LoadTexture("Home Button", HOME_BUTTON);
-		
-		this->soundBuffers["BackgroungMusicBuffer"].loadFromFile("Resources/sound/BackgroundMusic.ogg");
-		this->sounds["BackgroundMusic"].setBuffer(this->soundBuffers["BackgroungMusicBuffer"]);
-		this->sounds["BackgroundMusic"].setLoop(true);
-
+		this->_data->assets.LoadTexture("Game Background", GAME_BACKGROUND_FILEPATH, true);
+		this->_data->assets.LoadTexture("Home Button", HOME_BUTTON, true);
 
 		_background.setTexture(this->_data->assets.GetTexture("Game Background"));
 		_homeButton.setTexture(this->_data->assets.GetTexture("Home Button"));
-		_backgroundImage.loadFromFile(GAME_BACKGROUND_FILEPATH);
 
 		_homeButton.setPosition(static_cast<float>((SCREEN_HEIGHT) / 2.1), static_cast<float>((SCREEN_WIDTH) / 1.8));
 
@@ -121,6 +186,7 @@ namespace Swag
 		this->initPlayer();
 		this->initEmemies();
 		this->initSound();
+		this->initSpeed();
 	}
 
 	void GameState::HandleInput()
@@ -132,18 +198,14 @@ namespace Swag
 		{
 			if (sf::Event::Closed == event.type)
 			{
-				this->sounds["BackgroundMusic"].stop();
+				asserts.GetMusic("BackgroundMusic").stop();
 				this->_data->window.close();
 			}
-
-			if (sf::Event::LostFocus == event.type)
-				this->_data->window.clear();
 
 			if (event.key.code == sf::Keyboard::C)
 			{
 				this->current_screen_texture.create(this->windowSize.x, this->windowSize.y);
 				this->screencap = true;
-
 			}
 
 			if (this->player->getHp() == 0)
@@ -151,7 +213,8 @@ namespace Swag
 				if (this->_data->input.isSpriteClicked(this->_homeButton, sf::Mouse::Left, this->_data->window))
 				{
 					SWAG_TRACE("Player Points - {0}", this->points);
-					this->sounds["BackgroundMusic"].stop();
+					asserts.GetMusic("BackgroundMusic").stop();
+					
 					this->_data->machine.AddState(StateRef(new MainMenuState(this->_data)), true);
 				}
 			}
@@ -160,7 +223,6 @@ namespace Swag
 			{
 				if (event.Event::KeyPressed && event.Event::key.code == sf::Keyboard::P)
 				{
-					
 					this->_data->machine.AddState(StateRef(new PauseState(this->_data)), false);
 				}
 			}
@@ -188,7 +250,9 @@ namespace Swag
 
 			this->updateWorld();
 
-			this->updateLevel();
+			this->updateSpeed();
+
+			this->updateLight(dt);
 
 		}
 		else
@@ -205,6 +269,7 @@ namespace Swag
 				{
 					delete i;
 				}
+			
 				this->entityDeleted = true;
 			SWAG_TRACE("Player Points - {0}",this->points);
 			SWAG_INFO("Player Died");
@@ -221,7 +286,7 @@ namespace Swag
 		}
 		if (this->Background_music_count == 0)
 		{
-			this->sounds["BackgroundMusic"].play();
+			asserts.GetMusic("BackgroundMusic").play();
 			this->Background_music_count++;
 		}
 	}
@@ -229,9 +294,18 @@ namespace Swag
 	void GameState::Draw(float dt)
 	{
 		this->_data->window.clear();
-
-		this->_data->window.draw(this->_background);
-		this->player->render(this->_data->window);
+		sf::RenderStates st;
+		st.shader = &this->PlayerLight.m_shader;
+		this->_data->window.draw(this->_background, st);
+		if (this->player->getHp() <= 0)
+		{
+		}
+		else
+		{
+			_data->window.pushGLStates();
+			this->player->render(this->_data->window, this->PlayerLight.m_shader);
+			_data->window.popGLStates();
+		}
 
 		if (this->player->getHp() != 0)
 		{
@@ -242,7 +316,7 @@ namespace Swag
 
 			for (auto* enemy : this->ememies)
 			{
-				enemy->render(&this->_data->window);
+				enemy->render(&this->_data->window, this->PlayerLight.m_shader);
 			}
 
 		}
@@ -252,7 +326,12 @@ namespace Swag
 		//Game Over screan
 		if (this->player->getHp() <= 0)
 		{
-			this->_data->window.draw(this->gameOverText);
+			this->_data->window.clear();
+			this->lightPosition = this->_homeButton.getPosition();
+			this->PlayerLight.UpdateColor(sf::Color::Red);
+			this->PlayerLight.UpdatePosition(this->lightPosition);
+
+			this->_data->window.draw(this->gameOverText, sf::RenderStates(&this->PlayerLight.m_shader));
 			this->_data->window.draw(this->_homeButton);
 		}
 
@@ -276,25 +355,65 @@ namespace Swag
 	void GameState::updateInput()
 	{
 		//Move player
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-			this->player->move(-1.f, 0.f);
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-			this->player->move(1.f, 0.f);
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
-			this->player->move(0.f, -1.f);
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-			this->player->move(0.f, 1.f);
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) && this->player->getBoost() != 0 || sf::Keyboard::isKeyPressed(sf::Keyboard::RShift) && this->player->getBoost() != 0)
+		{
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+			{this->player->move(-2.f, 0.f); this->player->loseBoost(1);}
+
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+			{this->player->move(2.f, 0.f); this->player->loseBoost(1);}
+
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+			{this->player->move(0.f, -2.f); this->player->loseBoost(1);}
+
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+			{this->player->move(0.f, 2.f); this->player->loseBoost(1);}
+
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+			{this->player->move(-2.f, 0.f); this->player->loseBoost(1);}
+
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+			{this->player->move(2.f, 0.f); this->player->loseBoost(1);}
+
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+			{this->player->move(0.f, -2.f); this->player->loseBoost(1);}
+
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+			{this->player->move(0.f, 2.f); this->player->loseBoost(1);}
+		}
+		else
+		{
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+				this->player->move(-1.f, 0.f);
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+				this->player->move(1.f, 0.f);
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+				this->player->move(0.f, -1.f);
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+				this->player->move(0.f, 1.f);
+
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+				this->player->move(-1.f, 0.f);
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+				this->player->move(1.f, 0.f);
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+				this->player->move(0.f, -1.f);
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+				this->player->move(0.f, 1.f);
+		}
+
 
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && this->player->canAttack() || sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && this->player->canAttack())
 		{
-			this->sounds["FIRE_SOUND"].play();
+			asserts.GetSound("FIRE_SOUND").play();
 			this->bullets.push_back(new Bullet(this->textures["BULLET"], this->player->getPos().x + this->player->getBounds().width / 2.f - 5.f,
 				this->player->getPos().y,
 				0.f,
 				-1.f,
-				5.f
+				14.f
 			)
 			);
+			this->player->move(0.f, 5.0f, false);
 		}
 	}
 
@@ -309,8 +428,11 @@ namespace Swag
 		//Update player Gui
 		float hpPercent = static_cast<float>(this->player->getHp()) / this->player->getHpMax();
 		this->playerHpBar.setSize(sf::Vector2f(300.f * hpPercent, this->playerHpBar.getSize().y));
+		
+		float boostPecent = static_cast<float>(this->player->getBoost()) / this->player->getBoostMax();
+		this->playerboostBar.setSize(sf::Vector2f(250.f * boostPecent, this->playerboostBar.getSize().y));
 	}
-
+	
 	void GameState::updateWorld()
 	{
 
@@ -379,7 +501,7 @@ namespace Swag
 		{
 			enemy->update();
 
-			//Bullet Culling (top of screan)
+			//Enemy Culling (bottom of screan)
 			if (enemy->getBounds().top > this->_data->window.getSize().y)
 			{
 				//Deleted enemy
@@ -393,7 +515,7 @@ namespace Swag
 				delete this->ememies.at(counter);
 				this->ememies.erase(this->ememies.begin() + counter);
 
-				this->sounds["BREAK_SOUND"].play();
+				asserts.GetSound("BREAK_SOUND").play();
 			}
 
 			++counter;
@@ -417,27 +539,54 @@ namespace Swag
 					delete this->bullets[k];
 					this->bullets.erase(this->bullets.begin() + k);
 
-					this->sounds["BREAK_SOUND"].play();
+					asserts.GetSound("BREAK_SOUND").play();
+					this->player->gainBoost(10);
+
 					enemy_deleted = true;
 				}
 			}
 		}
 	}
 
-	void GameState::updateLevel()
+	void GameState::updateSpeed()
 	{
-		if (this->points > 150)
-		{
-			this->level++;
-		}
+		
+	}
+
+	void GameState::updateLight(float dt)
+	{
+		float radius = 200.f;
+		float angle = std::sin(clock.getElapsedTime().asSeconds()) * 2 * 3.1415f;
+		lightPosition.x = 400 + radius * std::cos(angle);
+		lightPosition.y = 300 + radius * std::sin(angle);
+
+		lightPosition.x = 0;
+		lightPosition.y = 0;
+		//
+		this->lightPosition = this->player->getCenter();
+		this->lightPosition.y = -lightPosition.y + 1100;
+		//this->lightPosition.y = lightPosition.y;
+
+		this->PlayerLight.UpdatePosition(lightPosition);
+		this->PlayerLight.UpdatePower(2000.f);
+		this->PlayerLight.UpdateColor(sf::Color(1.2, 1.3, 1.5, 1.0f));
 	}
 
 	void GameState::renderGui()
 	{
 		this->_data->window.draw(this->pointText);
+		
 		this->_data->window.draw(this->playerHpBarBack);
 		this->_data->window.draw(this->playerHpBar);
+
+		this->_data->window.draw(this->playerboostBarBack);
+		this->_data->window.draw(this->playerboostBar);
+
 		this->_data->window.draw(this->PauseText);
+
+		//this->_data->window.draw(this->playerSpeedTEX1);
+		//this->_data->window.draw(this->playerSpeedTEX2);
+		//this->_data->window.draw(this->playerSpeedTEX3);
 	}
 
 	void GameState::renderWorld()

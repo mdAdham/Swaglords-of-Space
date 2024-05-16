@@ -51,8 +51,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 2,0,0,2
- PRODUCTVERSION 2,18,5,10
+ FILEVERSION 3,1,0,0
+ PRODUCTVERSION 3,2,0,0
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -67,14 +67,14 @@ BEGIN
     BEGIN
         BLOCK "400904b0"
         BEGIN
-            VALUE "CompanyName", "Cookies Blast"
-            VALUE "FileDescription", "Anyone can use this APP"
-            VALUE "FileVersion", "2.0.0.2"
-            VALUE "InternalName", "Swaglords of Space"
+            VALUE "CompanyName", "BackupCookie Studio"
+            VALUE "FileDescription", "This Game Was Created by BackupCookie Studio.."
+            VALUE "FileVersion", "3.1.0.0"
+            VALUE "InternalName", "Swag Space"
             VALUE "LegalCopyright", "Copyright (C) 2022 BackupCookie686"
             VALUE "OriginalFilename", "Swaglords of Space"
             VALUE "ProductName", "Swaglords of Space"
-            VALUE "ProductVersion", "2.18.5.10"
+            VALUE "ProductVersion", "3.2.0.0"
         END
     END
     BLOCK "VarFileInfo"

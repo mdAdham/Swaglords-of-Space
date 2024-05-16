@@ -11,6 +11,8 @@ namespace Swag
 		virtual void Update(float dt) = 0;
 		virtual void Draw(float dt) = 0;
 
+		virtual void DontDestroyOnLoad() { }
+
 		virtual void Pause() { }
 		virtual void Resume() { }
 	};

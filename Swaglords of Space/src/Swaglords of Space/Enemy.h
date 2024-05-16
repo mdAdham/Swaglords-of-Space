@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Utils/Light.h"
 #include<SFML/Graphics.hpp>
 
 class Enemy
@@ -7,6 +8,7 @@ class Enemy
 private:
 	unsigned pointCount;
 	sf::CircleShape shape;
+	Swag::Light light;
 	int type;
 	float speed;
 	int hp;
@@ -28,7 +30,7 @@ public:
 
 	//Functions
 	void update();
-	void render(sf::RenderTarget* target);
+	void render(sf::RenderTarget* target, sf::Shader& sh);
 
 protected:
 };

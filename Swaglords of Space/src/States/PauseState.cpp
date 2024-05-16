@@ -17,8 +17,8 @@ namespace Swag
 		this->pauseButtonStatus = ButtonStatus::idle;
 		this->homeButtonStatus = ButtonStatus::idle;
 
-		this->_data->assets.LoadTexture("Pause Button", PAUSE_BUTTON);
-		this->_data->assets.LoadTexture("Home Button", HOME_BUTTON);
+		this->_data->assets.LoadTexture("Pause Button", PAUSE_BUTTON, true);
+		this->_data->assets.LoadTexture("Home Button", HOME_BUTTON, true);
 
 		this->_pauseButton.setTexture(this->_data->assets.GetTexture("Pause Button"));
 		this->_background.setTexture(this->_data->assets.GetTexture("Background"));

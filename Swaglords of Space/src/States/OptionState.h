@@ -22,8 +22,10 @@ namespace Swag
 	private:
 		GameDataRef _data;
 
-		sf::Sprite levelBack;
-		sf::Texture levelBackTex;
+		sf::Text MusicONOFF;
+		bool isPressed = false;
+	private:
+		void initText();
 
 	};
 }

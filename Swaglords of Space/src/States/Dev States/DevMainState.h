@@ -16,11 +16,12 @@ namespace Swag
 		void HandleInput();
 		void Update(float dt);
 		void Draw(float dt);
-
+		
 	private:
 		GameDataRef _data;
 
 		sf::Text _CreateNewGame;
+		void(*hello)();
 
 	private:
 		enum class ButtonStatus
