@@ -24,5 +24,7 @@ namespace Swag
 
 		sf::Sprite _background;
 
+		sf::Text loadingText;
+
 	};
 }

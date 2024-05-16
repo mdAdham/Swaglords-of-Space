@@ -9,6 +9,8 @@
 #include "Swaglords of Space/Bullet.h"
 #include "Swaglords of Space/Enemy.h"
 
+#include "Utils/Light.h"
+
 namespace Swag
 {
 	class GameState : public State
@@ -16,6 +18,7 @@ namespace Swag
 	public:
 
 		GameState(GameDataRef data);
+		~GameState();
 
 		void Init();
 
@@ -27,7 +30,6 @@ namespace Swag
 		GameDataRef _data;
 
 		sf::Sprite _background;
-		sf::Image _backgroundImage;
 
 		sf::Sprite _homeButton;
 
@@ -38,12 +40,12 @@ namespace Swag
 		void initGui();
 		void initSystems();
 		void initSound();
+		void initSpeed();
 
 		void initPlayer();
 		void initEmemies();
 
 	private:
-		//Variables
 
 		//Resources
 		std::map<std::string, sf::Texture*> textures;
@@ -65,18 +67,27 @@ namespace Swag
 		//Systems
 		unsigned points;
 		bool entityDeleted;
-		short int level;
+		short int playerSpeed;
 		bool screencap = false;
 		short int capturetime = 0;
 		short int Background_music_count = 0;
+		sf::Clock clock;
 
 		//Player
 		Player* player;
-
+		Light PlayerLight;
+		sf::Vector2f lightPosition;
+		
 		//PlayerGui
 		sf::RectangleShape playerHpBar;
 		sf::RectangleShape playerHpBarBack;
 
+		sf::RectangleShape playerboostBar;
+		sf::RectangleShape playerboostBarBack;
+
+		sf::VertexArray playerSpeedTEX1;
+		sf::VertexArray playerSpeedTEX2;
+		sf::VertexArray playerSpeedTEX3;
 
 		//Enemies
 		float spawnerTimer;
@@ -93,7 +104,8 @@ namespace Swag
 		void updateBullets();
 		void updateEnemies();
 		void updateCombat();
-		void updateLevel();
+		void updateSpeed();
+		void updateLight(float dt);
 
 		void renderGui();
 		void renderWorld();

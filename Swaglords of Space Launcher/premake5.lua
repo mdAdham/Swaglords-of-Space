@@ -86,5 +86,12 @@ project "Swaglords of Space Launcher"
 		optimize "on"
 
 	filter "configurations:Dist"
+		links
+		{
+			"%{Library.sfml_window_s}",
+			"%{Library.sfml_graphics_s}",
+			"%{Library.sfml_system_s}",
+			"%{Library.sfml_audio_s}"
+		}
 		runtime "Release"
 		optimize "on"

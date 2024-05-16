@@ -20,6 +20,8 @@ namespace Swag
 
 		void ProcessStateChanges();
 
+		void OnDontDestroyOnLoad();
+
 		StateRef& GetActiveState();
 
 	private:

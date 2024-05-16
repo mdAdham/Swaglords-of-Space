@@ -6,6 +6,8 @@ LibraryDir["SFML"] = "%{wks.location}/vendor/SFML/lib"
 
 Library = {}
 
+Library["sfml_main"] = "%{LibraryDir.SFML}/sfml-main.lib"
+
 Library["sfml_window_s"] = "%{LibraryDir.SFML}/sfml-window-s.lib"
 Library["sfml_graphics_s"] = "%{LibraryDir.SFML}/sfml-graphics-s.lib"
 Library["sfml_system_s"] = "%{LibraryDir.SFML}/sfml-system-s.lib"

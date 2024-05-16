@@ -52,7 +52,8 @@ project "Swaglords of Space"
 		"%{Library.vorbisfile}",
 		"%{Library.ogg}",
 		"%{Library.ws2_32}", 
-		"%{Library.freetype}"
+		"%{Library.freetype}",
+		"%{Library.sfml_main}"
 	}
 
 	defines
@@ -99,6 +100,13 @@ project "Swaglords of Space"
 		defines
 		{
 			"SWAG_RELEASE"
+		}
+		links
+		{
+			"%{Library.sfml_window_s}",
+			"%{Library.sfml_graphics_s}",
+			"%{Library.sfml_system_s}",
+			"%{Library.sfml_audio_s}"
 		}
 		runtime "Release"
 		optimize "on"

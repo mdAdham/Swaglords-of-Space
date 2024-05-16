@@ -7,7 +7,26 @@ bin-int
 *.exe
 *.out
 *.app
-*.sln
+#*.sln
 *.user
 *.filters
-*.vcxproj
+#*.vcxproj
+/Assets/Resources
+/Export
+/FileManager/x64
+/FileManager/DecryptedImage.png
+/FileManager/Test.dat
+/FileManager/Test3.data
+/FileManager/Text.data
+/Swaglords of Space/Resources/Capture/Capture0.jpg
+/Swaglords of Space/Resources/Capture/Capture1.jpg
+/Swaglords of Space/Resources/Capture/Capture10.jpg
+/Swaglords of Space/Resources/Capture/Capture11.jpg
+/Swaglords of Space/Resources/Capture/Capture2.jpg
+/Swaglords of Space/Resources/Capture/Capture3.jpg
+/Swaglords of Space/Resources/Capture/Capture4.jpg
+/Swaglords of Space/Resources/Capture/Capture5.jpg
+/Swaglords of Space/Resources/Capture/Capture6.jpg
+/Swaglords of Space/Resources/Capture/Capture7.jpg
+/Swaglords of Space/Resources/Capture/Capture8.jpg
+/Swaglords of Space/Resources/Capture/Capture9.jpg

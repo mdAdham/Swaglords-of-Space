@@ -18,3 +18,4 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 include "Swaglords of Space"
 include "Swaglords of Space Launcher"
+include "FileManager"

@@ -7,7 +7,6 @@
 #include "Manager/AssetManager.h"
 #include "Manager/InputManager.h"
 
-//#include "Manager/logManager.h"
 #include "Core/log.h"
 
 namespace Swag
@@ -15,6 +14,7 @@ namespace Swag
 	struct GameData
 	{
 		StateMachine machine;
+		sf::RenderTexture window_t;
 		sf::RenderWindow window;
 		AssetManager assets;
 		InputManager input;

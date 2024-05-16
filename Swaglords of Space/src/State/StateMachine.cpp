@@ -44,10 +44,16 @@ namespace Swag
 				}
 			}
 
+
 			this->_states.push(std::move(this->_newState));
 			this->_states.top()->Init();
 			this->_isAdding = false;
 		}
+	}
+
+	void StateMachine::OnDontDestroyOnLoad()
+	{
+		this->_states.top()->DontDestroyOnLoad();
 	}
 
 	StateRef& StateMachine::GetActiveState()
@@ -55,4 +61,3 @@ namespace Swag
 		return this->_states.top();
 	}
 }
-
