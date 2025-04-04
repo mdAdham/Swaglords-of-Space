@@ -4,7 +4,7 @@
 
 namespace _Swag
 {
-	static class InputManager
+	class InputManager
 	{
 	public:
 		InputManager() { }

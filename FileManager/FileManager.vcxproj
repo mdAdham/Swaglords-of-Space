@@ -86,14 +86,13 @@
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>SFML_STATIC;SWAG_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\vendor\SFML\include;..\vendor\imgui;..\vendor\spdlog\include;..\Swaglords of Space\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>opengl32.lib;..\vendor\SFML\lib\openal32.lib;winmm.lib;gdi32.lib;..\vendor\SFML\lib\flac.lib;..\vendor\SFML\lib\vorbisenc.lib;..\vendor\SFML\lib\vorbis.lib;..\vendor\SFML\lib\vorbisfile.lib;..\vendor\SFML\lib\ogg.lib;ws2_32.lib;..\vendor\SFML\lib\freetype.lib;..\vendor\SFML\lib\sfml-main.lib;..\vendor\SFML\lib\sfml-window-s-d.lib;..\vendor\SFML\lib\sfml-graphics-s-d.lib;..\vendor\SFML\lib\sfml-system-s-d.lib;..\vendor\SFML\lib\sfml-audio-s-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\vendor\SFML\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -113,14 +112,13 @@
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>SFML_STATIC;SWAG_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\vendor\SFML\include;..\vendor\imgui;..\vendor\spdlog\include;..\Swaglords of Space\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>opengl32.lib;..\vendor\SFML\lib\openal32.lib;winmm.lib;gdi32.lib;..\vendor\SFML\lib\flac.lib;..\vendor\SFML\lib\vorbisenc.lib;..\vendor\SFML\lib\vorbis.lib;..\vendor\SFML\lib\vorbisfile.lib;..\vendor\SFML\lib\ogg.lib;ws2_32.lib;..\vendor\SFML\lib\freetype.lib;..\vendor\SFML\lib\sfml-main.lib;..\vendor\SFML\lib\sfml-window-s.lib;..\vendor\SFML\lib\sfml-graphics-s.lib;..\vendor\SFML\lib\sfml-system-s.lib;..\vendor\SFML\lib\sfml-audio-s.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -141,14 +139,13 @@
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>SFML_STATIC;SWAG_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\vendor\SFML\include;..\vendor\imgui;..\vendor\spdlog\include;..\Swaglords of Space\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>opengl32.lib;..\vendor\SFML\lib\openal32.lib;winmm.lib;gdi32.lib;..\vendor\SFML\lib\flac.lib;..\vendor\SFML\lib\vorbisenc.lib;..\vendor\SFML\lib\vorbis.lib;..\vendor\SFML\lib\vorbisfile.lib;..\vendor\SFML\lib\ogg.lib;ws2_32.lib;..\vendor\SFML\lib\freetype.lib;..\vendor\SFML\lib\sfml-main.lib;..\vendor\SFML\lib\sfml-window-s.lib;..\vendor\SFML\lib\sfml-graphics-s.lib;..\vendor\SFML\lib\sfml-system-s.lib;..\vendor\SFML\lib\sfml-audio-s.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -160,11 +157,6 @@
     <ClInclude Include="src\gui.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\vendor\imgui\imgui-SFML.cpp" />
-    <ClCompile Include="..\vendor\imgui\imgui.cpp" />
-    <ClCompile Include="..\vendor\imgui\imgui_draw.cpp" />
-    <ClCompile Include="..\vendor\imgui\imgui_tables.cpp" />
-    <ClCompile Include="..\vendor\imgui\imgui_widgets.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\gui.cpp" />
   </ItemGroup>

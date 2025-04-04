@@ -113,7 +113,7 @@ namespace _Swag {
 	void MainMenuState::OnRender(float dt)
 	{
 		sf::VideoMode vm(_data->window.getSize().x, _data->window.getSize().y);
-		sf::View view(sf::FloatRect(0, 0, vm.width, vm.height));
+		sf::View view(sf::FloatRect(0, 0, static_cast<float>(vm.width), static_cast<float>(vm.height)));
 		_data->window.setView(view);
 
 		//_data->window.clear(sf::Color::Black);

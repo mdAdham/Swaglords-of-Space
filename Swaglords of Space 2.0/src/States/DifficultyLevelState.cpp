@@ -61,7 +61,7 @@ namespace _Swag {
 				mode.enemie_spawner_Time_Max = 55.f;
 				mode.bullet_speed = 3500.f;
 				mode.enemy_damage_factor = 1;
-				mode.enemie_speed_factor = .8;
+				mode.enemie_speed_factor = .8f;
 				mode.enemy_points_factor = 4;
 
 				mode.player_speed = 6.0f;

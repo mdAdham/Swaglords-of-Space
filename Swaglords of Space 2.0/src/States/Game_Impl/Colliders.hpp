@@ -8,7 +8,7 @@ namespace _Swag {
 	class Collider
 	{
 	public:
-		Collider(sf::Sprite& spr);
+		Collider(Ref<sf::Sprite> spr);
 	
 		void UpdateBounds(sf::FloatRect rect);
 		bool IsCollide(const Ref<Collider>& another);
@@ -20,5 +20,7 @@ namespace _Swag {
 		float top = 0, bottom = 0, left = 0, right = 0;
 		float int_top = 0, int_bottom = 0, int_left = 0, int_right = 0;
 		std::vector<std::vector<bool>> mask;
+
+		Ref<sf::Sprite> sp;
 	};
 }

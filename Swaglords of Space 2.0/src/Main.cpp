@@ -10,8 +10,8 @@
 int main()
 {
 	//printf("Hello World!\n");
-	std::srand(std::time(0));
-
+	std::srand(static_cast<int>(std::time(0)));
+	
 	_Swag::LogManager::Initialize();
 
 	_SWAG_DEBUGS("SwagSpace v{0}.{1}", 2, 0);

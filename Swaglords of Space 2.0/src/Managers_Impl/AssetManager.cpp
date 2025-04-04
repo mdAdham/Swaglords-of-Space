@@ -135,6 +135,8 @@ namespace _Swag {
 				return this->_textures.at(name);
 		}
 		_SWAG_ERROR("Texture is not found! - {0}", name);
+		__debugbreak();
+		return this->_textures.at(name);
 	}
 
 	void _AssetManager::LoadFont(std::string name, std::string fileName)

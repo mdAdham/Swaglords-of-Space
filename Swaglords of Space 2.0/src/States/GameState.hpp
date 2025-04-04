@@ -18,7 +18,7 @@ namespace _Swag {
 			float enemie_spawner_Time_Max = 0;
 			float bullet_speed = 0;
 			float enemie_speed_factor = 0;
-			int enemy_damage_factor = 0;
+			float enemy_damage_factor = 0;
 			int enemy_points_factor = 0;
 	
 			float player_speed = 0;
@@ -58,7 +58,11 @@ namespace _Swag {
 		std::vector<Ref<Enemy>> _enemies;
 		bool allenemiedeleted = false;
 
+		//Environment
+		sf::RectangleShape _background;
+
 	private:
 		void UpdateGui();
+		void UpdateBullets();
 	};
 }

@@ -15,7 +15,7 @@ namespace _Swag {
 
 		const sf::Vector2f& getPos() const;
 		const sf::FloatRect getBounds() const;
-		const sf::Vector2f& getCenter() const;
+		const sf::Vector2f getCenter() const;
 		const int& getHp() const;
 		const int& getHpMax() const;
 		const int& getBoost() const;
@@ -31,6 +31,9 @@ namespace _Swag {
 
 		void move(const float dirX, const float dirY);
 		void move(const float dirX, const float dirY, bool withmovementspeed);
+
+		void rotate(const float angle);
+
 		const bool canAttack();
 		bool interset(Ref<Collider> other);
 
@@ -39,7 +42,7 @@ namespace _Swag {
 
 		Ref<Collider> _collider;
 	private:
-		sf::Sprite _sprite;
+		Ref<sf::Sprite> _sprite;
 
 		float _movementSpeed = 0.f;
 

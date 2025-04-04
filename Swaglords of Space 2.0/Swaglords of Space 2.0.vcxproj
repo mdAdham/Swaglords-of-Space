@@ -78,7 +78,7 @@
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>SFML_STATIC;SWAG_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>SFML_STATIC;SWAG_DEBUG;_SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\vendor\SFML\include;..\vendor\spdlog\include;src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
@@ -86,12 +86,7 @@
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
-    <ResourceCompile>
-      <PreprocessorDefinitions>SFML_STATIC;SWAG_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\vendor\SFML\include;..\vendor\spdlog\include;src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-    </ResourceCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -109,16 +104,12 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <MinimalRebuild>false</MinimalRebuild>
-      <StringPooling>true</StringPooling>
+      <StringPooling>false</StringPooling>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <ExternalWarningLevel>Level3</ExternalWarningLevel>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
     </ClCompile>
-    <ResourceCompile>
-      <PreprocessorDefinitions>SFML_STATIC;SWAG_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\vendor\SFML\include;..\vendor\spdlog\include;src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-    </ResourceCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -137,16 +128,11 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <MinimalRebuild>false</MinimalRebuild>
-      <StringPooling>true</StringPooling>
+      <StringPooling>false</StringPooling>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
-    <ResourceCompile>
-      <PreprocessorDefinitions>SFML_STATIC;SWAG_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\vendor\SFML\include;..\vendor\spdlog\include;src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-    </ResourceCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -156,13 +142,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\States\DifficultyLevelState.hpp" />
-    <ClInclude Include="src\States\GameState.hpp" />
-    <ClInclude Include="src\States\Game_Impl\Bullet.hpp" />
-    <ClInclude Include="src\States\Game_Impl\Colliders.hpp" />
-    <ClInclude Include="src\States\Game_Impl\Enemy.hpp" />
-    <ClInclude Include="src\States\Game_Impl\Player.hpp" />
-    <ClInclude Include="src\States\MainMenuState.hpp" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="src\Assets_Data_Impl\Metadata.hpp" />
     <ClInclude Include="src\Core\AppData.hpp" />
@@ -178,6 +157,31 @@
     <ClInclude Include="src\Managers_Impl\LogManager.hpp" />
     <ClInclude Include="src\State_Impl\State.hpp" />
     <ClInclude Include="src\State_Impl\StateMachine.hpp" />
+    <ClInclude Include="src\States\DifficultyLevelState.hpp" />
+    <ClInclude Include="src\States\GameState.hpp" />
+    <ClInclude Include="src\States\Game_Impl\Bullet.hpp" />
+    <ClInclude Include="src\States\Game_Impl\Camera.hpp" />
+    <ClInclude Include="src\States\Game_Impl\Colliders.hpp" />
+    <ClInclude Include="src\States\Game_Impl\Enemy.hpp" />
+    <ClInclude Include="src\States\Game_Impl\Player.hpp" />
+    <ClInclude Include="src\States\MainMenuState.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\Assets_Data_Impl\Metadata.cpp" />
+    <ClCompile Include="src\Engine_2.0_Impl\Engine_2.0_Impl.cpp" />
+    <ClCompile Include="src\Gui_Impl\Gui.cpp" />
+    <ClCompile Include="src\Main.cpp" />
+    <ClCompile Include="src\Managers_Impl\AssetManager.cpp" />
+    <ClCompile Include="src\Managers_Impl\InputManager.cpp" />
+    <ClCompile Include="src\Managers_Impl\LogManager.cpp" />
+    <ClCompile Include="src\State_Impl\StateMachine.cpp" />
+    <ClCompile Include="src\States\DifficultyLevelState.cpp" />
+    <ClCompile Include="src\States\GameState.cpp" />
+    <ClCompile Include="src\States\Game_Impl\Bullet.cpp" />
+    <ClCompile Include="src\States\Game_Impl\Colliders.cpp" />
+    <ClCompile Include="src\States\Game_Impl\Enemy.cpp" />
+    <ClCompile Include="src\States\Game_Impl\Player.cpp" />
+    <ClCompile Include="src\States\MainMenuState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\fonts\ALGER.ttf" />
@@ -190,35 +194,11 @@
     <None Include="Resources\sound\Rock Break.wav" />
     <None Include="Resources\sound\Thaai-Kelavi.ogg" />
     <None Include="Resources\sound\scott-buckley-signal-to-noise.ogg" />
-    <None Include="Swaglords of Space.aps" />
     <None Include="premake5.lua" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="Swaglords of Space.rc" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resources\res\Main Menu Background.png" />
     <Image Include="Resources\res\Splash Background.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="src\States\DifficultyLevelState.cpp" />
-    <ClCompile Include="src\States\GameState.cpp" />
-    <ClCompile Include="src\States\Game_Impl\Bullet.cpp" />
-    <ClCompile Include="src\States\Game_Impl\Colliders.cpp" />
-    <ClCompile Include="src\States\Game_Impl\Enemy.cpp" />
-    <ClCompile Include="src\States\Game_Impl\Player.cpp" />
-    <ClCompile Include="src\States\MainMenuState.cpp" />
-    <ClCompile Include="src\Assets_Data_Impl\Metadata.cpp" />
-    <ClCompile Include="src\Engine_2.0_Impl\Engine_2.0_Impl.cpp" />
-    <ClCompile Include="src\Gui_Impl\Gui.cpp" />
-    <ClCompile Include="src\Main.cpp" />
-    <ClCompile Include="src\Managers_Impl\AssetManager.cpp" />
-    <ClCompile Include="src\Managers_Impl\InputManager.cpp" />
-    <ClCompile Include="src\Managers_Impl\LogManager.cpp" />
-    <ClCompile Include="src\State_Impl\StateMachine.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="TODO.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

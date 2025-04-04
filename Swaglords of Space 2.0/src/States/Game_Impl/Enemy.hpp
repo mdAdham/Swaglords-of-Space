@@ -14,7 +14,7 @@ namespace _Swag {
 		//Accessors
 		const sf::FloatRect getBounds() const;
 		const int& getPoints() const;
-		const int& getDamage() const;
+		const int getDamage() const;
 
 		//Functions
 		void update(float dt);
@@ -23,7 +23,7 @@ namespace _Swag {
 	private:
 		unsigned pointCount = 0;
 		sf::CircleShape shape;
-		sf::Sprite _sprite;
+		Ref<sf::Sprite> _sprite;
 		float speed = 0;
 		unsigned int damage = 0;
 		int playerpoints = 0;

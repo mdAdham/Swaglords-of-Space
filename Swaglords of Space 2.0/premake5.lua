@@ -67,7 +67,8 @@ project "Swaglords of Space 2.0"
 	filter "configurations:Debug"
 		defines
 		{
-			"SWAG_DEBUG"
+			"SWAG_DEBUG",
+			"_SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS"
 		}
 
 		links

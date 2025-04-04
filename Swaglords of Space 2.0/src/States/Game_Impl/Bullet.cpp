@@ -4,8 +4,10 @@ namespace _Swag {
 	Bullet::Bullet(sf::Texture& texture, float posX, float posY, float dir_X, float dir_Y, float movement_speed)
 	{
 		this->_shape.setTexture(texture);
-		this->_shape.setPosition(posX, posY);
 		this->_shape.setScale(0.1f, 0.1f);
+
+		this->_shape.setOrigin(_shape.getGlobalBounds().width / 2, _shape.getGlobalBounds().height);
+		this->_shape.setPosition(posX, posY);
 
 		this->_direction.x = dir_X;
 		this->_direction.y = dir_Y;
@@ -16,7 +18,6 @@ namespace _Swag {
 	{
 		return this->_shape.getGlobalBounds();
 	}
-
 
 	void Bullet::update(float dt)
 	{

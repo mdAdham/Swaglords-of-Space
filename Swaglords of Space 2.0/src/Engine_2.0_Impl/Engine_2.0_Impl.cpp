@@ -129,7 +129,7 @@ namespace _Swag::Engine_2 {
 		_data->window.clear();
 
 		sf::VideoMode vm(_data->window.getSize().x, _data->window.getSize().y);
-		sf::View view(sf::FloatRect(0, 0, vm.width, vm.height));
+		sf::View view(sf::FloatRect(0.0f, 0.0f, static_cast<float>(vm.width), static_cast<float>(vm.height)));
 		_data->window.setView(view);
 
 		_defaulttext.setCharacterSize(_gui::calcCharSize(vm, 52));

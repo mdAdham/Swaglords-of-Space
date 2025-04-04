@@ -6,7 +6,8 @@ namespace _Swag
 	{
 		if (sf::Mouse::isButtonPressed(button))
 		{
-			sf::IntRect tempRect(object.getPosition().x, object.getPosition().y, object.getGlobalBounds().width, object.getGlobalBounds().height);
+			sf::IntRect tempRect(static_cast<int>(object.getPosition().x), static_cast<int>(object.getPosition().y),
+				static_cast<int>(object.getGlobalBounds().width), static_cast<int>(object.getGlobalBounds().height));
 
 			if (tempRect.contains(sf::Mouse::getPosition(window)))
 			{
@@ -21,7 +22,8 @@ namespace _Swag
 	{
 		if (sf::Mouse::isButtonPressed(button))
 		{
-			sf::IntRect tempRect(object.getPosition().x, object.getPosition().y, object.getGlobalBounds().width, object.getGlobalBounds().height);
+			sf::IntRect tempRect(static_cast<int>(object.getPosition().x), static_cast<int>(object.getPosition().y),
+				static_cast<int>(object.getGlobalBounds().width), static_cast<int>(object.getGlobalBounds().height));
 
 			if (tempRect.contains(sf::Mouse::getPosition(window)))
 			{

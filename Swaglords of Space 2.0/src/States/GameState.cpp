@@ -13,13 +13,14 @@ namespace _Swag {
 		sf::VideoMode vm = sf::VideoMode(_data->window.getSize().x, _data->window.getSize().y);
 
 		_data->assets.LoadTexture("Bullet_Texture", BULLET_TEXTURE, true);
+		//_data->assets.LoadTexture("Background_Texture", BACKGROUND_TEXTURE)
 
 		_Player = CreateRef<Player>();
 
 		_Player->Init(_modes.player_speed, _modes.player_attack_cooldown_max, _modes.player_max_hp, _modes.player_max_boost, _data->assets.GetTexture("Ship_Texture"), sf::Vector2f(_gui::p2pX(50, vm), _gui::p2pY(50, vm)));
 
-		_playerHpBar = CreateRef<_gui::ProgressBar>(.8, 4, 20, 2, sf::Color::Red, 200, vm, &_data->assets.GetFont("Arial_Font"));
-		_playerBoostBar = CreateRef<_gui::ProgressBar>(.8, 7, 17, 2, sf::Color::Blue, 200, vm, &_data->assets.GetFont("Arial_Font"));
+		_playerHpBar = CreateRef<_gui::ProgressBar>(.8f, 4.0f, 20.0f, 2.0f, sf::Color::Red, 200u, vm, &_data->assets.GetFont("Arial_Font"));
+		_playerBoostBar = CreateRef<_gui::ProgressBar>(.8f, 7.0f, 17.0f, 2.0f, sf::Color::Blue, 200u, vm, &_data->assets.GetFont("Arial_Font"));
 
 		this->spawnerTimerMax = _modes.enemie_spawner_Time_Max;
 		this->spawnerTimer = this->spawnerTimerMax;
@@ -97,22 +98,18 @@ namespace _Swag {
 					this->_Player->move(0.f, -1.f);
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
 					this->_Player->move(0.f, 1.f);
+
+				// Rotation
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
+					this->_Player->rotate(-2.0f);
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
+					this->_Player->rotate(2.0f);
+
 			}
 
 
 			//Shooting Firing
-			if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && this->_Player->canAttack() || sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && this->_Player->canAttack())
-			{
-				this->_bullets.push_back(CreateRef<Bullet>(
-					_data->assets.GetTexture("Bullet_Texture"),
-					this->_Player->getCenter().x - 5,
-					this->_Player->getPos().y,
-					0.f,
-					-1.f,
-					_modes.bullet_speed
-				));
-				this->_Player->move(0.f, 5.0f, false);
-			}
+			UpdateBullets();
 
 			this->_Player->update();
 
@@ -161,10 +158,10 @@ namespace _Swag {
 			if (this->spawnerTimer >= this->spawnerTimerMax)
 			{
 				this->_enemies.push_back(CreateRef<Enemy>(
-					rand() % this->_data->window.getSize().x + 10.f, -100,
+					rand() % this->_data->window.getSize().x + 10.f, -100.0f,
 					_modes.enemy_damage_factor,
 					_modes.enemie_speed_factor,
-					_modes.enemy_points_factor
+					static_cast<float>(_modes.enemy_points_factor)
 				));
 				this->spawnerTimer = 0.f;
 			}
@@ -285,5 +282,21 @@ namespace _Swag {
 	{
 		_playerHpBar->update(_Player->getHp(), _Player->getHpMax());
 		_playerBoostBar->update(_Player->getBoost(), _Player->getBoostMax());
+	}
+
+	void GameState::UpdateBullets()
+	{
+		if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && this->_Player->canAttack() || sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && this->_Player->canAttack())
+		{
+			this->_bullets.push_back(CreateRef<Bullet>(
+				_data->assets.GetTexture("Bullet_Texture"),
+				this->_Player->getPos().x,
+				this->_Player->getPos().y - this->_Player->getBounds().height / 2,
+				0.f,
+				-1.f,
+				_modes.bullet_speed
+			));
+			this->_Player->move(0.f, 5.0f, false);
+		}
 	}
 }
