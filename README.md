@@ -7,4 +7,4 @@ And it is Motivation to me to Update the Game.
 NOTE:
 	When you create the solution,
 	paste the Resources file to the EXE location,
-	Recources File in the Game code.
+	Recources Files is in the Game code.

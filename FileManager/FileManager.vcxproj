@@ -86,7 +86,6 @@
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>SFML_STATIC;SWAG_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -113,7 +112,6 @@
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>SFML_STATIC;SWAG_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -141,7 +139,6 @@
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>SFML_STATIC;SWAG_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -160,11 +157,6 @@
     <ClInclude Include="src\gui.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\vendor\imgui\imgui-SFML.cpp" />
-    <ClCompile Include="..\vendor\imgui\imgui.cpp" />
-    <ClCompile Include="..\vendor\imgui\imgui_draw.cpp" />
-    <ClCompile Include="..\vendor\imgui\imgui_tables.cpp" />
-    <ClCompile Include="..\vendor\imgui\imgui_widgets.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\gui.cpp" />
   </ItemGroup>

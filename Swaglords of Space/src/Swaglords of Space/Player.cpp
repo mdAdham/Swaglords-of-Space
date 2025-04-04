@@ -190,5 +190,5 @@ void Player::update()
 
 void Player::render(sf::RenderTarget& target, sf::Shader& shader)
 {
-	target.draw(this->sprite, &shader);
+	target.draw(this->sprite);
 }
