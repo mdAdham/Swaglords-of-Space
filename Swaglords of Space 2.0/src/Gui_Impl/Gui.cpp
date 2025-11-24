@@ -97,6 +97,13 @@ namespace _Swag::_gui {
 		return false;
 	}
 
+	const bool Button::isReleased() const
+	{
+		if (this->buttonState == BTN_REALEASED)
+			return true;
+		return false;
+	}
+
 	const std::string Button::getText() const
 	{
 		return this->text.getString();
@@ -137,6 +144,11 @@ namespace _Swag::_gui {
 		);
 	}
 
+
+	void Button::event(sf::Event& ev)
+	{
+
+	}
 
 	//Functions
 	void Button::update(const sf::Vector2i& mousePosWindow)

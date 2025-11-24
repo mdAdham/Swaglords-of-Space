@@ -14,6 +14,7 @@ namespace _Swag {
 		void Init(float speed, float attackcooldown, int hpMax, int boostMax, sf::Texture& texture, sf::Vector2f pos);
 
 		const sf::Vector2f& getPos() const;
+		const float& getRot() const;
 		const sf::FloatRect getBounds() const;
 		const sf::Vector2f getCenter() const;
 		const int& getHp() const;
@@ -28,8 +29,9 @@ namespace _Swag {
 		void setBoost(const int boost);
 		void gainBoost(const int value);
 		void loseBoost(const int value);
+		void setDt(const float& dt);
 
-		void move(const float dirX, const float dirY);
+		void move();
 		void move(const float dirX, const float dirY, bool withmovementspeed);
 
 		void rotate(const float angle);
@@ -44,6 +46,7 @@ namespace _Swag {
 	private:
 		Ref<sf::Sprite> _sprite;
 
+		sf::Vector2f velocity;
 		float _movementSpeed = 0.f;
 
 		float _attackCooldown = 0.f;
@@ -54,5 +57,7 @@ namespace _Swag {
 
 		int _boost = 0;
 		int _boostMax = 0;
+
+		float dt = 0.f;
 	};
 }

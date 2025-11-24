@@ -54,11 +54,11 @@ namespace _Swag {
 			GameState::GameModes mode;
 
 			_SWAG_DEBUGS("Difficulty level Index: {0}", _difficultyLevelSelector->getActiveElementId());
-
+			
 			switch (_difficultyLevelSelector->getActiveElementId())
 			{
 			case 0: { //American
-				mode.enemie_spawner_Time_Max = 55.f;
+				mode.enemie_spawner_Time_Max = 5.f;
 				mode.bullet_speed = 3500.f;
 				mode.enemy_damage_factor = 1;
 				mode.enemie_speed_factor = .8f;

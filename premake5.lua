@@ -1,6 +1,6 @@
 workspace "Swag Space"
 	architecture "x64"
-	startproject "Swaglords of Space"
+	startproject "Swaglords of Space 2.0"
 
 	configurations
 	{

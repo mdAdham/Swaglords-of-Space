@@ -3,7 +3,7 @@
 #include <SFML/Graphics.hpp>
 
 namespace _Swag::_gui {
-	enum _button_status { BTN_IDLE = 0, BTN_HOVER, BTN_ACTIVE};
+	enum _button_status { BTN_IDLE = 0, BTN_HOVER, BTN_ACTIVE, BTN_REALEASED };
 	
 	/*
 		 * Converts a percentage value to pixels relative to the current resolution in the x-axis.
@@ -59,6 +59,7 @@ namespace _Swag::_gui {
 
 		//Accessors
 		const bool isPressed() const;
+		const bool isReleased() const;
 		const std::string getText() const;
 		const short unsigned& getId() const;
 
@@ -72,6 +73,7 @@ namespace _Swag::_gui {
 		void updateTextCenter();
 
 		//Functions
+		void event(sf::Event& ev);
 		void update(const sf::Vector2i& mousePosWindow);
 		void render(sf::RenderTarget& target);
 	};

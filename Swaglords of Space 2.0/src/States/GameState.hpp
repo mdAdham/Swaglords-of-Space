@@ -8,6 +8,7 @@
 #include "Game_Impl/Player.hpp"
 #include "Game_Impl/Bullet.hpp"
 #include "Game_Impl/Enemy.hpp"
+#include "Game_Impl/Camera.hpp"
 
 namespace _Swag {
 	class GameState : public State
@@ -42,9 +43,9 @@ namespace _Swag {
 		Ref<GameData> _data;
 		GameModes _modes;
 
-
 	private:
 		//PLAYER
+		Ref<Camera> _Camera;
 		Ref<Player> _Player;
 		Ref<_gui::ProgressBar> _playerHpBar;
 		Ref<_gui::ProgressBar> _playerBoostBar;
@@ -59,7 +60,7 @@ namespace _Swag {
 		bool allenemiedeleted = false;
 
 		//Environment
-		sf::RectangleShape _background;
+		sf::Sprite _background;
 
 	private:
 		void UpdateGui();

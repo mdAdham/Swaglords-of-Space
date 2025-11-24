@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include "Colliders.hpp"
 #include "Core/Core.hpp"
+#include "Player.hpp"
 
 namespace _Swag {
 	class Enemy
@@ -18,6 +19,7 @@ namespace _Swag {
 
 		//Functions
 		void update(float dt);
+		void follow(const Ref<Player>& player);
 		void render(sf::RenderTarget* target) const;
 		Ref<Collider> _collider;
 	private:
@@ -27,5 +29,6 @@ namespace _Swag {
 		float speed = 0;
 		unsigned int damage = 0;
 		int playerpoints = 0;
+		float dt = 0;
 	};
 }

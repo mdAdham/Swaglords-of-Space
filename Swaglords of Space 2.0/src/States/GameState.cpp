@@ -13,7 +13,13 @@ namespace _Swag {
 		sf::VideoMode vm = sf::VideoMode(_data->window.getSize().x, _data->window.getSize().y);
 
 		_data->assets.LoadTexture("Bullet_Texture", BULLET_TEXTURE, true);
-		//_data->assets.LoadTexture("Background_Texture", BACKGROUND_TEXTURE)
+		_data->assets.LoadTexture("Background_Texture", BACKGROUND_TEXTURE, false);
+
+		_background.setTexture(_data->assets.GetTexture("Background_Texture"));
+		_background.setOrigin(_background.getGlobalBounds().width / 2, _background.getGlobalBounds().height / 2);
+		_background.setPosition(0, 0);
+		_background.setScale(10.f, 10.f);
+		
 
 		_Player = CreateRef<Player>();
 
@@ -25,88 +31,28 @@ namespace _Swag {
 		this->spawnerTimerMax = _modes.enemie_spawner_Time_Max;
 		this->spawnerTimer = this->spawnerTimerMax;
 
-		
+		_Camera = CreateRef<Camera>(_Player->getPos(), sf::Vector2f(WINDOW_WIDHT, WINDOW_HEIGHT), 1.0f);
 	}
 	void GameState::OnEvent(sf::Event& ev)
 	{
-		
+		if (ev.type == ev.MouseWheelScrolled)
+		{
+			_Camera->Zoom(ev.mouseWheelScroll.delta);
+		}
 	}
 
 	void GameState::OnUpdate(float dt)
 	{
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::N))
+			_SWAG_CRITICAL("Number of Enemies: {0}", this->_enemies.size());
+
 		if (this->_Player->getHp() != 0)
 		{
+			this->_Player->setDt(dt);
 			//PLAYER MOVEMENT
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) && this->_Player->getBoost() != 0 || sf::Keyboard::isKeyPressed(sf::Keyboard::RShift) && this->_Player->getBoost() != 0)
-			{
-				if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-				{
-					this->_Player->move(-2.f, 0.f); this->_Player->loseBoost(1);
-				}
-
-				if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-				{
-					this->_Player->move(2.f, 0.f); this->_Player->loseBoost(1);
-				}
-
-				if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
-				{
-					this->_Player->move(0.f, -2.f); this->_Player->loseBoost(1);
-				}
-
-				if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-				{
-					this->_Player->move(0.f, 2.f); this->_Player->loseBoost(1);
-				}
-
-				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-				{
-					this->_Player->move(-2.f, 0.f); this->_Player->loseBoost(1);
-				}
-
-				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-				{
-					this->_Player->move(2.f, 0.f); this->_Player->loseBoost(1);
-				}
-
-				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-				{
-					this->_Player->move(0.f, -2.f); this->_Player->loseBoost(1);
-				}
-
-				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-				{
-					this->_Player->move(0.f, 2.f); this->_Player->loseBoost(1);
-				}
-			}
-			else
-			{
-				if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-					this->_Player->move(-1.f, 0.f);
-				if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-					this->_Player->move(1.f, 0.f);
-				if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
-					this->_Player->move(0.f, -1.f);
-				if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-					this->_Player->move(0.f, 1.f);
-
-				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-					this->_Player->move(-1.f, 0.f);
-				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-					this->_Player->move(1.f, 0.f);
-				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-					this->_Player->move(0.f, -1.f);
-				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-					this->_Player->move(0.f, 1.f);
-
-				// Rotation
-				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
-					this->_Player->rotate(-2.0f);
-				if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
-					this->_Player->rotate(2.0f);
-
-			}
-
+			this->_Player->move();
+			//Update View
+			_Camera->Update(this->_Player);
 
 			//Shooting Firing
 			UpdateBullets();
@@ -126,33 +72,6 @@ namespace _Swag {
 				}
 			}
 
-			//PLAYER COLLISION
-			
-			//LEFT
-			if (this->_Player->getBounds().left <= 0.f)
-			{
-				this->_Player->setPosition(0.f, this->_Player->getBounds().top);
-			}
-			
-			//RIGHT
-			else if (this->_Player->getBounds().left + this->_Player->getBounds().width >= this->_data->window.getSize().x)
-			{
-				this->_Player->setPosition(this->_data->window.getSize().x - this->_Player->getBounds().width, this->_Player->getBounds().top);
-			}
-
-			//TOP
-			if (this->_Player->getBounds().top <= 0.f)
-			{
-				this->_Player->setPosition(this->_Player->getBounds().left, 0);
-			}
-
-			//BOTTOM
-			else if (this->_Player->getBounds().top + this->_Player->getBounds().height >= this->_data->window.getSize().y)
-			{
-				this->_Player->setPosition(this->_Player->getBounds().left, this->_data->window.getSize().y - this->_Player->getBounds().height);
-			}
-			//_SWAG_TRACE("Player Position: {0}:{1}", this->_Player->getBounds().left, this->_Player->getBounds().top);
-
 			//UPDATE ENEMIE
 			this->spawnerTimer += 0.5f;
 			if (this->spawnerTimer >= this->spawnerTimerMax)
@@ -169,6 +88,7 @@ namespace _Swag {
 			for (unsigned i = 0; i < this->_enemies.size(); i++)
 			{
 				_enemies[i]->update(dt);
+				_enemies[i]->follow(this->_Player);
 
 				// DELETING ENEMY AT THE BOTTOM OF THE SCREEN
 				if (_enemies[i]->getBounds().top > this->_data->window.getSize().y)
@@ -245,10 +165,14 @@ namespace _Swag {
 
 	void GameState::OnRender(float dt)
 	{
+
+		_Camera->StartCameraRegion(_data->window);
+		_data->window.draw(_background);
 		if (this->_Player->getHp() > 0)
 		{
 			_Player->render(_data->window);
 			_Player->_collider->Render(_data->window);
+
 			/*sf::RectangleShape rect;
 			rect.setPosition(_Player->_collider->GetBounds().left, _Player->_collider->GetBounds().top);
 			rect.setSize(sf::Vector2f(_Player->_collider->GetBounds().width, _Player->_collider->GetBounds().height));
@@ -271,9 +195,11 @@ namespace _Swag {
 				_data->window.draw(rect);*/
 			}
 		}
+		_Camera->EndCameraRegion(_data->window);
 
 		_playerHpBar->render(_data->window);
 		_playerBoostBar->render(_data->window);
+
 
 		_data->window.display();
 	}
@@ -288,15 +214,27 @@ namespace _Swag {
 	{
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && this->_Player->canAttack() || sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && this->_Player->canAttack())
 		{
-			this->_bullets.push_back(CreateRef<Bullet>(
+			float angleDegrees = _Player->getRot() - 90.f;
+			float angleRadiens = angleDegrees * 3.14159f / 180.f;
+
+			sf::Vector2f direction(std::cos(angleRadiens), std::sin(angleRadiens));
+
+			sf::Vector2f muzzleOffset = direction * this->_Player->getBounds().height / 2.f;
+			sf::Vector2f bulletStartingPos = _Player->getPos() + muzzleOffset;
+
+			auto& bullet = this->_bullets.emplace_back(CreateRef<Bullet>(
 				_data->assets.GetTexture("Bullet_Texture"),
-				this->_Player->getPos().x,
-				this->_Player->getPos().y - this->_Player->getBounds().height / 2,
-				0.f,
-				-1.f,
+				bulletStartingPos.x,
+				bulletStartingPos.y,
+				direction.x,
+				direction.y,
 				_modes.bullet_speed
 			));
-			this->_Player->move(0.f, 5.0f, false);
+			
+			bullet->rotate(_Player->getRot());
+
+			sf::Vector2f recoil = -direction;
+			this->_Player->move(recoil.x, recoil.y, false);
 		}
 	}
 }

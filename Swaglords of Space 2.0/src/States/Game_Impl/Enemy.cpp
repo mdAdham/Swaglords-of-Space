@@ -44,8 +44,10 @@ namespace _Swag {
 
 		this->shape.setPosition(pos_x, pos_y);
 		this->shape.setOrigin(shape.getRadius(), shape.getRadius());
+
 		_sprite->setPosition(shape.getPosition());
 		_sprite->setOrigin(this->shape.getOrigin());
+
 		_collider = CreateRef<Collider>(_sprite);
 	}
 
@@ -68,9 +70,37 @@ namespace _Swag {
 	//Functions
 	void Enemy::update(float dt)
 	{
-		this->shape.move(0.f, this->speed);
-		_sprite->move(0.0f, this->speed);
+		this->dt = dt;
+		//this->shape.move(0.f, this->speed);
+		//_sprite->move(0.0f, this->speed);
 		this->_collider->UpdateBounds(_sprite->getGlobalBounds());
+	}
+
+	void Enemy::follow(const Ref<Player>& player)
+	{
+		float angleDegrees = player->getRot() - 90.f;
+		float angleRadiens = angleDegrees * 3.14159f / 180.f;
+
+		sf::Vector2f direction(std::cos(angleRadiens), std::sin(angleRadiens));
+		direction.x *= -1;
+		direction.y *= -1;
+
+		this->shape.move(speed * direction * dt * 100.f);
+		_sprite->move(speed * direction * dt * 100.f);
+		/*
+		current_Position = player->getPos();
+		target_Position = this->shape.getPosition();
+		
+		newPos = (current_Position + (target_Position - current_Position) * factor) * dt;
+
+		this->shape.move(-newPos.x, newPos.y);
+		_sprite->move(-newPos.x, newPos.y);
+
+		//_SWAG_DEBUGS("{0}, {1}", newPos.x, newPos.y);
+
+		//this->shape.move(0.f, 10.f);
+		//_sprite->move(0.f, 10.f);
+		*/
 	}
 
 	void Enemy::render(sf::RenderTarget* target) const

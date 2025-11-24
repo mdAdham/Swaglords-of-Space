@@ -104,11 +104,10 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <MinimalRebuild>false</MinimalRebuild>
-      <StringPooling>false</StringPooling>
+      <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -128,7 +127,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <MinimalRebuild>false</MinimalRebuild>
-      <StringPooling>false</StringPooling>
+      <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -174,6 +173,7 @@
     <ClCompile Include="src\Managers_Impl\AssetManager.cpp" />
     <ClCompile Include="src\Managers_Impl\InputManager.cpp" />
     <ClCompile Include="src\Managers_Impl\LogManager.cpp" />
+    <ClCompile Include="src\States\Game_Impl\Camera.cpp" />
     <ClCompile Include="src\State_Impl\StateMachine.cpp" />
     <ClCompile Include="src\States\DifficultyLevelState.cpp" />
     <ClCompile Include="src\States\GameState.cpp" />

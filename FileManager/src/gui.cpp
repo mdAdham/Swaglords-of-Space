@@ -325,8 +325,8 @@ void Gui::DoDecryptThing()
 		std::fstream data_file(debufferorgname, std::ios::in | std::ios::binary);
 		if (data_file.is_open())
 		{
-			unsigned int sampleRate;
-			unsigned int channelCount;
+			unsigned int sampleRate = 0;
+			unsigned int channelCount = 0;
 			data_file.read(reinterpret_cast<char*>(&sampleRate), sizeof(sampleRate));
 			data_file.read(reinterpret_cast<char*>(&channelCount), sizeof(channelCount));
 

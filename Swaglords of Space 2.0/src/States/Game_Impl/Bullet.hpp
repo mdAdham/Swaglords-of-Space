@@ -11,6 +11,7 @@ namespace _Swag {
 		~Bullet() = default;
 
 		const sf::FloatRect getBounds() const;
+		void rotate(const float& rotate);
 
 		void update(float dt);
 		void render(sf::RenderTarget* target) const;

@@ -2,6 +2,7 @@
 #include "Core/Log.hpp"
 
 #include <fstream>
+#include <math.h>
 
 namespace _Swag {
 
@@ -62,6 +63,11 @@ namespace _Swag {
 	const sf::Vector2f& Player::getPos() const
 	{
 		return this->_sprite->getPosition();
+	}
+
+	const float& Player::getRot() const
+	{
+		return this->_sprite->getRotation();
 	}
 
 	const sf::FloatRect Player::getBounds() const
@@ -141,9 +147,94 @@ namespace _Swag {
 		}
 	}
 
-	void Player::move(const float dirX, const float dirY)
+	void Player::setDt(const float& dt)
 	{
-		this->_sprite->move(this->_movementSpeed * dirX, this->_movementSpeed * dirY);
+		this->dt = dt;
+	}
+
+	void Player::move()
+	{
+		float angleDegrees = getRot() - 90.f;
+		float angleRadiens = angleDegrees * 3.14159f / 180.f;
+
+		sf::Vector2f forward(std::cos(angleRadiens), std::sin(angleRadiens));
+		sf::Vector2f left(forward.y, -forward.x);
+		sf::Vector2f right(-forward.y, forward.x);
+		sf::Vector2f backward = -forward;
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) && getBoost() != 0 || sf::Keyboard::isKeyPressed(sf::Keyboard::RShift) && getBoost() != 0)
+		{
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+			{
+				velocity += left * _movementSpeed * 2.0f; loseBoost(1);
+			}
+
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+			{
+				velocity += right * _movementSpeed * 2.0f; loseBoost(1);
+			}
+
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+			{
+				velocity += forward * _movementSpeed * 2.0f; loseBoost(1);
+			}
+
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+			{
+				velocity += backward * _movementSpeed * 2.0f; loseBoost(1);
+			}
+
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+			{
+				velocity += left * _movementSpeed * 2.0f; loseBoost(1);
+			}
+
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+			{
+				velocity += right * _movementSpeed * 2.0f; loseBoost(1);
+			}
+
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+			{
+				velocity += forward * _movementSpeed * 2.0f; loseBoost(1);
+			}
+
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+			{
+				velocity += backward * _movementSpeed * 2.0f; loseBoost(1);
+			}
+		}
+		else
+		{
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+				velocity += left * _movementSpeed;
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+				velocity += right * _movementSpeed;
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+				velocity += forward * _movementSpeed;
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+				velocity += backward * _movementSpeed;
+
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+				velocity += left * _movementSpeed;
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+				velocity += right * _movementSpeed;
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+				velocity += forward * _movementSpeed;
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+				velocity += backward * _movementSpeed;
+
+			// Rotation
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
+				this->_sprite->rotate(-2.0f);
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
+				this->_sprite->rotate(2.0f);
+
+		}
+
+		float x = velocity.x > 0.0f ? std::clamp<float>(velocity.x, 0.0f, 500.0f) : std::clamp<float>(velocity.x, -500.0f, 0.0f);
+		float y = velocity.y > 0.0f ? std::clamp<float>(velocity.y, 0.0f, 500.0f) : std::clamp<float>(velocity.y, -500.0f, 0.0f);
+		this->_sprite->move(sf::Vector2f(x, y) * dt);
 	}
 
 	void Player::move(const float dirX, const float dirY, bool withmovementspeed)
@@ -204,6 +295,15 @@ namespace _Swag {
 			this->_attackCooldown += 0.5f;
 
 		_collider->UpdateBounds(getBounds());
+
+		if (velocity.x > 0.0f)
+			velocity.x--;
+		else if (velocity.x < 0.0f)
+			velocity.x++;
+		if (velocity.y > 0.0f)
+			velocity.y--;
+		else if (velocity.y < 0.0f)
+			velocity.y++;
 	}
 
 	void Player::render(sf::RenderTarget& target)

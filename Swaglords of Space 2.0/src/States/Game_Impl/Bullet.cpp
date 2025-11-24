@@ -19,6 +19,11 @@ namespace _Swag {
 		return this->_shape.getGlobalBounds();
 	}
 
+	void Bullet::rotate(const float& rotate)
+	{
+		this->_shape.rotate(rotate);
+	}
+
 	void Bullet::update(float dt)
 	{
 		//Movement
