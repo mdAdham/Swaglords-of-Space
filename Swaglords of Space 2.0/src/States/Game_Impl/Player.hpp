@@ -14,7 +14,7 @@ namespace _Swag {
 		void Init(float speed, float attackcooldown, int hpMax, int boostMax, sf::Texture& texture, sf::Vector2f pos);
 
 		const sf::Vector2f& getPos() const;
-		const float& getRot() const;
+		const float getRot() const;
 		const sf::FloatRect getBounds() const;
 		const sf::Vector2f getCenter() const;
 		const int& getHp() const;

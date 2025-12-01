@@ -67,7 +67,7 @@ namespace _Swag {
 		return this->_sprite->getPosition();
 	}
 
-	const float& Player::getRot() const
+	const float Player::getRot() const
 	{
 		return this->_sprite->getRotation();
 	}

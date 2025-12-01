@@ -4,6 +4,8 @@
 #include <gtc/random.hpp>
 #include <gtc/constants.hpp>
 
+#include <iostream>
+
 namespace _Swag {
 	GameState::GameState(Ref<GameData> data, GameModes modes)
 		: _data(data), _modes(modes)
@@ -229,6 +231,7 @@ namespace _Swag {
 		{
 			float angleDegrees = _Player->getRot() - 90.f;
 			float angleRadiens = angleDegrees * 3.14159f / 180.f;
+
 
 			sf::Vector2f direction(std::cos(angleRadiens), std::sin(angleRadiens));
 
