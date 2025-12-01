@@ -8,7 +8,7 @@ namespace _Swag {
 		this->_view.setSize(size);
 		this->_view.zoom(zoom);
 
-		this->_smoothing = 0.04f;
+		this->_smoothing = 0.5f;
 	}
 	void Camera::Update(Ref<Player> player)
 	{

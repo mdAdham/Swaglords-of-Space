@@ -33,7 +33,7 @@ namespace _Swag::Engine_2 {
 		//this->_data->window.create(sf::VideoMode::getDesktopMode(), "Swag Space v2.0 - Engine v2.0", sf::Style::Fullscreen, settings);
 		//_SWAG_INFO("Window Created {0}x{1}", sf::VideoMode::getDesktopMode().width, sf::VideoMode::getDesktopMode().height);
 
-		this->_data->window.setFramerateLimit(120);
+		this->_data->window.setVerticalSyncEnabled(true);
 
 		_data->assets.LoadFont("Arial_Font", "arial.ttf");
 		_defaulttext.setFont(_data->assets.GetFont("Arial_Font"));
@@ -52,8 +52,18 @@ namespace _Swag::Engine_2 {
 		this->_versionoftheeng.setFillColor(sf::Color(200, 200, 200, 255));
 		this->_versionoftheeng.setPosition(_gui::p2pX(0, vm), _gui::p2pY(0, vm));
 
+		this->_fpstext.setFont(this->_data->assets.GetFont("Arial_Font"));
+		this->_fpstext.setCharacterSize(_gui::calcCharSize(vm, 250));
+		this->_fpstext.setStyle(sf::Text::Bold);
+		this->_fpstext.setString("FPS: NULL");
+		this->_fpstext.setFillColor(sf::Color(200, 200, 200, 200));
+		this->_fpstext.setPosition(_gui::p2pX(95.5, vm), _gui::p2pY(95, vm));
+
 		this->_data->machine.AddState(CreateRef<MainMenuState>(_data), false);
 	}
+
+	static int framecount = 0;
+	static float time = 0;
 
 	void Engine_v2_Impl::Run()
 	{
@@ -80,6 +90,9 @@ namespace _Swag::Engine_2 {
 			accumulator += frameTime;
 
 
+			framecount++;
+			time += frameTime;
+
 			while (accumulator > dt)
 			{
 				while (this->_data->window.pollEvent(ev))
@@ -95,8 +108,19 @@ namespace _Swag::Engine_2 {
 				}
 					
 
-				if (!this->_data->machine.IsEmpty()) 
+				if (!this->_data->machine.IsEmpty())
+				{
+					if (time > 1)
+					{
+						fps = framecount / time;
+						framecount = 0;
+						time = 0;
+					}
+					
+					this->_fpstext.setString("FPS: " + std::to_string((int)fps));
+
 					this->_data->machine.GetActiveState()->OnUpdate(dt);
+				}
 
 				accumulator -= dt;
 			}
@@ -105,8 +129,10 @@ namespace _Swag::Engine_2 {
 			if (!this->_data->machine.IsEmpty())
 			{
 				_data->window.clear();
-				_data->window.draw(_versionoftheeng);
 				this->_data->machine.GetActiveState()->OnRender(interpolation);
+				_data->window.draw(_versionoftheeng);
+				_data->window.draw(_fpstext);
+				_data->window.display();
 			}
 			else
 				DefaultRender();

@@ -4,6 +4,8 @@
 #include <fstream>
 #include <math.h>
 
+#include "Core/Deffinitions.hpp"
+
 namespace _Swag {
 
 	void Player::Init(float speed, float attackcooldown, int hpMax, int boostMax, sf::Texture& texture, sf::Vector2f pos)
@@ -231,10 +233,6 @@ namespace _Swag {
 				this->_sprite->rotate(2.0f);
 
 		}
-
-		float x = velocity.x > 0.0f ? std::clamp<float>(velocity.x, 0.0f, 500.0f) : std::clamp<float>(velocity.x, -500.0f, 0.0f);
-		float y = velocity.y > 0.0f ? std::clamp<float>(velocity.y, 0.0f, 500.0f) : std::clamp<float>(velocity.y, -500.0f, 0.0f);
-		this->_sprite->move(sf::Vector2f(x, y) * dt);
 	}
 
 	void Player::move(const float dirX, const float dirY, bool withmovementspeed)
@@ -243,6 +241,12 @@ namespace _Swag {
 			this->_sprite->move(this->_movementSpeed * dirX, this->_movementSpeed * dirY);
 		else
 			this->_sprite->move(dirX, dirY);
+	}
+
+	void Player::recoil(sf::Vector2f _recol)
+	{
+		velocity.x += _recol.x;
+		velocity.y += _recol.y;
 	}
 
 	void Player::rotate(const float angle)
@@ -296,14 +300,24 @@ namespace _Swag {
 
 		_collider->UpdateBounds(getBounds());
 
+		//float x = velocity.x > 0.0f ? std::clamp<float>(velocity.x, 0.0f, 500.0f) : std::clamp<float>(velocity.x, -500.0f, 0.0f);
+		//float y = velocity.y > 0.0f ? std::clamp<float>(velocity.y, 0.0f, 500.0f) : std::clamp<float>(velocity.y, -500.0f, 0.0f);
+		
+		this->_sprite->move(sf::Vector2f(velocity.x, velocity.y) * dt);
+
 		if (velocity.x > 0.0f)
-			velocity.x--;
+			velocity.x *= AIR_DRAG;
 		else if (velocity.x < 0.0f)
-			velocity.x++;
+			velocity.x *= AIR_DRAG;
 		if (velocity.y > 0.0f)
-			velocity.y--;
+			velocity.y *= AIR_DRAG;
 		else if (velocity.y < 0.0f)
-			velocity.y++;
+			velocity.y *= AIR_DRAG;
+
+		if (std::abs(velocity.x) < 0.5f)
+			velocity.x = 0.f;
+		if (std::abs(velocity.y) < 0.5f)
+			velocity.y = 0.f;
 	}
 
 	void Player::render(sf::RenderTarget& target)

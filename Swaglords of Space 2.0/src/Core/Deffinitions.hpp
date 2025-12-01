@@ -4,6 +4,10 @@
 
 constexpr uint32_t WINDOW_WIDHT = 1920;
 constexpr uint32_t WINDOW_HEIGHT = 1080;
+constexpr float FRAMERATELIMIT = 120.f;
+constexpr float ENEMY_MOVEMENT_INERTIA = 0.2f;
+
+constexpr float AIR_DRAG = 0.995f;
 
 const std::string Resource_root_folder = "Swag_Space_2.0_Resource/";
 

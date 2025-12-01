@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Core/AppData.hpp"
+#include "Core/Deffinitions.hpp"
 
 namespace _Swag::Engine_2 {
 	class Engine_v2_Impl
@@ -17,12 +18,13 @@ namespace _Swag::Engine_2 {
 		Ref<GameData> _data = CreateRef<GameData>();
 		sf::Event ev{};
 
-		const float dt = 1.0f / 120.f;
+		const float dt = 1.0f / FRAMERATELIMIT;
 		sf::Clock dtClock;
-
+		float fps = 0;
 	private:
 		//Default
 		sf::Text _defaulttext;
+		sf::Text _fpstext;
 
 		sf::Text _versionoftheeng{};
 		void DefaultEvent() const;

@@ -10,6 +10,8 @@
 #include "Game_Impl/Enemy.hpp"
 #include "Game_Impl/Camera.hpp"
 
+#include <deque>
+
 namespace _Swag {
 	class GameState : public State
 	{
@@ -21,6 +23,7 @@ namespace _Swag {
 			float enemie_speed_factor = 0;
 			float enemy_damage_factor = 0;
 			int enemy_points_factor = 0;
+			float enemy_lifetime = 0;
 	
 			float player_speed = 0;
 			float player_attack_cooldown_max = 0;
@@ -51,7 +54,7 @@ namespace _Swag {
 		Ref<_gui::ProgressBar> _playerBoostBar;
 		unsigned points = 0;
 
-		std::vector<Ref<Bullet>> _bullets;
+		std::deque<Ref<Bullet>> _bullets;
 
 		//ENEMY
 		float spawnerTimer = 0;
@@ -59,11 +62,13 @@ namespace _Swag {
 		std::vector<Ref<Enemy>> _enemies;
 		bool allenemiedeleted = false;
 
+		std::deque<float> dque;
 		//Environment
 		sf::Sprite _background;
 
 	private:
 		void UpdateGui();
 		void UpdateBullets();
+		void SpawnEnemy();
 	};
 }

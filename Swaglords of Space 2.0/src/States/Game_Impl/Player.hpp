@@ -33,6 +33,7 @@ namespace _Swag {
 
 		void move();
 		void move(const float dirX, const float dirY, bool withmovementspeed);
+		void recoil(sf::Vector2f);
 
 		void rotate(const float angle);
 

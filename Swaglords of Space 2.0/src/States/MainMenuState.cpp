@@ -43,6 +43,7 @@ namespace _Swag {
 		);
 
 		this->_data->assets.LoadTexture("Ship_Texture", SHIP_TEXTURE, true);
+		_data->assets.GetTexture("Ship_Texture").generateMipmap();
 
 		this->_ShipLogo.setTexture(_data->assets.GetTexture("Ship_Texture"));
 		this->_ShipLogo.setOrigin(_ShipLogo.getGlobalBounds().width / 2, _ShipLogo.getGlobalBounds().height / 2);
@@ -127,7 +128,6 @@ namespace _Swag {
 			it.second->render(_data->window);
 		}
 
-		_data->window.display();
 	}
 
 	void MainMenuState::OnDestroy()

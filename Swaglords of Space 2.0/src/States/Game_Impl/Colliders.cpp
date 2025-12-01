@@ -8,6 +8,10 @@
 
 #include <execution>
 
+#include <SFML/System.hpp>
+
+#include "Core/Timer.hpp"
+
 //#define SAVE_COLLIDER 
 //#define OLD_DETECTION
 #define NEW_MASKGEN_ALG
@@ -18,6 +22,7 @@ namespace _Swag {
 	Collider::Collider(Ref<sf::Sprite> spr)
 		:sp(spr)
 	{
+		//Timer timer;
 		bottom = spr->getGlobalBounds().top + spr->getGlobalBounds().height;
 		left = spr->getGlobalBounds().left;
 		right = spr->getGlobalBounds().left + spr->getGlobalBounds().width;
@@ -91,6 +96,7 @@ namespace _Swag {
 				row[x] = (image.getPixel(x, y).a > 0);
 		});
 
+		//_SWAG_TRACE("Time taken to calculate Collider Mask is {0} ms", timer.ElapsedTime().asMilliseconds());
 #endif // NEW_MASKGEN_ALG
 #endif // OLD_MASKGEN_ALG
 #endif
@@ -168,6 +174,8 @@ namespace _Swag {
 			
 		}
 #else
+		//Timer timer;
+
 		sf::FloatRect intersection;
 		if (!bounds.intersects(another->bounds, intersection))
 		{
@@ -202,10 +210,12 @@ namespace _Swag {
 					mask[lyA][lxA] && another->mask[lyB][lxB])
 				{
 					//_SWAG_TRACE("HEyy");
+					//_SWAG_TRACE("Time taken to Calculate Collision is {0} ms", timer.ElapsedTime().asMilliseconds());
 					return true; // Collision Detected
 				}
 			}
 		}
+
 
 #endif // OLD_DETECTION
 		return false;

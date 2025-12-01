@@ -274,12 +274,15 @@ namespace _Swag::_gui {
 		this->activeElement->updateTextCenter();
 
 		//Show and hide the list
-		if (this->activeElement->isPressed() && this->getKeytime())
+		if (this->activeElement->isPressed() && !this->showList && this->getKeytime())
 		{
+			this->showList = !this->showList;
+			/*
 			if (this->showList)
 				this->showList = false;
 			else
 				this->showList = true;
+			*/
 		}
 		if (this->showList)
 		{

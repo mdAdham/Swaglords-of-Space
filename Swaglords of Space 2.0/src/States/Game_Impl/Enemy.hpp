@@ -4,18 +4,21 @@
 #include "Colliders.hpp"
 #include "Core/Core.hpp"
 #include "Player.hpp"
+#include <glm.hpp>
+
 
 namespace _Swag {
 	class Enemy
 	{
 	public:
-		Enemy(float pos_s, float pos_y, float enemy_damage_factor, float enemy_speed_factor, float enemy_points_factor);
+		Enemy(float pos_x, float pos_y, float enemy_damage_factor, float enemy_speed_factor, float enemy_points_factor, float lifetime);
 		~Enemy() = default;
 
 		//Accessors
 		const sf::FloatRect getBounds() const;
 		const int& getPoints() const;
 		const int getDamage() const;
+		const bool isAlive();
 
 		//Functions
 		void update(float dt);
@@ -30,5 +33,7 @@ namespace _Swag {
 		unsigned int damage = 0;
 		int playerpoints = 0;
 		float dt = 0;
+		float lifetime = 0;
+		float lifetimeCounter = 0;
 	};
 }

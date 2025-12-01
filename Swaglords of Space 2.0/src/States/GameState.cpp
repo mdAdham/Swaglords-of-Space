@@ -1,5 +1,8 @@
 #include "GameState.hpp"
 #include "Core/Deffinitions.hpp"
+#include <glm.hpp>
+#include <gtc/random.hpp>
+#include <gtc/constants.hpp>
 
 namespace _Swag {
 	GameState::GameState(Ref<GameData> data, GameModes modes)
@@ -15,10 +18,12 @@ namespace _Swag {
 		_data->assets.LoadTexture("Bullet_Texture", BULLET_TEXTURE, true);
 		_data->assets.LoadTexture("Background_Texture", BACKGROUND_TEXTURE, false);
 
+		_data->assets.GetTexture("Background_Texture").setSmooth(true);
+		_data->assets.GetTexture("Background_Texture").generateMipmap();
 		_background.setTexture(_data->assets.GetTexture("Background_Texture"));
 		_background.setOrigin(_background.getGlobalBounds().width / 2, _background.getGlobalBounds().height / 2);
 		_background.setPosition(0, 0);
-		_background.setScale(10.f, 10.f);
+		_background.setScale(20.f, 20.f);
 		
 
 		_Player = CreateRef<Player>();
@@ -65,31 +70,43 @@ namespace _Swag {
 			{
 				_bullets[i]->update(dt);
 
+				if (!_bullets[i]->isAlive())
+				{
+					this->_bullets[i].~shared_ptr();
+					this->_bullets.erase(this->_bullets.begin() + i);
+					continue;
+				}
+				/*
 				if (_bullets[i]->getBounds().top + _bullets[i]->getBounds().height <= 0.f)
 				{
 					this->_bullets[i].~shared_ptr();
 					this->_bullets.erase(this->_bullets.begin() + i);
 				}
+				*/
 			}
 
 			//UPDATE ENEMIE
 			this->spawnerTimer += 0.5f;
 			if (this->spawnerTimer >= this->spawnerTimerMax)
 			{
-				this->_enemies.push_back(CreateRef<Enemy>(
-					rand() % this->_data->window.getSize().x + 10.f, -100.0f,
-					_modes.enemy_damage_factor,
-					_modes.enemie_speed_factor,
-					static_cast<float>(_modes.enemy_points_factor)
-				));
+				SpawnEnemy();
 				this->spawnerTimer = 0.f;
 			}
 
-			for (unsigned i = 0; i < this->_enemies.size(); i++)
+			for (size_t i = 0; i < this->_enemies.size(); i++)
 			{
 				_enemies[i]->update(dt);
 				_enemies[i]->follow(this->_Player);
 
+				//DELETING ENEMY IF THE DIE
+				if (!_enemies[i]->isAlive())
+				{
+					_enemies[i].~shared_ptr();
+					_enemies.erase(_enemies.begin() + i);
+					continue;
+				}
+
+				/*
 				// DELETING ENEMY AT THE BOTTOM OF THE SCREEN
 				if (_enemies[i]->getBounds().top > this->_data->window.getSize().y)
 				{
@@ -97,17 +114,9 @@ namespace _Swag {
 					_enemies.erase(_enemies.begin() + i);
 					continue;
 				}
+				*/
 
-				// ENEMY PLAYER COLLISION
-				///////////////////////////////////Pixel Perfect///////////////////////////////////////////////
-				/*else if (_enemies[i]->getBounds().intersects(this->_Player->getBounds()))
-				{
-					this->_Player->loseHp(_enemies[i]->getDamage());
-					this->_enemies[i].~shared_ptr();
-					this->_enemies.erase(this->_enemies.begin() + i);
-					//Playes the break sonud
-					continue;
-				}*/
+				// Enemy Player Intersect
 				else if (this->_Player->interset(_enemies[i]->_collider) == true)
 				{
 					this->_Player->loseHp(_enemies[i]->getDamage());
@@ -124,7 +133,13 @@ namespace _Swag {
 				bool enemy_deleted = false;
 				for (size_t j = 0; j < this->_bullets.size(); j++)
 				{
-					if (this->_enemies[i]->getBounds().intersects(this->_bullets[j]->getBounds()))
+					if (i == this->_enemies.size())
+					{
+						_SWAG_CRITICAL("THIS MUST BE NOT POSSIBLE:: i == enemies.size() <- Something is wrong");
+						continue;
+					}
+
+					if (this->_enemies[i]->getBounds().intersects(this->_bullets.at(j)->getBounds()))
 					{
 						this->points += this->_enemies[i]->getPoints();
 
@@ -200,8 +215,6 @@ namespace _Swag {
 		_playerHpBar->render(_data->window);
 		_playerBoostBar->render(_data->window);
 
-
-		_data->window.display();
 	}
 
 	void GameState::UpdateGui()
@@ -219,7 +232,7 @@ namespace _Swag {
 
 			sf::Vector2f direction(std::cos(angleRadiens), std::sin(angleRadiens));
 
-			sf::Vector2f muzzleOffset = direction * this->_Player->getBounds().height / 2.f;
+			sf::Vector2f muzzleOffset = direction * (this->_Player->getBounds().height / 2.f);
 			sf::Vector2f bulletStartingPos = _Player->getPos() + muzzleOffset;
 
 			auto& bullet = this->_bullets.emplace_back(CreateRef<Bullet>(
@@ -228,13 +241,41 @@ namespace _Swag {
 				bulletStartingPos.y,
 				direction.x,
 				direction.y,
-				_modes.bullet_speed
+				_modes.bullet_speed,
+				5.f
 			));
 			
 			bullet->rotate(_Player->getRot());
 
-			sf::Vector2f recoil = -direction;
-			this->_Player->move(recoil.x, recoil.y, false);
+			sf::Vector2f recoil = -direction * 2.f;
+			this->_Player->recoil(recoil);
 		}
+	}
+	void GameState::SpawnEnemy()
+	{
+		glm::vec2 playerPos = { this->_Player->getPos().x, this->_Player->getPos().y };
+
+		float angle = glm::linearRand(0.0f, glm::two_pi<float>());
+		float radius = glm::linearRand(3000.f, 4000.f);
+
+		glm::vec2 spawnOffset = {
+			glm::cos(angle) * radius,
+			glm::sin(angle) * radius
+		};
+
+		glm::vec2 enemyPos = {
+			playerPos.x + spawnOffset.x,
+			playerPos.y + spawnOffset.y
+		};
+
+		//_SWAG_TRACE(playerPos.s);
+
+		this->_enemies.push_back(CreateRef<Enemy>(
+			enemyPos.x, enemyPos.y,
+			_modes.enemy_damage_factor,
+			_modes.enemie_speed_factor,
+			static_cast<float>(_modes.enemy_points_factor),
+			_modes.enemy_lifetime //seconds
+		));
 	}
 }

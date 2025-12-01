@@ -1,10 +1,11 @@
 #include "Enemy.hpp"
 #include "Core/Deffinitions.hpp"
-#include "sstream"
+#include <sstream>
+#include <glm.hpp>
 
 namespace _Swag {
 	static int val = 1;
-	Enemy::Enemy(float pos_x, float pos_y, float enemy_damage_factor = 1, float enemy_speed_factor = 1, float enemy_points_factor = 1)
+	Enemy::Enemy(float pos_x, float pos_y, float enemy_damage_factor = 1, float enemy_speed_factor = 1, float enemy_points_factor = 1, float lifetime = 10.f)
 	{
 		this->pointCount = (rand() % 8) + 3; // min = 3 max = 10
 		this->speed = static_cast<float>(this->pointCount / 2) * enemy_speed_factor;
@@ -15,6 +16,7 @@ namespace _Swag {
 		this->shape.setRadius(static_cast<float>(this->pointCount) * 5);
 		this->shape.setPointCount(static_cast<size_t>(this->pointCount));
 		this->shape.setFillColor(sf::Color(rand() % 255 + 1, rand() % 255 + 1, rand() % 255 + 1, 255));
+		this->lifetime = lifetime;
 
 		sf::Image img;
 		sf::RenderTexture rtex;
@@ -67,6 +69,17 @@ namespace _Swag {
 		return this->damage;
 	}
 
+	const bool Enemy::isAlive()
+	{
+		this->lifetimeCounter += dt;
+		if (this->lifetimeCounter >= this->lifetime)
+		{
+			this->lifetimeCounter = 0.f;
+			return false;
+		}
+		return true;
+	}
+
 	//Functions
 	void Enemy::update(float dt)
 	{
@@ -78,29 +91,16 @@ namespace _Swag {
 
 	void Enemy::follow(const Ref<Player>& player)
 	{
-		float angleDegrees = player->getRot() - 90.f;
-		float angleRadiens = angleDegrees * 3.14159f / 180.f;
+		glm::vec2 my_pos = { shape.getPosition().x, shape.getPosition().y };
+		glm::vec2 pos = { player->getPos().x, player->getPos().y };
 
-		sf::Vector2f direction(std::cos(angleRadiens), std::sin(angleRadiens));
-		direction.x *= -1;
-		direction.y *= -1;
+		float theta = std::atan2((pos.y - my_pos.y) * ENEMY_MOVEMENT_INERTIA, (pos.x - my_pos.x) * ENEMY_MOVEMENT_INERTIA);
+		sf::Vector2f direction(glm::cos(theta), std::sin(theta));
 
-		this->shape.move(speed * direction * dt * 100.f);
-		_sprite->move(speed * direction * dt * 100.f);
-		/*
-		current_Position = player->getPos();
-		target_Position = this->shape.getPosition();
-		
-		newPos = (current_Position + (target_Position - current_Position) * factor) * dt;
+		sf::Vector2f offset = speed * direction * dt * 100.f;
 
-		this->shape.move(-newPos.x, newPos.y);
-		_sprite->move(-newPos.x, newPos.y);
-
-		//_SWAG_DEBUGS("{0}, {1}", newPos.x, newPos.y);
-
-		//this->shape.move(0.f, 10.f);
-		//_sprite->move(0.f, 10.f);
-		*/
+		this->shape.move(offset);
+		_sprite->move(offset);
 	}
 
 	void Enemy::render(sf::RenderTarget* target) const

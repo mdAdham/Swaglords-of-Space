@@ -58,11 +58,12 @@ namespace _Swag {
 			switch (_difficultyLevelSelector->getActiveElementId())
 			{
 			case 0: { //American
-				mode.enemie_spawner_Time_Max = 5.f;
+				mode.enemie_spawner_Time_Max = 70.f;
 				mode.bullet_speed = 3500.f;
 				mode.enemy_damage_factor = 1;
 				mode.enemie_speed_factor = .8f;
 				mode.enemy_points_factor = 4;
+				mode.enemy_lifetime = 15.f;
 
 				mode.player_speed = 6.0f;
 				mode.player_attack_cooldown_max = 8.0f;
@@ -75,6 +76,7 @@ namespace _Swag {
 				mode.enemy_damage_factor = 1;
 				mode.enemie_speed_factor = 1;
 				mode.enemy_points_factor = 3;
+				mode.enemy_lifetime = 18.f;
 
 				mode.player_speed = 7.10f;
 				mode.player_attack_cooldown_max = 10.0f;
@@ -87,6 +89,7 @@ namespace _Swag {
 				mode.enemy_damage_factor = 2;
 				mode.enemie_speed_factor = 1.5;
 				mode.enemy_points_factor = 2;
+				mode.enemy_lifetime = 20.f;
 
 				mode.player_speed = 10.0f;
 				mode.player_attack_cooldown_max = 14.0f;
@@ -94,11 +97,12 @@ namespace _Swag {
 				mode.player_max_boost = 150;
 			}break;
 			case 3: { //Indian
-				mode.enemie_spawner_Time_Max = 20.f;
+				mode.enemie_spawner_Time_Max = 25.f;
 				mode.bullet_speed = 4000.f;
 				mode.enemy_damage_factor = 4;
 				mode.enemie_speed_factor = 2;
 				mode.enemy_points_factor = 1;
+				mode.enemy_lifetime = 25.f;
 
 				mode.player_speed = 13.1f;
 				mode.player_attack_cooldown_max = 18.0f;
@@ -111,6 +115,7 @@ namespace _Swag {
 				mode.enemy_damage_factor = .5;
 				mode.enemie_speed_factor = .5;
 				mode.enemy_points_factor = 4;
+				mode.enemy_lifetime = 15.f;
 
 				mode.player_speed = 6.0f;
 				mode.player_attack_cooldown_max = 8.0f;
@@ -127,8 +132,6 @@ namespace _Swag {
 		_data->window.draw(this->_diffText);
 		_difficultyLevelSelector->render(_data->window);
 		_Play_Btn->render(_data->window);
-
-		_data->window.display();
 	}
 	
 }

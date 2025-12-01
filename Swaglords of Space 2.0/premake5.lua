@@ -32,6 +32,7 @@ project "Swaglords of Space 2.0"
 	{
 		"%{wks.location}/vendor/SFML/include",
 		"%{wks.location}/vendor/spdlog/include",
+		"%{wks.location}/vendor/glm/glm",
 		"%{wks.location}/Swaglords of Space 2.0/src"
 	}
 
