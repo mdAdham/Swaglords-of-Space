@@ -29,6 +29,7 @@ namespace _Swag {
 			float player_attack_cooldown_max = 0;
 			int player_max_hp = 0;
 			int player_max_boost = 0;
+			float player_boost_cooldown_max = 0;
 		};
 		
 		GameState(Ref<GameData> data, GameModes modes);
@@ -52,6 +53,8 @@ namespace _Swag {
 		Ref<Player> _Player;
 		Ref<_gui::ProgressBar> _playerHpBar;
 		Ref<_gui::ProgressBar> _playerBoostBar;
+		float boostIncrementTimer = 0;
+		float boostIncrementTimerMax = 0;
 		unsigned points = 0;
 
 		std::deque<Ref<Bullet>> _bullets;

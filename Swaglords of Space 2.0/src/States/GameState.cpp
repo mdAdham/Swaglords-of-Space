@@ -38,6 +38,9 @@ namespace _Swag {
 		this->spawnerTimerMax = _modes.enemie_spawner_Time_Max;
 		this->spawnerTimer = this->spawnerTimerMax;
 
+		this->boostIncrementTimerMax = _modes.player_boost_cooldown_max;
+		this->boostIncrementTimer = boostIncrementTimerMax;
+
 		_Camera = CreateRef<Camera>(_Player->getPos(), sf::Vector2f(WINDOW_WIDHT, WINDOW_HEIGHT), 1.0f);
 	}
 	void GameState::OnEvent(sf::Event& ev)
@@ -95,6 +98,13 @@ namespace _Swag {
 				this->spawnerTimer = 0.f;
 			}
 
+			this->boostIncrementTimer += dt;
+			if (this->boostIncrementTimer >= this->boostIncrementTimerMax)
+			{
+				this->_Player->gainBoost(20);
+				this->boostIncrementTimer = 0;
+			}
+
 			for (size_t i = 0; i < this->_enemies.size(); i++)
 			{
 				_enemies[i]->update(dt);
@@ -107,16 +117,6 @@ namespace _Swag {
 					_enemies.erase(_enemies.begin() + i);
 					continue;
 				}
-
-				/*
-				// DELETING ENEMY AT THE BOTTOM OF THE SCREEN
-				if (_enemies[i]->getBounds().top > this->_data->window.getSize().y)
-				{
-					_enemies[i].~shared_ptr();
-					_enemies.erase(_enemies.begin() + i);
-					continue;
-				}
-				*/
 
 				// Enemy Player Intersect
 				else if (this->_Player->interset(_enemies[i]->_collider) == true)
@@ -145,11 +145,14 @@ namespace _Swag {
 					{
 						this->points += this->_enemies[i]->getPoints();
 
+						this->_Player->gainBoost(this->_enemies[i]->getDamage());
+
 						this->_enemies[i].~shared_ptr();
 						this->_enemies.erase(this->_enemies.begin() + i);
 
 						this->_bullets[j].~shared_ptr();
 						this->_bullets.erase(this->_bullets.begin() + j);
+
 
 						enemy_deleted = true;
 
@@ -230,7 +233,7 @@ namespace _Swag {
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && this->_Player->canAttack() || sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && this->_Player->canAttack())
 		{
 			float angleDegrees = _Player->getRot() - 90.f;
-			float angleRadiens = angleDegrees * 3.14159f / 180.f;
+			float angleRadiens = glm::radians(angleDegrees);
 
 
 			sf::Vector2f direction(std::cos(angleRadiens), std::sin(angleRadiens));

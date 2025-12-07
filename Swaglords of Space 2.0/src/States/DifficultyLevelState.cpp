@@ -69,6 +69,8 @@ namespace _Swag {
 				mode.player_attack_cooldown_max = 8.0f;
 				mode.player_max_hp = 200;
 				mode.player_max_boost = 600;
+				mode.player_boost_cooldown_max = 3.f;
+				
 			}break;
 			case 1: { //Intermediate
 				mode.enemie_spawner_Time_Max = 50.f;
@@ -82,6 +84,8 @@ namespace _Swag {
 				mode.player_attack_cooldown_max = 10.0f;
 				mode.player_max_hp = 100;
 				mode.player_max_boost = 300;
+				mode.player_boost_cooldown_max = 3.f;
+
 			}break;
 			case 2: { //Pro
 				mode.enemie_spawner_Time_Max = 35.f;
@@ -95,6 +99,8 @@ namespace _Swag {
 				mode.player_attack_cooldown_max = 14.0f;
 				mode.player_max_hp = 50;
 				mode.player_max_boost = 150;
+				mode.player_boost_cooldown_max = 2.f;
+
 			}break;
 			case 3: { //Indian
 				mode.enemie_spawner_Time_Max = 25.f;
@@ -108,6 +114,8 @@ namespace _Swag {
 				mode.player_attack_cooldown_max = 18.0f;
 				mode.player_max_hp = 25;
 				mode.player_max_boost = 75;
+				mode.player_boost_cooldown_max = 1.4f;
+
 			}break;
 			default:
 				mode.enemie_spawner_Time_Max = 60.f;
@@ -121,9 +129,10 @@ namespace _Swag {
 				mode.player_attack_cooldown_max = 8.0f;
 				mode.player_max_hp = 200;
 				mode.player_max_boost = 600;
+				mode.player_boost_cooldown_max = 3.f;
 				break;
 			}
-			_data->machine.AddState(CreateRef<GameState>(_data, mode), true); return;
+			_data->machine.AddState(CreateRef<GameState>(_data, mode), false); return;
 		}
 	}
 	
