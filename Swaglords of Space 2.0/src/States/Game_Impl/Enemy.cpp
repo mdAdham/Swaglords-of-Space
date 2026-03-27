@@ -7,9 +7,9 @@ namespace _Swag {
 	static int val = 1;
 	Enemy::Enemy(float pos_x, float pos_y, float enemy_damage_factor = 1, float enemy_speed_factor = 1, float enemy_points_factor = 1, float lifetime = 10.f)
 	{
-		this->pointCount = (rand() % 8) + 3; // min = 3 max = 10
+		this->pointCount = static_cast<unsigned int>((rand() % 8) + 3); // min = 3 max = 10
 		this->speed = static_cast<float>(this->pointCount / 2) * enemy_speed_factor;
-		this->damage = static_cast<unsigned int>(this->pointCount * enemy_damage_factor);
+		this->damage = static_cast<unsigned int>(static_cast<float>(this->pointCount) * enemy_damage_factor);
 
 		this->playerpoints = static_cast<int>(this->pointCount * enemy_points_factor);
 		

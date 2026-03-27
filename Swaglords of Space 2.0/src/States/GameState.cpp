@@ -42,6 +42,8 @@ namespace _Swag {
 		this->boostIncrementTimer = boostIncrementTimerMax;
 
 		_Camera = CreateRef<Camera>(_Player->getPos(), sf::Vector2f(WINDOW_WIDHT, WINDOW_HEIGHT), 1.0f);
+
+		_particleSystem.Init({ 192, 108 }, 100, sf::Color::Blue, { 20.f, 20.f }, {30.f, 30.f}, 20, 25, 5, 20, true);
 	}
 	void GameState::OnEvent(sf::Event& ev)
 	{
@@ -49,12 +51,21 @@ namespace _Swag {
 		{
 			_Camera->Zoom(ev.mouseWheelScroll.delta);
 		}
+
+		if (ev.key.code == sf::Keyboard::P)
+		{
+			sf::Vector2f pos = sf::Vector2f(_Player->getPos().x, _Player->getPos().y);
+
+			_particleSystem.EmitFrom(pos, sf::Vector2f(0.f, 0.f), 30, 1000, 5, 10, _Player->velocity);
+		}
 	}
 
 	void GameState::OnUpdate(float dt)
 	{
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::N))
 			_SWAG_CRITICAL("Number of Enemies: {0}", this->_enemies.size());
+
+		_particleSystem.Update(dt, {0,0});
 
 		if (this->_Player->getHp() != 0)
 		{
@@ -105,6 +116,9 @@ namespace _Swag {
 				this->boostIncrementTimer = 0;
 			}
 
+#define NORMAL_FOR 0
+#if NORMAL_FOR
+			// NORMAL FOR
 			for (size_t i = 0; i < this->_enemies.size(); i++)
 			{
 				_enemies[i]->update(dt);
@@ -161,6 +175,62 @@ namespace _Swag {
 				}
 			}
 
+#else
+			// NEW FOR
+
+			_deadEnemyIndicies.clear();
+			_deadBulletIndicies.clear();
+
+			for (size_t i = 0; i < this->_enemies.size(); i++)
+			{
+				_enemies[i]->update(dt);
+				_enemies[i]->follow(this->_Player);
+
+				if (!_enemies[i]->isAlive())
+				{
+					_deadEnemyIndicies.push_back(_enemies.begin() + i);
+					continue;
+				}
+
+				else if (_Player->interset(_enemies[i]->_collider) == true)
+				{
+					_Player->loseHp(_enemies[i]->getDamage());
+					_deadEnemyIndicies.push_back(_enemies.begin() + i);
+					continue;
+				}
+
+				// Enemy Bullet Collision
+				for (size_t j = 0; j < this->_bullets.size(); j++)
+				{
+					if (i == this->_enemies.size())
+					{
+						_SWAG_CRITICAL("THIS MUST BE NOT POSSIBLE:: i == enemies.size() <- Something is wrong");
+						continue;
+					}
+
+					if (this->_enemies[i]->getBounds().intersects(this->_bullets.at(j)->getBounds()))
+					{
+						this->points += this->_enemies[i]->getPoints();
+
+						this->_Player->gainBoost(this->_enemies[i]->getDamage());
+
+						this->_deadEnemyIndicies.push_back(this->_enemies.begin() + i);
+						this->_deadBulletIndicies.push_back(this->_bullets.begin() + j);
+
+						// Play the Break Sound
+					}
+				}
+			}
+
+			for (auto& index : _deadEnemyIndicies)
+			{
+				_enemies.erase(index);
+			}
+			for (auto& index : _deadBulletIndicies)
+			{
+				_bullets.erase(index);
+			}
+#endif
 			//_SWAG_TRACE("No of Enimies: {0}, No of Bullets: {1}", _enemies.size(), _bullets.size());
 		}
 		else
@@ -215,6 +285,9 @@ namespace _Swag {
 				_data->window.draw(rect);*/
 			}
 		}
+		_particleSystem.Draw(_data->window);
+		_particleSystem.Follow(_Player->getPos(), _data->window);
+
 		_Camera->EndCameraRegion(_data->window);
 
 		_playerHpBar->render(_data->window);

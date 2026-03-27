@@ -46,8 +46,7 @@ namespace _Swag {
 		Ref<Collider> _collider;
 	private:
 		Ref<sf::Sprite> _sprite;
-
-		sf::Vector2f velocity;
+		
 		float _movementSpeed = 0.f;
 
 		float _attackCooldown = 0.f;
@@ -60,5 +59,7 @@ namespace _Swag {
 		int _boostMax = 0;
 
 		float dt = 0.f;
+	public:
+		sf::Vector2f velocity;
 	};
 }

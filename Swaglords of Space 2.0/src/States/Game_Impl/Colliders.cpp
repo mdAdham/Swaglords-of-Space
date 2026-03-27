@@ -91,7 +91,7 @@ namespace _Swag {
 
 		// Parallel Generation
 		std::for_each(std::execution::par, mask.begin(), mask.end(), [&image, this, size](std::vector<bool>& row) {
-			int y = static_cast<int>(& row - &mask[0]); //Get the current row index
+			unsigned int y = static_cast<int>(& row - &mask[0]); //Get the current row index
 			for (unsigned int x = 0; x < size.x; ++x)
 				row[x] = (image.getPixel(x, y).a > 0);
 		});

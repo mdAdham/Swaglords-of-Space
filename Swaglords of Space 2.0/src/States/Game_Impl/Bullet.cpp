@@ -39,11 +39,11 @@ namespace _Swag {
 		this->_shape.rotate(rotate);
 	}
 
-	void Bullet::update(float dt)
+	void Bullet::update(float _dt)
 	{
 		//Movement
-		this->dt = dt;
-		this->_shape.move(this->_movementSpeed * this->_direction * dt);
+		this->dt = _dt;
+		this->_shape.move(this->_movementSpeed * this->_direction * this->dt);
 	}
 
 	void Bullet::render(sf::RenderTarget* target) const

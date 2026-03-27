@@ -10,6 +10,8 @@
 #include "Game_Impl/Enemy.hpp"
 #include "Game_Impl/Camera.hpp"
 
+#include "Game_Impl/ParticleSystem.hpp"
+
 #include <deque>
 
 namespace _Swag {
@@ -66,8 +68,12 @@ namespace _Swag {
 		bool allenemiedeleted = false;
 
 		std::deque<float> dque;
+		std::vector<std::vector<Ref<Enemy>>::iterator> _deadEnemyIndicies;
+		std::vector<std::deque<Ref<Bullet>>::iterator> _deadBulletIndicies;
+
 		//Environment
 		sf::Sprite _background;
+		ParticleSystem _particleSystem;
 
 	private:
 		void UpdateGui();
