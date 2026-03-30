@@ -12,7 +12,7 @@ public:
 	// Initializes/creates `count` particles at `pos`. Keeps original signature.
 	void Init(const sf::Vector2f& pos, int count, const sf::Color& color, const sf::Vector2f& initial_velocity_min,
 		const sf::Vector2f& initial_velocity_max, const float& duration_min, const float& duration_max,
-		const int& size_min, const int& size_max, bool enable);
+		const int& size_min, const int& size_max, bool enable, float airDrag);
 
 	// Emit additional particles using the same parameters already configured (optional).
 	void Emit(int count);
@@ -64,6 +64,7 @@ private:
 	int m_sizeMin = 1;
 	int m_sizeMax = 1;
 	bool m_enabled = false;
+	float m_airDrag = 0;
 
 	// Random generator used for emissions
 	std::mt19937 m_rng;

@@ -19,7 +19,7 @@ ParticleSystem::ParticleSystem()
 
 void ParticleSystem::Init(const sf::Vector2f& pos, int count, const sf::Color& color, const sf::Vector2f& initial_velocity_min,
 	const sf::Vector2f& initial_velocity_max, const float& duration_min, const float& duration_max,
-	const int& size_min, const int& size_max, bool enable)
+	const int& size_min, const int& size_max, bool enable, float airDrag)
 {
 		// Store parameters for possible later Emit
 	m_initPos = pos;
@@ -31,6 +31,7 @@ void ParticleSystem::Init(const sf::Vector2f& pos, int count, const sf::Color& c
 	m_sizeMin = size_min;
 	m_sizeMax = size_max;
 	m_enabled = enable;
+	m_airDrag = airDrag;
 
 	if (!enable || count <= 0)
 	{
@@ -89,7 +90,7 @@ void ParticleSystem::Emit(int count)
 	if (!m_enabled || count <= 0) return;
 
 	// Reuse Init's stored ranges to emit additional particles at stored pos
-	Init(m_initPos, count, m_initColor, m_velMin, m_velMax, m_durMin, m_durMax, m_sizeMin, m_sizeMax, true);
+	Init(m_initPos, count, m_initColor, m_velMin, m_velMax, m_durMin, m_durMax, m_sizeMin, m_sizeMax, true, m_airDrag);
 	// Note: this replaces the current particle set; if you want to append instead, implement an append-path.
 }
 
@@ -98,7 +99,7 @@ void ParticleSystem::EmitFrom(const sf::Vector2f& pos, const sf::Vector2f& direc
 {
 	if (!m_enabled || count <= 0) return;
 
-	Init(pos, count, m_initColor, -emitterVelocity * speedMin, -emitterVelocity * speedMax, m_durMin, m_durMax, m_sizeMin, m_sizeMax, true);
+	Init(pos, count, m_initColor, -emitterVelocity * speedMin, -emitterVelocity * speedMax, m_durMin, m_durMax, m_sizeMin, m_sizeMax, true, m_airDrag);
 }
 
 void ParticleSystem::Update(float dt, const sf::Vector2f& globalForce)
@@ -115,6 +116,7 @@ void ParticleSystem::Update(float dt, const sf::Vector2f& globalForce)
 
 		pair.first.move(p.velocity * dt);
 		p.age += dt;
+		p.velocity -= p.velocity * m_airDrag;
 	}
 
 	// Handle pairwise collisions (naive O(n^2))
@@ -233,11 +235,36 @@ void ParticleSystem::Follow(const sf::Vector2f& pos, sf::RenderTarget& target)
 		cvec = sf::Vector2f(pos.x - particle.first.getPosition().x,
 			pos.y - particle.first.getPosition().y);
 
-		normal = sf::Vector2f(cvec.x / sqrt(pow(cvec.x, 2) + pow(cvec.y, 2)),
-			cvec.y / sqrt(pow(cvec.x, 2) + pow(cvec.y, 2)));
+		float magnitude = (float)sqrt(pow(cvec.x, 2) + pow(cvec.y, 2));
 
-		particle.first.move({ normal.x * -1, normal.y * -1 });
+		normal = sf::Vector2f(cvec.x / magnitude,
+			cvec.y / magnitude);
 
-		DrawNormalLine(particle.first.getPosition(), -normal, target);
+		/*
+			* float distance = length(light.position - FragPos);// * .02;
+			//float distance = 1.0;
+			float attenuation = min(1.0 / ((light.constant + light.linear *
+								distance + light.quadratic * (distance * distance))),
+								1.0
+								);
+		*/
+
+		{
+
+			float linearConstant = 0.14;
+			float quadraticConstant = 0.07;
+
+			float attenuation = std::min(1.0 / ((1 + linearConstant *
+				magnitude + quadraticConstant * (magnitude * magnitude))),
+				1.0
+			);
+
+			magnitude *= attenuation;
+		}
+		magnitude *= 10;
+
+		particle.first.move({ normal.x * 1 * magnitude, normal.y * 1 * magnitude});
+
+		//DrawNormalLine(particle.first.getPosition(), normal, target);
 	}
 }

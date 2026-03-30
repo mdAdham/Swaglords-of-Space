@@ -43,7 +43,7 @@ namespace _Swag {
 
 		_Camera = CreateRef<Camera>(_Player->getPos(), sf::Vector2f(WINDOW_WIDHT, WINDOW_HEIGHT), 1.0f);
 
-		_particleSystem.Init({ 192, 108 }, 100, sf::Color::Blue, { 20.f, 20.f }, {30.f, 30.f}, 20, 25, 5, 20, true);
+		_particleSystem.Init({ 192, 108 }, 500, sf::Color::Blue, { 20.f, 20.f }, {30.f, 30.f}, 20, 25, 1, 5, true, 0.01);
 	}
 	void GameState::OnEvent(sf::Event& ev)
 	{
@@ -56,7 +56,7 @@ namespace _Swag {
 		{
 			sf::Vector2f pos = sf::Vector2f(_Player->getPos().x, _Player->getPos().y);
 
-			_particleSystem.EmitFrom(pos, sf::Vector2f(0.f, 0.f), 30, 1000, 5, 10, _Player->velocity);
+			_particleSystem.EmitFrom(pos, sf::Vector2f(0.f, 0.f), 30, 1000, 5, 10, sf::Vector2f( _Player->velocity.x * 0.1, _Player->velocity.y * 0.1 ));
 		}
 	}
 
