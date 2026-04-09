@@ -6,6 +6,8 @@
 #include <limits>
 #include <execution>
 
+#include <glm.hpp>
+
 ParticleSystem::ParticleSystem()
 {
 	std::random_device rd;
@@ -91,15 +93,82 @@ void ParticleSystem::Emit(int count)
 
 	// Reuse Init's stored ranges to emit additional particles at stored pos
 	Init(m_initPos, count, m_initColor, m_velMin, m_velMax, m_durMin, m_durMax, m_sizeMin, m_sizeMax, true, m_airDrag);
-	// Note: this replaces the current particle set; if you want to append instead, implement an append-path.
+	//EmitFrom(m_initPos, { 0.0f, 0.0f }, 360, count, );
 }
 
 void ParticleSystem::EmitFrom(const sf::Vector2f& pos, const sf::Vector2f& direction, float coneAngleDeg,
-	int count, float speedMin, float speedMax, const sf::Vector2f& emitterVelocity)
+	int count, float speedMin, float speedMax, const sf::Vector2f& emitterVelocity, bool enabled, const sf::Color& color,
+	float sizeMin, float sizeMax)
 {
+	m_enabled = enabled;
+
 	if (!m_enabled || count <= 0) return;
 
-	Init(pos, count, m_initColor, -emitterVelocity * speedMin, -emitterVelocity * speedMax, m_durMin, m_durMax, m_sizeMin, m_sizeMax, true, m_airDrag);
+	if (color == sf::Color::Transparent);
+	else
+		m_initColor = color;
+
+	if (sizeMin == 0 && sizeMax == 0);
+	else
+	{
+		m_sizeMin = sizeMin;
+		m_sizeMax = sizeMax;
+	}
+
+	//Init(pos, count, m_initColor, -emitterVelocity * speedMin, -emitterVelocity * speedMax, m_durMin, m_durMax, m_sizeMin, m_sizeMax, true, m_airDrag);
+
+	float coneAngleRad = glm::radians(coneAngleDeg);
+
+	// Prepare distributions
+	std::uniform_real_distribution<float> durationDist(m_durMin, m_durMax);
+	std::uniform_int_distribution<int> sizeDist(m_sizeMin, m_sizeMax);
+	std::uniform_int_distribution<int> pointDist(3, 9);
+	std::uniform_real_distribution<float> angleDist(-coneAngleRad, coneAngleRad);
+	std::uniform_real_distribution<float> speedDist(speedMin, speedMax);
+
+	for (int i = 0; i < count; i++)
+	{
+		int radius = sizeDist(m_rng);
+		int pointcount = pointDist(m_rng);
+		float duration = durationDist(m_rng);
+
+		sf::CircleShape shape(static_cast<float>(radius), static_cast<size_t>(pointcount));
+
+		shape.setFillColor(m_initColor);
+		shape.setOrigin(static_cast<float>(radius), static_cast<float>(radius));
+		shape.setPosition(pos);
+
+		Particle p;
+		p.duration = duration;
+		p.age = 0.0f;
+		p.mass = std::max(0.01f, 3.14159265f * radius * radius * 0.001f);
+
+
+		{
+			// For the Emmision Cone - (-coneAngleRad, coneAngleRad)
+
+			glm::vec2 emmiterVel = { emitterVelocity.x, emitterVelocity.y };
+			glm::vec2 normalVec = glm::normalize(emmiterVel);
+
+			float angle = angleDist(m_rng);
+			float cosA = std::cos(angle);
+			float sinA = std::sin(angle);
+
+			glm::vec2 rotatedNormal = {
+				normalVec.x * cosA - normalVec.y * sinA,
+				normalVec.x * sinA + normalVec.y * cosA
+			};
+
+			float speed = speedDist(m_rng);
+
+			p.velocity = { rotatedNormal.x * speed * 10, rotatedNormal.y * speed * 10};
+			//p.velocity = emitterVelocity;
+		}
+
+
+
+		m_particles.emplace_back(std::move(shape), p);
+	}
 }
 
 void ParticleSystem::Update(float dt, const sf::Vector2f& globalForce)
@@ -116,7 +185,7 @@ void ParticleSystem::Update(float dt, const sf::Vector2f& globalForce)
 
 		pair.first.move(p.velocity * dt);
 		p.age += dt;
-		p.velocity -= p.velocity * m_airDrag;
+		p.velocity -= p.velocity * m_airDrag * dt;
 	}
 
 	// Handle pairwise collisions (naive O(n^2))
@@ -241,10 +310,8 @@ void ParticleSystem::Follow(const sf::Vector2f& pos, sf::RenderTarget& target)
 			cvec.y / magnitude);
 
 		/*
-			* float distance = length(light.position - FragPos);// * .02;
-			//float distance = 1.0;
-			float attenuation = min(1.0 / ((light.constant + light.linear *
-								distance + light.quadratic * (distance * distance))),
+			float attenuation = min(1.0 / ((constant + linear_constant *
+								distance + quadratic_constant * (distance * distance))),
 								1.0
 								);
 		*/

@@ -3,6 +3,7 @@
 
 #include <fstream>
 #include <math.h>
+#include <glm.hpp>
 
 #include "Core/Deffinitions.hpp"
 
@@ -24,7 +25,7 @@ namespace _Swag {
 
 		this->_sprite->setTexture(texture);
 
-		this->_sprite->setOrigin(getCenter());
+		this->_sprite->setOrigin(getBounds().left + getBounds().width / 2, getBounds().top + getBounds().height / 2);
 
 		this->_sprite->setPosition(pos);
 		this->_sprite->setScale(sf::Vector2f(0.6f, 0.6f));
@@ -62,6 +63,12 @@ namespace _Swag {
 #endif // F_PLAYER_SAVE_VARIENT_IMAGE
 	}
 
+	void Player::InitParticleSystem()
+	{
+		_particleSysEnable = true;
+		_particleSystem.Init(getThrusterPos(), 10, sf::Color(190, 50, 50), sf::Vector2f(), sf::Vector2f(), 0.1f, 1.f, 1, 6, false, 0.2);
+	}
+
 	const sf::Vector2f& Player::getPos() const
 	{
 		return this->_sprite->getPosition();
@@ -79,11 +86,8 @@ namespace _Swag {
 
 	const sf::Vector2f Player::getCenter() const
 	{
-		sf::Vector2f o = this->_sprite->getOrigin();
-		this->_sprite->setOrigin(0, 0);
-		sf::Vector2f result(getBounds().left + getBounds().width / 2, getBounds().top + getBounds().height / 2);
-		this->_sprite->setOrigin(o);
-		return result;
+		// Asumming that the Center is the Origin of the Box
+		return { getBounds().left + getBounds().width / 2, getBounds().top + getBounds().height / 2 };
 	}
 
 	const int& Player::getHp() const
@@ -104,6 +108,22 @@ namespace _Swag {
 	const int& Player::getBoostMax() const
 	{
 		return this->_boostMax;
+	}
+
+	const sf::Vector2f Player::getThrusterPos() const
+	{
+		sf::Vector2f result;
+
+		float angleDegrees = getRot() - 90.f;
+		float angleRadiens = glm::radians(angleDegrees);
+
+
+		sf::Vector2f direction(std::cos(angleRadiens), std::sin(angleRadiens));
+
+		sf::Vector2f ThrusterOffset = direction * (getBounds().height / 2.4f);
+		result = getPos() - ThrusterOffset;
+
+		return result;
 	}
 
 	void Player::setPosition(const sf::Vector2f pos)
@@ -154,7 +174,7 @@ namespace _Swag {
 		this->dt = dt;
 	}
 
-	void Player::move()
+	void Player::move(ParticleSystem* parsys)
 	{
 		float angleDegrees = getRot() - 90.f;
 		float angleRadiens = angleDegrees * 3.14159f / 180.f;
@@ -178,6 +198,17 @@ namespace _Swag {
 
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 			{
+				if (parsys)
+				{
+					parsys->EmitFrom(getThrusterPos(), { 0.0f, 0.0f }, 60, 5, 
+						6, 11, -velocity);
+				}
+				else if (_particleSysEnable)
+				{
+					_particleSystem.EmitFrom(getThrusterPos(), { 0.0f, 0.0f }, 60, 5,
+						6, 11, -velocity, true);
+				}
+
 				velocity += forward * _movementSpeed * 2.0f; loseBoost(1);
 			}
 
@@ -318,10 +349,17 @@ namespace _Swag {
 			velocity.x = 0.f;
 		if (std::abs(velocity.y) < 0.5f)
 			velocity.y = 0.f;
+
+		if (_particleSysEnable)
+			_particleSystem.Update(dt, sf::Vector2f());
 	}
 
 	void Player::render(sf::RenderTarget& target)
 	{
+		if (_particleSysEnable)
+			_particleSystem.Draw(target);
+
 		target.draw(*this->_sprite);
+
 	}
 }

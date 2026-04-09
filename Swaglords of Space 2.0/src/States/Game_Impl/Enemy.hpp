@@ -18,6 +18,9 @@ namespace _Swag {
 		const sf::FloatRect getBounds() const;
 		const int& getPoints() const;
 		const int getDamage() const;
+		const int getPointCount() const;
+		const sf::Color getColor() const;
+		const float getRadius() const;
 		const bool isAlive();
 
 		//Functions

@@ -66,8 +66,9 @@ namespace _Swag {
 		float spawnerTimerMax = 0;
 		std::vector<Ref<Enemy>> _enemies;
 		bool allenemiedeleted = false;
+		ParticleSystem _enemyDeathParticleSystem;
 
-		std::deque<float> dque;
+
 		std::vector<std::vector<Ref<Enemy>>::iterator> _deadEnemyIndicies;
 		std::vector<std::deque<Ref<Bullet>>::iterator> _deadBulletIndicies;
 

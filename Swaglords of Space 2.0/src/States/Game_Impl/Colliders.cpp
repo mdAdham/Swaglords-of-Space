@@ -211,6 +211,11 @@ namespace _Swag {
 				{
 					//_SWAG_TRACE("HEyy");
 					//_SWAG_TRACE("Time taken to Calculate Collision is {0} ms", timer.ElapsedTime().asMilliseconds());
+
+					// Calculate the Global Intersection Point
+
+					globalIntersectionPoint = sf::Vector2f(x, y);
+
 					return true; // Collision Detected
 				}
 			}
@@ -224,6 +229,10 @@ namespace _Swag {
 	const sf::FloatRect& Collider::GetBounds()
 	{
 		return this->bounds;
+	}
+	const sf::Vector2f Collider::GetIntersectionPoint()
+	{
+		return this->globalIntersectionPoint;
 	}
 	void Collider::Render(sf::RenderWindow& window)
 	{/*

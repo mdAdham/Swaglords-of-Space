@@ -35,7 +35,7 @@ namespace _Swag::Engine_2 {
 
 		this->_data->window.setVerticalSyncEnabled(true);
 
-		_data->assets.LoadFont("Arial_Font", "arial.ttf");
+		_data->assets.LoadFont("Arial_Font", FONT_ARIAL);
 		_defaulttext.setFont(_data->assets.GetFont("Arial_Font"));
 		_defaulttext.setString("This is a default State");
 

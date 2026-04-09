@@ -11,6 +11,7 @@ namespace _Swag {
 		~Bullet() = default;
 
 		const sf::FloatRect getBounds() const;
+		const sf::Vector2f getDirection() const;
 		const bool isAlive();
 		void rotate(const float& rotate);
 

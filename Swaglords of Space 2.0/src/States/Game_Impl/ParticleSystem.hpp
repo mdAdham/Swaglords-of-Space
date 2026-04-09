@@ -17,13 +17,30 @@ public:
 	// Emit additional particles using the same parameters already configured (optional).
 	void Emit(int count);
 
+	/// <summary>
+	/// This Function will Emit number of Particles from a given position with a give velocity
+	/// </summary>
+	/// <param name="pos">Initial Position of the Particles</param>
+	/// <param name="direction">Skip this (It doesn't do anything)</param>
+	/// <param name="coneAngleDeg">The Spreading of the particles</param>
+	/// <param name="count">Number of Particles to Emit</param>
+	/// <param name="speedMin">Minimum Speed of the Particle</param>
+	/// <param name="speedMax">Maximum Speed of the Particle</param>
+	/// <param name="emitterVelocity">The Median Velocity of the Particles</param>
+	/// <param name="enabled">Enable the Emission</param>
+	/// <param name="color">Color of the Particles</param>
+	/// <param name="sizeMin">Minimum Size of the Particle</param>
+	/// <param name="sizeMax">Maximum Size of the Particle</param>
 	void EmitFrom(const sf::Vector2f& pos,
-		const sf::Vector2f & direction,
+		const sf::Vector2f& direction,
 		float coneAngleDeg,
 		int count,
 		float speedMin,
 		float speedMax,
-		const sf::Vector2f & emitterVelocity = { 0.f, 0.f });
+		const sf::Vector2f & emitterVelocity = { 0.f, 0.f },
+		bool enabled = true,
+		const sf::Color& color = sf::Color::Transparent,
+		float sizeMin = 0, float sizeMax = 0);
 
 	// Update all particles: dt in seconds, globalForce applied to each particle (e.g., gravity).
 	void Update(float dt, const sf::Vector2f& globalForce);

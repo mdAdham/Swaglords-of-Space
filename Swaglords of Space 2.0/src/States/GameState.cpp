@@ -1,4 +1,5 @@
 #include "GameState.hpp"
+
 #include "Core/Deffinitions.hpp"
 #include <glm.hpp>
 #include <gtc/random.hpp>
@@ -32,6 +33,8 @@ namespace _Swag {
 
 		_Player->Init(_modes.player_speed, _modes.player_attack_cooldown_max, _modes.player_max_hp, _modes.player_max_boost, _data->assets.GetTexture("Ship_Texture"), sf::Vector2f(_gui::p2pX(50, vm), _gui::p2pY(50, vm)));
 
+		_Player->InitParticleSystem();
+
 		_playerHpBar = CreateRef<_gui::ProgressBar>(.8f, 4.0f, 20.0f, 2.0f, sf::Color::Red, 200u, vm, &_data->assets.GetFont("Arial_Font"));
 		_playerBoostBar = CreateRef<_gui::ProgressBar>(.8f, 7.0f, 17.0f, 2.0f, sf::Color::Blue, 200u, vm, &_data->assets.GetFont("Arial_Font"));
 
@@ -43,7 +46,8 @@ namespace _Swag {
 
 		_Camera = CreateRef<Camera>(_Player->getPos(), sf::Vector2f(WINDOW_WIDHT, WINDOW_HEIGHT), 1.0f);
 
-		_particleSystem.Init({ 192, 108 }, 500, sf::Color::Blue, { 20.f, 20.f }, {30.f, 30.f}, 20, 25, 1, 5, true, 0.01);
+		_particleSystem.Init({ 192, 108 }, 100, sf::Color::Blue, { 20.f, 20.f }, {30.f, 30.f}, 5.f, 10.f, 1, 5, true, 0.3f);
+		_enemyDeathParticleSystem.Init({ 0.0f, 0.0f }, 10, sf::Color::White, sf::Vector2f(), sf::Vector2f(), 0.1f, 1.0f, 1, 2, false, 0.3f);
 	}
 	void GameState::OnEvent(sf::Event& ev)
 	{
@@ -55,8 +59,9 @@ namespace _Swag {
 		if (ev.key.code == sf::Keyboard::P)
 		{
 			sf::Vector2f pos = sf::Vector2f(_Player->getPos().x, _Player->getPos().y);
+			pos = _Player->getThrusterPos();
 
-			_particleSystem.EmitFrom(pos, sf::Vector2f(0.f, 0.f), 30, 1000, 5, 10, sf::Vector2f( _Player->velocity.x * 0.1, _Player->velocity.y * 0.1 ));
+			_particleSystem.EmitFrom(pos, sf::Vector2f(0.f, 0.f), 60, 10, 5, 10, -sf::Vector2f( _Player->velocity.x , _Player->velocity.y ));
 		}
 	}
 
@@ -65,7 +70,8 @@ namespace _Swag {
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::N))
 			_SWAG_CRITICAL("Number of Enemies: {0}", this->_enemies.size());
 
-		_particleSystem.Update(dt, {0,0});
+		_particleSystem.Update(dt, { 0.f,0.f });
+		_enemyDeathParticleSystem.Update(dt, { 0.0f, 0.0f });
 
 		if (this->_Player->getHp() != 0)
 		{
@@ -100,7 +106,7 @@ namespace _Swag {
 				}
 				*/
 			}
-
+			
 			//UPDATE ENEMIE
 			this->spawnerTimer += 0.5f;
 			if (this->spawnerTimer >= this->spawnerTimerMax)
@@ -192,22 +198,24 @@ namespace _Swag {
 					continue;
 				}
 
+				// Enemy Player Collision
 				else if (_Player->interset(_enemies[i]->_collider) == true)
 				{
 					_Player->loseHp(_enemies[i]->getDamage());
 					_deadEnemyIndicies.push_back(_enemies.begin() + i);
+
+					{
+						sf::Vector2f emissionVec(1.f, 1.f);
+
+						_enemyDeathParticleSystem.EmitFrom(_Player->_collider->GetIntersectionPoint(), sf::Vector2f(0.0f, 0.0f), 360, _enemies[i]->getPointCount() * 2,
+							5.f, 10.f, emissionVec, true, _enemies[i]->getColor(), _enemies[i]->getRadius() / 8, _enemies[i]->getRadius() / 6);
+					}
 					continue;
 				}
 
 				// Enemy Bullet Collision
 				for (size_t j = 0; j < this->_bullets.size(); j++)
 				{
-					if (i == this->_enemies.size())
-					{
-						_SWAG_CRITICAL("THIS MUST BE NOT POSSIBLE:: i == enemies.size() <- Something is wrong");
-						continue;
-					}
-
 					if (this->_enemies[i]->getBounds().intersects(this->_bullets.at(j)->getBounds()))
 					{
 						this->points += this->_enemies[i]->getPoints();
@@ -216,6 +224,21 @@ namespace _Swag {
 
 						this->_deadEnemyIndicies.push_back(this->_enemies.begin() + i);
 						this->_deadBulletIndicies.push_back(this->_bullets.begin() + j);
+
+						// Play the Particles
+						{
+
+							sf::Vector2f enemyPos, emissionVec;
+
+							enemyPos.x = _enemies[i]->getBounds().left + _enemies[i]->getBounds().width;
+							enemyPos.y = _enemies[i]->getBounds().top + _enemies[i]->getBounds().height;
+
+							emissionVec.x = _bullets[j]->getDirection().x * 50;
+							emissionVec.y = _bullets[j]->getDirection().y * 50;
+
+							_enemyDeathParticleSystem.EmitFrom(enemyPos, sf::Vector2f(0.0f, 0.0f), 360, _enemies[i]->getPointCount() * 2, 5.f, 10.f, emissionVec,
+								true, _enemies[i]->getColor(), _enemies[i]->getRadius() / 8, _enemies[i]->getRadius() / 6);
+						}
 
 						// Play the Break Sound
 					}
@@ -230,6 +253,8 @@ namespace _Swag {
 			{
 				_bullets.erase(index);
 			}
+
+			_enemyDeathParticleSystem.Update(dt, { 0.0f, 0.0f });
 #endif
 			//_SWAG_TRACE("No of Enimies: {0}, No of Bullets: {1}", _enemies.size(), _bullets.size());
 		}
@@ -286,7 +311,8 @@ namespace _Swag {
 			}
 		}
 		_particleSystem.Draw(_data->window);
-		_particleSystem.Follow(_Player->getPos(), _data->window);
+		_enemyDeathParticleSystem.Draw(_data->window);
+		//_particleSystem.Follow(_Player->getPos(), _data->window);
 
 		_Camera->EndCameraRegion(_data->window);
 

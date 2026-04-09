@@ -14,6 +14,7 @@ const std::string Resource_root_folder = "Swag_Space_2.0_Resource/";
 const std::string SHIP_TEXTURE = Resource_root_folder + "tex/Ship.dat";
 const std::string BULLET_TEXTURE = Resource_root_folder + "tex/Bullet.dat";
 const std::string BACKGROUND_TEXTURE = Resource_root_folder + "tex/Background.png";
+const std::string FONT_ARIAL = Resource_root_folder + "fonts/arial.ttf";
 
 const std::string Radial_Button_UC = Resource_root_folder + "tex/RB_UC.dat";
 const std::string Radial_Button_C = Resource_root_folder + "tex/RB_C.dat";

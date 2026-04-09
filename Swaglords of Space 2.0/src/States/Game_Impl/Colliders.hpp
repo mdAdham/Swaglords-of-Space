@@ -9,10 +9,11 @@ namespace _Swag {
 	{
 	public:
 		Collider(Ref<sf::Sprite> spr);
-	
+
 		void UpdateBounds(sf::FloatRect rect);
 		bool IsCollide(const Ref<Collider>& another);
 		const sf::FloatRect& GetBounds();
+		const sf::Vector2f GetIntersectionPoint();
 
 		void Render(sf::RenderWindow& window);
 	private:
@@ -22,5 +23,7 @@ namespace _Swag {
 		std::vector<std::vector<bool>> mask;
 
 		Ref<sf::Sprite> sp;
+
+		sf::Vector2f globalIntersectionPoint = {0.0f, 0.f};
 	};
 }

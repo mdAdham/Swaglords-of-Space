@@ -69,6 +69,21 @@ namespace _Swag {
 		return this->damage;
 	}
 
+	const int Enemy::getPointCount() const
+	{
+		return this->pointCount;
+	}
+
+	const sf::Color Enemy::getColor() const
+	{
+		return this->shape.getFillColor();
+	}
+
+	const float Enemy::getRadius() const
+	{
+		return this->shape.getRadius();
+	}
+
 	const bool Enemy::isAlive()
 	{
 		this->lifetimeCounter += dt;

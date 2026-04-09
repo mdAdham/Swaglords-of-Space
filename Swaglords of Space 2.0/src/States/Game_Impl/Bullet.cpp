@@ -23,6 +23,11 @@ namespace _Swag {
 		return this->_shape.getGlobalBounds();
 	}
 
+	const sf::Vector2f Bullet::getDirection() const
+	{
+		return this->_direction;
+	}
+
 	const bool Bullet::isAlive()
 	{
 		this->lifetimeCounter += dt;

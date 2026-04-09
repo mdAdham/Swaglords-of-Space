@@ -4,7 +4,11 @@
 #include "Colliders.hpp"
 #include "Core/Core.hpp"
 
+
+#include "ParticleSystem.hpp"
+
 namespace _Swag {
+
 	class Player
 	{
 	public:
@@ -12,15 +16,18 @@ namespace _Swag {
 		~Player() = default;
 		
 		void Init(float speed, float attackcooldown, int hpMax, int boostMax, sf::Texture& texture, sf::Vector2f pos);
+		void InitParticleSystem();
 
 		const sf::Vector2f& getPos() const;
 		const float getRot() const;
 		const sf::FloatRect getBounds() const;
+		// Returns the Global Origin of the player
 		const sf::Vector2f getCenter() const;
 		const int& getHp() const;
 		const int& getHpMax() const;
 		const int& getBoost() const;
 		const int& getBoostMax() const;
+		const sf::Vector2f getThrusterPos() const;
 
 		void setPosition(const sf::Vector2f pos);
 		void setPosition(const float x, const float y);
@@ -31,7 +38,7 @@ namespace _Swag {
 		void loseBoost(const int value);
 		void setDt(const float& dt);
 
-		void move();
+		void move(ParticleSystem* parsys = nullptr);
 		void move(const float dirX, const float dirY, bool withmovementspeed);
 		void recoil(sf::Vector2f);
 
@@ -46,6 +53,8 @@ namespace _Swag {
 		Ref<Collider> _collider;
 	private:
 		Ref<sf::Sprite> _sprite;
+		ParticleSystem _particleSystem;
+		bool _particleSysEnable = false;
 		
 		float _movementSpeed = 0.f;
 
