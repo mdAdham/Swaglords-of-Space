@@ -44,7 +44,7 @@ namespace _Swag {
 		this->boostIncrementTimerMax = _modes.player_boost_cooldown_max;
 		this->boostIncrementTimer = boostIncrementTimerMax;
 
-		_Camera = CreateRef<Camera>(_Player->getPos(), sf::Vector2f(WINDOW_WIDHT, WINDOW_HEIGHT), 1.0f);
+		_Camera = CreateRef<Camera>(_Player->getPos(), sf::Vector2f(WINDOW_WIDHT, WINDOW_HEIGHT), 1.0f, 0.5, 2.25);
 
 		_particleSystem.Init({ 192, 108 }, 100, sf::Color::Blue, { 20.f, 20.f }, {30.f, 30.f}, 5.f, 10.f, 1, 5, true, 0.3f);
 		_enemyDeathParticleSystem.Init({ 0.0f, 0.0f }, 10, sf::Color::White, sf::Vector2f(), sf::Vector2f(), 0.1f, 1.0f, 1, 2, false, 0.3f);
@@ -63,6 +63,11 @@ namespace _Swag {
 
 			_particleSystem.EmitFrom(pos, sf::Vector2f(0.f, 0.f), 60, 10, 5, 10, -sf::Vector2f( _Player->velocity.x , _Player->velocity.y ));
 		}
+
+		if (ev.key.code == sf::Keyboard::Escape)
+		{
+			_data->quit = true;
+		}
 	}
 
 	void GameState::OnUpdate(float dt)
@@ -73,15 +78,14 @@ namespace _Swag {
 		_particleSystem.Update(dt, { 0.f,0.f });
 		_enemyDeathParticleSystem.Update(dt, { 0.0f, 0.0f });
 
+		this->_Player->setDt(dt);
+
 		if (this->_Player->getHp() != 0)
 		{
-			this->_Player->setDt(dt);
-			//PLAYER MOVEMENT
 			this->_Player->move();
-			//Update View
+
 			_Camera->Update(this->_Player);
 
-			//Shooting Firing
 			UpdateBullets();
 
 			this->_Player->update();
@@ -98,13 +102,6 @@ namespace _Swag {
 					this->_bullets.erase(this->_bullets.begin() + i);
 					continue;
 				}
-				/*
-				if (_bullets[i]->getBounds().top + _bullets[i]->getBounds().height <= 0.f)
-				{
-					this->_bullets[i].~shared_ptr();
-					this->_bullets.erase(this->_bullets.begin() + i);
-				}
-				*/
 			}
 			
 			//UPDATE ENEMIE
@@ -180,7 +177,7 @@ namespace _Swag {
 					}
 				}
 			}
-
+ // This is error
 #else
 			// NEW FOR
 
@@ -262,6 +259,7 @@ namespace _Swag {
 		{
 			if (this->allenemiedeleted == false)
 			{
+
 				for (auto& i : this->_bullets)
 				{
 					i.~shared_ptr();
@@ -312,6 +310,9 @@ namespace _Swag {
 		}
 		_particleSystem.Draw(_data->window);
 		_enemyDeathParticleSystem.Draw(_data->window);
+
+		this->_Player->PlayDeathAnimation(_data->window);
+
 		//_particleSystem.Follow(_Player->getPos(), _data->window);
 
 		_Camera->EndCameraRegion(_data->window);

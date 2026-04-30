@@ -5,9 +5,12 @@
 #include "Core/Core.hpp"
 
 
+#include "Core/Animation.hpp"
 #include "ParticleSystem.hpp"
 
 namespace _Swag {
+
+	class PlayerDeathAnimation;
 
 	class Player
 	{
@@ -50,6 +53,8 @@ namespace _Swag {
 		void update();
 		void render(sf::RenderTarget& target);
 
+		void PlayDeathAnimation(sf::RenderTarget& target);
+
 		Ref<Collider> _collider;
 	private:
 		Ref<sf::Sprite> _sprite;
@@ -68,7 +73,37 @@ namespace _Swag {
 		int _boostMax = 0;
 
 		float dt = 0.f;
+
+		bool _isPlayerDead = false;
+
+		Ref<PlayerDeathAnimation> m_deathAnimation;
 	public:
 		sf::Vector2f velocity;
+
+		friend class PlayerDeathAnimation;
+	};
+
+
+	class PlayerDeathAnimation : public Animation
+	{
+	public:
+		PlayerDeathAnimation() = default;
+		~PlayerDeathAnimation() = default;
+
+		void Init(Player& player);
+		void Start(const sf::Time& offset = sf::Time::Zero) override;
+		void Pause() override;
+		void Resume() override;
+		void Stop() override;
+
+		void Update(float dt);
+		void Render(sf::RenderTarget& target);
+
+	private:
+		ParticleSystem m_DeathParticleSystem;
+		Player m_player;
+
+		bool m_isFinished = false;
+
 	};
 }

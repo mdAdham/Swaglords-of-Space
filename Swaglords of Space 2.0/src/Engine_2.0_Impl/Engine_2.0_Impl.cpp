@@ -28,7 +28,7 @@ namespace _Swag::Engine_2 {
 		settings.majorVersion = 4;
 		settings.minorVersion = 2;
 		
-		this->_data->window.create(sf::VideoMode(WINDOW_WIDHT, WINDOW_HEIGHT, 32u), "Swag Space v2.0 - Engine v2.0", sf::Style::Close | sf::Style::Titlebar, settings);
+		this->_data->window.create(sf::VideoMode(WINDOW_WIDHT, WINDOW_HEIGHT, 32u), "Swag Space v2.0 - Engine v2.0", sf::Style::Fullscreen, settings);
 		_SWAG_INFO("Window Created {0}x{1}", WINDOW_WIDHT, WINDOW_HEIGHT);
 		//this->_data->window.create(sf::VideoMode::getDesktopMode(), "Swag Space v2.0 - Engine v2.0", sf::Style::Fullscreen, settings);
 		//_SWAG_INFO("Window Created {0}x{1}", sf::VideoMode::getDesktopMode().width, sf::VideoMode::getDesktopMode().height);
@@ -100,7 +100,7 @@ namespace _Swag::Engine_2 {
 					if (!this->_data->machine.IsEmpty())
 					{
 						if (ev.key.shift && ev.key.code == sf::Keyboard::Escape || ev.type == sf::Event::Closed)
-							_data->window.close();
+							_data->quit = true;
 						this->_data->machine.GetActiveState()->OnEvent(ev);
 					}
 					else
@@ -117,7 +117,7 @@ namespace _Swag::Engine_2 {
 						time = 0;
 					}
 					
-					this->_fpstext.setString("FPS: " + std::to_string((int)fps));
+					this->_fpstext.setString("FPS: " + std::to_string((float)fps));
 
 					this->_data->machine.GetActiveState()->OnUpdate(dt);
 				}

@@ -1,8 +1,8 @@
 #include "Camera.hpp"
 
 namespace _Swag {
-	Camera::Camera(const sf::Vector2f& center, const sf::Vector2f& size, const float& zoom)
-		:zoom(1)
+	Camera::Camera(const sf::Vector2f& center, const sf::Vector2f& size, const float& zoom, const float& zoommin, const float& zoommax)
+		:zoom(1), _zoomMin(zoommin), _zoomMax(zoommax)
 	{
 		this->_view.setCenter(center);
 		this->_view.setSize(size);
@@ -38,10 +38,21 @@ namespace _Swag {
 	}
 	void Camera::Zoom(float delta)
 	{
-		if(delta < 0.0f)
-			zoom = 0.5;
+		if (delta < 0.0f)
+		{
+			if (_zoomCounter < _zoomMin) { zoom = 1.f; }
+			else
+				zoom = 0.5;
+		}
+
 		if (delta > 0.0f)
-			zoom = 1.5f;
+		{
+			if (_zoomCounter > _zoomMax) { zoom = 1.f; }
+			else
+				zoom = 1.5f;
+		}
+
+		_zoomCounter *= zoom;
 
 		this->_view.zoom(zoom);
 	}

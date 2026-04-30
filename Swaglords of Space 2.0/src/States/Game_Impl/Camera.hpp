@@ -10,7 +10,7 @@ namespace _Swag
 	class Camera
 	{
 	public:
-		Camera(const sf::Vector2f& center, const sf::Vector2f& size, const float& zoom);
+		Camera(const sf::Vector2f& center, const sf::Vector2f& size, const float& zoom, const float& zoommin, const float& zoommax);
 
 		void Update(Ref<Player> player);
 		void Zoom(float delta);
@@ -22,5 +22,8 @@ namespace _Swag
 		sf::View _view;
 		float zoom;
 		float _smoothing;
+		float _zoomMin, _zoomMax;
+
+		float _zoomCounter = 1.f;
 	};
 }

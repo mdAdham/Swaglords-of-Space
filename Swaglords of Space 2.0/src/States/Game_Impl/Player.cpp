@@ -32,6 +32,9 @@ namespace _Swag {
 
 		this->_collider = CreateRef<Collider>(this->_sprite);
 
+		m_deathAnimation = CreateRef<PlayerDeathAnimation>();
+		m_deathAnimation->Init(*this);
+
 #ifdef F_PLAYER_SAVE_VARIENT_IMAGE
 
 		std::fstream file("Text.dat", std::ios::out);
@@ -66,7 +69,7 @@ namespace _Swag {
 	void Player::InitParticleSystem()
 	{
 		_particleSysEnable = true;
-		_particleSystem.Init(getThrusterPos(), 10, sf::Color(190, 50, 50), sf::Vector2f(), sf::Vector2f(), 0.1f, 1.f, 1, 6, false, 0.2);
+		_particleSystem.Init(getThrusterPos(), 10, sf::Color(190, 50, 50), sf::Vector2f(), sf::Vector2f(), 0.1f, 1.f, 1, 6, false, 0.2f);
 	}
 
 	const sf::Vector2f& Player::getPos() const
@@ -300,8 +303,8 @@ namespace _Swag {
 	{
 		if (_sprite->getGlobalBounds().intersects(other->GetBounds()))
 		{
-			sf::Image img = this->_sprite->getTexture()->copyToImage();
 		/*
+			sf::Image img = this->_sprite->getTexture()->copyToImage();
 		for (unsigned y = 0; y < img.getSize().y; y++)
 		{
 			for (unsigned x = 0; x < img.getSize().x; x++)
@@ -361,5 +364,67 @@ namespace _Swag {
 
 		target.draw(*this->_sprite);
 
+	}
+	void Player::PlayDeathAnimation(sf::RenderTarget& target)
+	{
+		if (_hp <= 0)
+			this->_isPlayerDead = true;
+
+		if (this->_isPlayerDead)
+		{
+			m_deathAnimation->Start();
+			m_deathAnimation->Update(dt);
+			m_deathAnimation->Render(target);
+		}
+	}
+
+
+	void PlayerDeathAnimation::Init(Player& player)
+	{
+		m_player = player;
+		Animation::Initialize(sf::seconds(5.f));
+
+		m_DeathParticleSystem.Init(player.getPos(), 500, sf::Color(200, 100, 90), sf::Vector2f(0.0f, 0.0f), sf::Vector2f(0.0f, 0.0f),
+			0.5f, 1.5f, 3 * glm::length(glm::vec2(player._sprite->getScale().x, player._sprite->getScale().y)), 4 * glm::length(glm::vec2(player._sprite->getScale().x, player._sprite->getScale().y)),
+			false, 0.1f);
+	}
+	void PlayerDeathAnimation::Start(const sf::Time& offset)
+	{
+		if (m_isStarted == true)
+			return;
+
+		m_isFinished = false;
+		m_isStarted = true;
+
+		m_DeathParticleSystem.EmitFrom(m_player.getPos(), sf::Vector2f(0.0f, 0.0f), 360, 500, 30.f, 50.f, sf::Vector2f(1.0f, 1.0f), true, sf::Color(200, 100, 90), 
+			3 * glm::length(glm::vec2(m_player._sprite->getScale().x, m_player._sprite->getScale().y)), 4 * glm::length(glm::vec2(m_player._sprite->getScale().x, m_player._sprite->getScale().y)));
+	}
+	void PlayerDeathAnimation::Pause()
+	{
+
+	}
+	void PlayerDeathAnimation::Resume()
+	{
+
+	}
+	void PlayerDeathAnimation::Stop()
+	{
+		
+	}
+	void PlayerDeathAnimation::Update(float dt)
+	{
+		if (m_isStarted && !m_DeathParticleSystem.isEmpty())
+		{
+			this->m_DeathParticleSystem.Update(dt, sf::Vector2f(0.0f, 0.0f));
+			//_SWAG_TRACE("Player Death Animation Updating!!");
+		}
+	}
+	void PlayerDeathAnimation::Render(sf::RenderTarget& target)
+	{
+		if (m_isStarted && !m_DeathParticleSystem.isEmpty())
+		{
+			this->m_DeathParticleSystem.Draw(target);
+			//_SWAG_TRACE("Player Death Animation Rendering!!");
+		}
 	}
 }

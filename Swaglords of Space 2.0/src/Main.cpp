@@ -14,7 +14,7 @@ int main()
 	
 	_Swag::LogManager::Initialize();
 
-	_SWAG_DEBUGS("SwagSpace v{0}.{1}", 2, 0);
+	_SWAG_DEBUGS("SwagSpace v{0}.{1}", 2, 3);
 
 	_Swag::Engine_2::Engine_v2_Impl enginev2;
 
