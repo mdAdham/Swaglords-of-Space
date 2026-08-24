@@ -204,15 +204,15 @@ namespace _Swag::_gui {
 	}
 
 	DropDownList::DropDownList(float x, float y, float width, float height,
-		sf::Font& font, std::string list[],
+		sf::Font& font, unsigned int mainCharsize, unsigned int subCharsize, std::string list[],
 		unsigned nrOfElements, unsigned default_index)
-		: font(font), showList(false), keytimeMax(1.f), keytime(0.f)
+		: font(font), showList(false), keytimeMax(1.f), keytime(0.f), mainCharsize(mainCharsize), subCharsize(subCharsize)
 	{
 		//unsigned nrOfElements = sizeof(list) / sizeof(std::string);
 
 		this->activeElement = new Button(
 			x, y, width, height,
-			&this->font, list[default_index], 30,
+			&this->font, list[default_index], mainCharsize,
 			sf::Color(255, 255, 255, 150), sf::Color(255, 255, 255, 200), sf::Color(20, 20, 20, 50),
 			sf::Color(70, 70, 70, 200), sf::Color(150, 150, 150, 200), sf::Color(20, 20, 20, 200),
 			sf::Color(255, 255, 255, 200), sf::Color(255, 255, 255, 255), sf::Color(60, 60, 60, 50)
@@ -223,7 +223,7 @@ namespace _Swag::_gui {
 			this->list.push_back(
 				new Button(
 					x, y + ((i + 1) * height), width, height,
-					&this->font, list[i], 20,
+					&this->font, list[i], subCharsize,
 					sf::Color(255, 255, 255, 150), sf::Color(255, 255, 255, 255), sf::Color(20, 20, 20, 50),
 					sf::Color(70, 70, 70, 200), sf::Color(150, 150, 150, 200), sf::Color(20, 20, 20, 200),
 					sf::Color(255, 255, 255, 0), sf::Color(255, 255, 255, 0), sf::Color(20, 20, 20, 0),

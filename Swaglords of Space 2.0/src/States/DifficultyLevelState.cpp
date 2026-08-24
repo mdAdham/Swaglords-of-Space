@@ -23,6 +23,7 @@ namespace _Swag {
 		_difficultyLevelSelector = CreateRef<_gui::DropDownList>(_gui::p2pX(30, vm), _gui::p2pY(20, vm),
 			_gui::p2pX(13.f, vm), _gui::p2pY(6.f, vm),
 			_data->assets.GetFont("Arial_Font"),
+			_gui::calcCharSize(vm, 80), _gui::calcCharSize(vm, 100),
 			_difflevellist, 4, 0);
 		_SWAG_INFO("Entering to Difficulty Level State!");
 

@@ -51,6 +51,10 @@ namespace _Swag {
 		_sprite->setOrigin(this->shape.getOrigin());
 
 		_collider = CreateRef<Collider>(_sprite);
+
+
+		//_glowShader.loadFromFile(GLOW_SHADER_F, sf::Shader::Fragment);
+		_glowShader.loadFromFile(GLOW_SHADER_V, GLOW_SHADER_F);
 	}
 
 	//Accessors
@@ -118,8 +122,16 @@ namespace _Swag {
 		_sprite->move(offset);
 	}
 
-	void Enemy::render(sf::RenderTarget* target) const
+	void Enemy::render(sf::RenderTarget* target)
 	{
-		target->draw(this->shape);
+		sf::Glsl::Vec4 _color(shape.getFillColor().r / 255.f, shape.getFillColor().g / 255.f, shape.getFillColor().b / 255.f, shape.getFillColor().a / 255.f);
+		
+		sf::Glsl::Vec2 center(shape.getPosition() + sf::Vector2f(shape.getRadius(), shape.getRadius()));
+
+
+		_glowShader.setUniform("shapeColor", _color);
+		//_glowShader.setUniform("circleCenter", center);
+		_glowShader.setUniform("radius", shape.getRadius());
+		target->draw(this->shape, &_glowShader);
 	}
 }

@@ -25,3 +25,9 @@ const std::string Core_Shader_Fragment = Resource_root_folder + "shr/core_sh.fra
 const std::string Test_PNG = Resource_root_folder + "tex/background.jpg";
 
 const std::string Colliders_Mask_Map_Folder = Resource_root_folder + "catch/Colliders/";
+
+const std::string GREY_SCALE_SHADER_V = Resource_root_folder + "shr/grayscale.vertex.glsl";
+const std::string GREY_SCALE_SHADER_F = Resource_root_folder + "shr/grayscale.fragment.glsl";
+
+const std::string GLOW_SHADER_V = Resource_root_folder + "shr/glow.vertex.glsl";
+const std::string GLOW_SHADER_F = Resource_root_folder + "shr/glow.fragment.glsl";

@@ -83,6 +83,8 @@ namespace _Swag::_gui {
 	private:
 		float keytime;
 		float keytimeMax;
+		unsigned int mainCharsize;
+		unsigned int subCharsize;
 
 		sf::Font& font;
 		Button* activeElement;
@@ -91,7 +93,7 @@ namespace _Swag::_gui {
 
 	public:
 		DropDownList(float x, float y, float width, float height,
-			sf::Font& font, std::string list[],
+			sf::Font& font, unsigned int mainCharsize, unsigned int subCharsize, std::string list[],
 			unsigned nrOfElements, unsigned default_index = 0);
 		~DropDownList();
 

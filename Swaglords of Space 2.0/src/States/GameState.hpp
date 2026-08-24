@@ -69,12 +69,17 @@ namespace _Swag {
 		ParticleSystem _enemyDeathParticleSystem;
 
 
-		std::vector<std::vector<Ref<Enemy>>::iterator> _deadEnemyIndicies;
-		std::vector<std::deque<Ref<Bullet>>::iterator> _deadBulletIndicies;
+		std::vector<int> _deadEnemyIndicies;
+		std::vector<int> _deadBulletIndicies;
 
 		//Environment
+		sf::RenderTexture _gametexture;
 		sf::Sprite _background;
 		ParticleSystem _particleSystem;
+		sf::Text pointsText{};
+
+		sf::Shader _greyScaleShader{};
+		float _shaderCounter = 0;
 
 	private:
 		void UpdateGui();

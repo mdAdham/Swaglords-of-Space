@@ -26,8 +26,9 @@ namespace _Swag {
 		//Functions
 		void update(float dt);
 		void follow(const Ref<Player>& player);
-		void render(sf::RenderTarget* target) const;
+		void render(sf::RenderTarget* target);
 		Ref<Collider> _collider;
+		sf::Shader _glowShader{};
 	private:
 		unsigned pointCount = 0;
 		sf::CircleShape shape;

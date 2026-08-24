@@ -4,8 +4,10 @@
 #include <glm.hpp>
 #include <gtc/random.hpp>
 #include <gtc/constants.hpp>
+#include "Gui_Impl/Gui.hpp"
 
 #include <iostream>
+#include <algorithm>
 
 namespace _Swag {
 	GameState::GameState(Ref<GameData> data, GameModes modes)
@@ -17,6 +19,8 @@ namespace _Swag {
 	{
 		_SWAG_INFO("GameState Initialized!");
 		sf::VideoMode vm = sf::VideoMode(_data->window.getSize().x, _data->window.getSize().y);
+
+		_gametexture.create(vm.width, vm.height);
 
 		_data->assets.LoadTexture("Bullet_Texture", BULLET_TEXTURE, true);
 		_data->assets.LoadTexture("Background_Texture", BACKGROUND_TEXTURE, false);
@@ -48,6 +52,23 @@ namespace _Swag {
 
 		_particleSystem.Init({ 192, 108 }, 100, sf::Color::Blue, { 20.f, 20.f }, {30.f, 30.f}, 5.f, 10.f, 1, 5, true, 0.3f);
 		_enemyDeathParticleSystem.Init({ 0.0f, 0.0f }, 10, sf::Color::White, sf::Vector2f(), sf::Vector2f(), 0.1f, 1.0f, 1, 2, false, 0.3f);
+
+		this->pointsText.setFont(_data->assets.GetFont("Arial_Font"));
+
+		this->pointsText.setOrigin(pointsText.getGlobalBounds().width/2,
+			pointsText.getGlobalBounds().height / 2);
+
+		this->pointsText.setPosition(
+			_gui::p2pX(50.f, vm),
+			30.f
+		);
+
+		this->pointsText.setCharacterSize(_gui::calcCharSize(vm, 64));
+
+		_greyScaleShader.loadFromFile(GREY_SCALE_SHADER_V, GREY_SCALE_SHADER_F);
+		//_greyScaleShader.loadFromFile(GREY_SCALE_SHADER_F, sf::Shader::Fragment);
+		//_greyScaleShader.setUniform("texture", sf::Shader::CurrentTexture);
+
 	}
 	void GameState::OnEvent(sf::Event& ev)
 	{
@@ -191,7 +212,7 @@ namespace _Swag {
 
 				if (!_enemies[i]->isAlive())
 				{
-					_deadEnemyIndicies.push_back(_enemies.begin() + i);
+					_deadEnemyIndicies.push_back(i);
 					continue;
 				}
 
@@ -199,7 +220,7 @@ namespace _Swag {
 				else if (_Player->interset(_enemies[i]->_collider) == true)
 				{
 					_Player->loseHp(_enemies[i]->getDamage());
-					_deadEnemyIndicies.push_back(_enemies.begin() + i);
+					_deadEnemyIndicies.push_back(i);
 
 					{
 						sf::Vector2f emissionVec(1.f, 1.f);
@@ -219,8 +240,8 @@ namespace _Swag {
 
 						this->_Player->gainBoost(this->_enemies[i]->getDamage());
 
-						this->_deadEnemyIndicies.push_back(this->_enemies.begin() + i);
-						this->_deadBulletIndicies.push_back(this->_bullets.begin() + j);
+						this->_deadEnemyIndicies.push_back(i);
+						this->_deadBulletIndicies.push_back(j);
 
 						// Play the Particles
 						{
@@ -242,18 +263,35 @@ namespace _Swag {
 				}
 			}
 
-			for (auto& index : _deadEnemyIndicies)
-			{
-				_enemies.erase(index);
-			}
-			for (auto& index : _deadBulletIndicies)
-			{
-				_bullets.erase(index);
-			}
+			this->pointsText.setString(std::to_string(points));
+
+			int index = 0;
+			int removeindex = 0;
+
+			_enemies.erase(std::remove_if(_enemies.begin(), _enemies.end(),
+				[&](const auto&) {
+					return std::find(_deadEnemyIndicies.begin(),_deadEnemyIndicies.end(),
+						index++) != _deadEnemyIndicies.end();
+				}), _enemies.end());
+
+			index = 0;
+			removeindex = 0;
+
+			_bullets.erase(std::remove_if(_bullets.begin(), _bullets.end(),
+				[&](const auto&) {
+					return std::find(_deadBulletIndicies.begin(),
+						_deadBulletIndicies.end(),
+						index++) != _deadBulletIndicies.end();
+				}), _bullets.end());
 
 			_enemyDeathParticleSystem.Update(dt, { 0.0f, 0.0f });
 #endif
 			//_SWAG_TRACE("No of Enimies: {0}, No of Bullets: {1}", _enemies.size(), _bullets.size());
+
+			_shaderCounter += dt;
+			_greyScaleShader.setUniform("wave_phase", _shaderCounter);
+			_greyScaleShader.setUniform("wave_amplitude", sf::Glsl::Vec2(10, 10));
+
 		}
 		else
 		{
@@ -278,9 +316,11 @@ namespace _Swag {
 
 	void GameState::OnRender(float dt)
 	{
-
 		_Camera->StartCameraRegion(_data->window);
-		_data->window.draw(_background);
+		{
+			//_greyScaleShader.setUniform("wave_amplitude", sf::Glsl::Vec2(_Player->getPos()));
+			_data->window.draw(_background, &_greyScaleShader);
+		}
 		if (this->_Player->getHp() > 0)
 		{
 			_Player->render(_data->window);
@@ -319,13 +359,22 @@ namespace _Swag {
 
 		_playerHpBar->render(_data->window);
 		_playerBoostBar->render(_data->window);
-
+		_data->window.draw(pointsText);
 	}
 
 	void GameState::UpdateGui()
 	{
 		_playerHpBar->update(_Player->getHp(), _Player->getHpMax());
 		_playerBoostBar->update(_Player->getBoost(), _Player->getBoostMax());
+
+		this->pointsText.setOrigin(pointsText.getGlobalBounds().width / 2,
+			pointsText.getGlobalBounds().height / 2);
+
+		this->pointsText.setPosition(
+			_gui::p2pX(50.f, sf::VideoMode(_data->window.getSize().x, _data->window.getSize().y)),
+			30.f
+		);
+
 	}
 
 	void GameState::UpdateBullets()
