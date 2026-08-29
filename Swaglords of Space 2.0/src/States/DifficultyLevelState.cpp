@@ -43,6 +43,8 @@ namespace _Swag {
 	
 	void DifficultyLevelState::OnEvent(sf::Event& ev)
 	{
+		if (ev.key.code == sf::Keyboard::Escape && ev.type == sf::Event::KeyReleased)
+			_data->machine.RemoveState();
 	}
 	
 	void DifficultyLevelState::OnUpdate(float dt)
@@ -71,6 +73,7 @@ namespace _Swag {
 				mode.player_max_hp = 200;
 				mode.player_max_boost = 600;
 				mode.player_boost_cooldown_max = 3.f;
+				mode.Name = "American";
 				
 			}break;
 			case 1: { //Intermediate
@@ -86,6 +89,7 @@ namespace _Swag {
 				mode.player_max_hp = 100;
 				mode.player_max_boost = 300;
 				mode.player_boost_cooldown_max = 3.f;
+				mode.Name = "Intermediate";
 
 			}break;
 			case 2: { //Pro
@@ -101,6 +105,7 @@ namespace _Swag {
 				mode.player_max_hp = 50;
 				mode.player_max_boost = 150;
 				mode.player_boost_cooldown_max = 2.f;
+				mode.Name = "Pro";
 
 			}break;
 			case 3: { //Indian
@@ -116,6 +121,7 @@ namespace _Swag {
 				mode.player_max_hp = 25;
 				mode.player_max_boost = 75;
 				mode.player_boost_cooldown_max = 1.4f;
+				mode.Name = "Indian";
 
 			}break;
 			default:
@@ -131,6 +137,7 @@ namespace _Swag {
 				mode.player_max_hp = 200;
 				mode.player_max_boost = 600;
 				mode.player_boost_cooldown_max = 3.f;
+				mode.Name = "Unknown";
 				break;
 			}
 			_data->machine.AddState(CreateRef<GameState>(_data, mode), false); return;

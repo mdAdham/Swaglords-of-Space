@@ -23,17 +23,20 @@ namespace _Swag::Engine_2 {
 	void Engine_v2_Impl::Initialize()
 	{
 		_SWAG_TRACE("Engine v2.0 Initialized!");
-
+		
 		sf::ContextSettings settings;
 		settings.majorVersion = 4;
 		settings.minorVersion = 2;
-		
-		this->_data->window.create(sf::VideoMode(WINDOW_WIDHT, WINDOW_HEIGHT, 32u), "Swag Space v2.0 - Engine v2.0", sf::Style::Titlebar, settings);
+#ifdef GAME_WINDOW_FULLSCREEN
+		this->_data->window.create(sf::VideoMode::getDesktopMode(), "Swag Space v2.0 - Engine v2.0", sf::Style::None, settings);
+#else
+		this->_data->window.create(sf::VideoMode(WINDOW_WIDHT, WINDOW_HEIGHT, 32u), "Swag Space v2.0 - Engine v2.0", sf::Style::Titlebar | sf::Style::Close, settings);
+#endif
 		_SWAG_INFO("Window Created {0}x{1}", WINDOW_WIDHT, WINDOW_HEIGHT);
 		//this->_data->window.create(sf::VideoMode::getDesktopMode(), "Swag Space v2.0 - Engine v2.0", sf::Style::Fullscreen, settings);
 		//_SWAG_INFO("Window Created {0}x{1}", sf::VideoMode::getDesktopMode().width, sf::VideoMode::getDesktopMode().height);
 
-		//this->_data->window.setVerticalSyncEnabled(true);
+		this->_data->window.setVerticalSyncEnabled(true);
 
 		_data->assets.LoadFont("Arial_Font", FONT_ARIAL);
 		_defaulttext.setFont(_data->assets.GetFont("Arial_Font"));
@@ -102,6 +105,15 @@ namespace _Swag::Engine_2 {
 						if (ev.key.shift && ev.key.code == sf::Keyboard::Escape || ev.type == sf::Event::Closed)
 							_data->quit = true;
 						this->_data->machine.GetActiveState()->OnEvent(ev);
+
+						if (ev.type == sf::Event::Resized)
+						{
+							if (ev.size.width <= WINDOW_MIN_WIDTH)
+								_data->window.setSize({WINDOW_MIN_WIDTH, _data->window.getSize().y});
+
+							if (ev.size.height <= WINDOW_MIN_HEIGHT)
+								_data->window.setSize({ _data->window.getSize().x, WINDOW_MIN_HEIGHT });
+						}
 					}
 					else
 						DefaultEvent();

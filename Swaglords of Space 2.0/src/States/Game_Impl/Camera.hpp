@@ -15,8 +15,8 @@ namespace _Swag
 		void Update(Ref<Player> player);
 		void Zoom(float delta);
 
-		void StartCameraRegion(sf::RenderWindow& window) const;
-		void EndCameraRegion(sf::RenderWindow& window);
+		void StartCameraRegion(sf::RenderTarget& window) const;
+		void EndCameraRegion(sf::RenderTarget& window);
 
 	private:
 		sf::View _view;

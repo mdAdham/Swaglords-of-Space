@@ -3,6 +3,7 @@
 #include "Core/Deffinitions.hpp"
 
 #include "DifficultyLevelState.hpp"
+#include "SettingsState.hpp"
 
 namespace _Swag {
 	MainMenuState::MainMenuState(Ref<GameData> data)
@@ -22,7 +23,7 @@ namespace _Swag {
 			_gui::p2pX(15.f, vm), _gui::p2pY(50.f, vm),
 			_gui::p2pX(13.f, vm), _gui::p2pY(6.f, vm),
 			&_data->assets.GetFont("Arial_Font"), "Play", _gui::calcCharSize(vm),
-			sf::Color(200, 200, 200, 200), sf::Color(255, 255, 255, 255), sf::Color(20, 20, 20, 50),
+			sf::Color(200, 200, 200, 200), sf::Color(245, 245, 245, 255), sf::Color(255, 255, 255, 50),
 			sf::Color(70, 70, 70, 10), sf::Color(150, 150, 150, 10), sf::Color(20, 20, 20, 10)
 		);
 
@@ -30,7 +31,7 @@ namespace _Swag {
 			_gui::p2pX(15.f, vm), _gui::p2pY(60.f, vm),
 			_gui::p2pX(13.f, vm), _gui::p2pY(6.f, vm),
 			&_data->assets.GetFont("Arial_Font"), "Settings", _gui::calcCharSize(vm),
-			sf::Color(200, 200, 200, 200), sf::Color(255, 255, 255, 255), sf::Color(20, 20, 20, 50),
+			sf::Color(200, 200, 200, 200), sf::Color(245, 245, 245, 255), sf::Color(255, 255, 255, 50),
 			sf::Color(70, 70, 70, 10), sf::Color(150, 150, 150, 10), sf::Color(20, 20, 20, 10)
 		);
 
@@ -38,7 +39,7 @@ namespace _Swag {
 			_gui::p2pX(15.f, vm), _gui::p2pY(70.f, vm),
 			_gui::p2pX(13.f, vm), _gui::p2pY(6.f, vm),
 			&_data->assets.GetFont("Arial_Font"), "Quit", _gui::calcCharSize(vm),
-			sf::Color(200, 200, 200, 200), sf::Color(255, 255, 255, 255), sf::Color(20, 20, 20, 50),
+			sf::Color(200, 200, 200, 200), sf::Color(245, 245, 245, 255), sf::Color(255, 255, 255, 50),
 			sf::Color(70, 70, 70, 10), sf::Color(150, 150, 150, 10), sf::Color(20, 20, 20, 10)
 		);
 
@@ -77,10 +78,10 @@ namespace _Swag {
 			this->_ShipLogo.setPosition(_gui::p2pX(70, vm), _gui::p2pY(50, vm));
 		}
 		
-		if (ev.key.code == sf::Keyboard::Add)
-			_data->window.setSize(sf::Vector2u(_data->window.getSize().x + 10, _data->window.getSize().y + 10));
-		if (ev.key.code == sf::Keyboard::Subtract)
-			_data->window.setSize(sf::Vector2u(_data->window.getSize().x - 10, _data->window.getSize().y - 10));
+		//if (ev.key.code == sf::Keyboard::Add)
+		//	_data->window.setSize(sf::Vector2u(_data->window.getSize().x + 10, _data->window.getSize().y + 10));
+		//if (ev.key.code == sf::Keyboard::Subtract)
+		//	_data->window.setSize(sf::Vector2u(_data->window.getSize().x - 10, _data->window.getSize().y - 10));
 		
 	}
 	
@@ -91,15 +92,16 @@ namespace _Swag {
 			it.second->update(InputManager::GetMousePosition(_data->window));
 		}
 
-		if (this->_buttons["PLAY_STATE"]->isPressed())
+		if (this->_buttons["PLAY_STATE"]->isReleased())
 		{
 			_SWAG_INFO("Entering to Play State!");
-			_data->machine.AddState(CreateRef<DifficultyLevelState>(_data), false);
+			goto_DifficultyLevelState();
 		}
 
 		if (this->_buttons["SETTINGS_STATE"]->isPressed())
 		{
 			_SWAG_INFO("Entering to Settings State!");
+			goto_SettingsState();
 		}
 
 		if (this->_buttons["QUIT_STATE"]->isPressed())
@@ -137,6 +139,16 @@ namespace _Swag {
 		{
 			it->second.~shared_ptr();
 		}
+	}
+
+	void MainMenuState::goto_DifficultyLevelState()
+	{
+		_data->machine.AddState(CreateRef<DifficultyLevelState>(_data), false);
+	}
+
+	void MainMenuState::goto_SettingsState()
+	{
+		_data->machine.AddState(CreateRef<SettingsState>(_data), false);
 	}
 
 }

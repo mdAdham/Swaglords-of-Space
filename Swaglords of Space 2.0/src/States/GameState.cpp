@@ -9,6 +9,8 @@
 #include <iostream>
 #include <algorithm>
 
+#define RENDER_TEXTURE_RENDERING
+
 namespace _Swag {
 	GameState::GameState(Ref<GameData> data, GameModes modes)
 		: _data(data), _modes(modes)
@@ -19,9 +21,14 @@ namespace _Swag {
 	{
 		_SWAG_INFO("GameState Initialized!");
 		sf::VideoMode vm = sf::VideoMode(_data->window.getSize().x, _data->window.getSize().y);
-
-		_gametexture.create(vm.width, vm.height);
-
+		this->_gameTextureVM = vm;
+#ifdef RENDER_TEXTURE_RENDERING
+		//_gameTextureVM.width = _gameTextureVM.width / 1.2;
+		//_gameTextureVM.height = _gameTextureVM.height / 1.2;
+		_gametexture.create(_gameTextureVM.width, _gameTextureVM.height);
+		_gameTextureShader.loadFromFile(GAME_RENDER_TEXTURE_SHADER_F, sf::Shader::Fragment);
+#endif
+		
 		_data->assets.LoadTexture("Bullet_Texture", BULLET_TEXTURE, true);
 		_data->assets.LoadTexture("Background_Texture", BACKGROUND_TEXTURE, false);
 
@@ -35,12 +42,15 @@ namespace _Swag {
 
 		_Player = CreateRef<Player>();
 
-		_Player->Init(_modes.player_speed, _modes.player_attack_cooldown_max, _modes.player_max_hp, _modes.player_max_boost, _data->assets.GetTexture("Ship_Texture"), sf::Vector2f(_gui::p2pX(50, vm), _gui::p2pY(50, vm)));
+		_Player->Init(_modes.player_speed, _modes.player_attack_cooldown_max, 
+			_modes.player_max_hp, _modes.player_max_boost, 
+			_data->assets.GetTexture("Ship_Texture"), 
+			sf::Vector2f(_gui::p2pX(50, _gameTextureVM), _gui::p2pY(50, _gameTextureVM)));
 
 		_Player->InitParticleSystem();
 
-		_playerHpBar = CreateRef<_gui::ProgressBar>(.8f, 4.0f, 20.0f, 2.0f, sf::Color::Red, 200u, vm, &_data->assets.GetFont("Arial_Font"));
-		_playerBoostBar = CreateRef<_gui::ProgressBar>(.8f, 7.0f, 17.0f, 2.0f, sf::Color::Blue, 200u, vm, &_data->assets.GetFont("Arial_Font"));
+		_playerHpBar = CreateRef<_gui::ProgressBar>(.8f, 4.0f, 20.0f, 2.0f, sf::Color::Red, 200u, _gameTextureVM, &_data->assets.GetFont("Arial_Font"));
+		_playerBoostBar = CreateRef<_gui::ProgressBar>(.8f, 7.0f, 17.0f, 2.0f, sf::Color::Blue, 200u, _gameTextureVM, &_data->assets.GetFont("Arial_Font"));
 
 		this->spawnerTimerMax = _modes.enemie_spawner_Time_Max;
 		this->spawnerTimer = this->spawnerTimerMax;
@@ -48,7 +58,8 @@ namespace _Swag {
 		this->boostIncrementTimerMax = _modes.player_boost_cooldown_max;
 		this->boostIncrementTimer = boostIncrementTimerMax;
 
-		_Camera = CreateRef<Camera>(_Player->getPos(), sf::Vector2f(WINDOW_WIDHT, WINDOW_HEIGHT), 1.0f, 0.5, 2.25);
+		//_Camera = CreateRef<Camera>(_Player->getPos(), sf::Vector2f(WINDOW_WIDHT, WINDOW_HEIGHT), 1.0f, 0.5, 2.25);
+		_Camera = CreateRef<Camera>(_Player->getPos(), sf::Vector2f(_gameTextureVM.width, _gameTextureVM.height), 1.0f, 0.5, 2.25);
 
 		_particleSystem.Init({ 192, 108 }, 100, sf::Color::Blue, { 20.f, 20.f }, {30.f, 30.f}, 5.f, 10.f, 1, 5, true, 0.3f);
 		_enemyDeathParticleSystem.Init({ 0.0f, 0.0f }, 10, sf::Color::White, sf::Vector2f(), sf::Vector2f(), 0.1f, 1.0f, 1, 2, false, 0.3f);
@@ -59,11 +70,16 @@ namespace _Swag {
 			pointsText.getGlobalBounds().height / 2);
 
 		this->pointsText.setPosition(
-			_gui::p2pX(50.f, vm),
+			_gui::p2pX(50.f, _gameTextureVM),
 			30.f
 		);
 
-		this->pointsText.setCharacterSize(_gui::calcCharSize(vm, 64));
+		this->pointsText.setCharacterSize(_gui::calcCharSize(_gameTextureVM, 64));
+
+		this->_gameDifficultyText.setFont(_data->assets.GetFont("Arial_Font"));
+		this->_gameDifficultyText.setCharacterSize(_gui::calcCharSize(vm, 128));
+		this->_gameDifficultyText.setPosition(_gui::p2pX(86, vm), _gui::p2pY(2, vm));
+		this->_gameDifficultyText.setString("Difficulty: " + _modes.Name);
 
 		_greyScaleShader.loadFromFile(GREY_SCALE_SHADER_V, GREY_SCALE_SHADER_F);
 		//_greyScaleShader.loadFromFile(GREY_SCALE_SHADER_F, sf::Shader::Fragment);
@@ -88,6 +104,11 @@ namespace _Swag {
 		if (ev.key.code == sf::Keyboard::Escape)
 		{
 			_data->quit = true;
+		}
+
+		if (ev.key.code == sf::Keyboard::Enter && this->_gameover)
+		{
+			_data->machine.RemoveState(); // GameState -> Difficulty Level Selector
 		}
 	}
 
@@ -295,6 +316,7 @@ namespace _Swag {
 		}
 		else
 		{
+			this->_gameover = true;
 			if (this->allenemiedeleted == false)
 			{
 
@@ -313,6 +335,8 @@ namespace _Swag {
 			UpdateGui();
 		}
 	}
+
+#ifndef RENDER_TEXTURE_RENDERING
 
 	void GameState::OnRender(float dt)
 	{
@@ -362,6 +386,75 @@ namespace _Swag {
 		_data->window.draw(pointsText);
 	}
 
+#else
+
+	void GameState::OnRender(float dt)
+	{
+		//_Camera->StartCameraRegion(_data->window);
+		_gametexture.clear();
+		_Camera->StartCameraRegion(_gametexture);
+		{
+			_gametexture.draw(_background, &_greyScaleShader);
+			//_data->window.draw(_background, &_greyScaleShader);
+		}
+		if (this->_Player->getHp() > 0)
+		{
+			//_Player->render(_data->window);
+			_Player->render(_gametexture);
+			//_Player->_collider->Render(_data->window); // Depreciated
+
+
+			/*sf::RectangleShape rect;
+			rect.setPosition(_Player->_collider->GetBounds().left, _Player->_collider->GetBounds().top);
+			rect.setSize(sf::Vector2f(_Player->_collider->GetBounds().width, _Player->_collider->GetBounds().height));
+			_data->window.draw(rect);*/
+		}
+
+		if (this->_Player->getHp() != 0)
+		{
+			for (auto& bullet : _bullets)
+			{
+				//bullet->render(&_data->window);
+				bullet->render(&_gametexture);
+			}
+
+			for (auto& enemy : this->_enemies)
+			{
+				//enemy->render(&_data->window);
+				enemy->render(&_gametexture);
+
+
+				/*sf::RectangleShape rect;
+				rect.setPosition(enemy->_collider->GetBounds().left, enemy->_collider->GetBounds().top);
+				rect.setSize(sf::Vector2f(enemy->_collider->GetBounds().width, enemy->_collider->GetBounds().height));
+				_data->window.draw(rect);*/
+			}
+		}
+		//_particleSystem.Draw(_data->window);
+		//_enemyDeathParticleSystem.Draw(_data->window);
+		_particleSystem.Draw(_gametexture);
+		_enemyDeathParticleSystem.Draw(_gametexture);
+
+		//this->_Player->PlayDeathAnimation(_data->window);
+		this->_Player->PlayDeathAnimation(_gametexture);
+
+		//_particleSystem.Follow(_Player->getPos(), _data->window);
+
+		//_Camera->EndCameraRegion(_data->window);
+		_Camera->EndCameraRegion(_gametexture);
+
+		_gametexture.display();
+		//_gameTextureShader.setUniform("texture", sf::Shader::CurrentTexture);
+
+		_data->window.draw(sf::Sprite{_gametexture.getTexture()}, &_gameTextureShader);
+
+		_playerHpBar->render(_data->window);
+		_playerBoostBar->render(_data->window);
+		_data->window.draw(pointsText);
+		_data->window.draw(_gameDifficultyText);
+	}
+
+#endif
 	void GameState::UpdateGui()
 	{
 		_playerHpBar->update(_Player->getHp(), _Player->getHpMax());
@@ -371,7 +464,7 @@ namespace _Swag {
 			pointsText.getGlobalBounds().height / 2);
 
 		this->pointsText.setPosition(
-			_gui::p2pX(50.f, sf::VideoMode(_data->window.getSize().x, _data->window.getSize().y)),
+			_gui::p2pX(50.f, _gameTextureVM),
 			30.f
 		);
 

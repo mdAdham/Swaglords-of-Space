@@ -166,6 +166,11 @@ namespace _Swag::_gui {
 			{
 				this->buttonState = BTN_ACTIVE;
 			}
+			else if (this->previousButtonState == BTN_ACTIVE)
+			{
+				
+				this->buttonState = BTN_REALEASED;
+			}
 		}
 
 
@@ -181,20 +186,26 @@ namespace _Swag::_gui {
 			this->shape.setFillColor(this->hoverColor);
 			this->text.setFillColor(this->textHoverColor);
 			this->shape.setOutlineColor(this->outlineHoverColor);
+			
 			break;
 
 		case BTN_ACTIVE:
 			this->shape.setFillColor(this->activeColor);
 			this->text.setFillColor(this->textActiveColor);
 			this->shape.setOutlineColor(this->outlineActiveColor);
+			
 			break;
-
+		case BTN_REALEASED:
+			
+			break;
 		default:
 			this->shape.setFillColor(sf::Color::Red);
 			this->text.setFillColor(sf::Color::Blue);
 			this->shape.setOutlineColor(sf::Color::Green);
 			break;
 		}
+
+		this->previousButtonState = this->buttonState;
 	}
 
 	void Button::render(sf::RenderTarget& target)

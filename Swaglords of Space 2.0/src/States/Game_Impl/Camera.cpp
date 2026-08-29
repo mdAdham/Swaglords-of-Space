@@ -56,11 +56,11 @@ namespace _Swag {
 
 		this->_view.zoom(zoom);
 	}
-	void Camera::StartCameraRegion(sf::RenderWindow& window) const
+	void Camera::StartCameraRegion(sf::RenderTarget& window) const
 	{
 		window.setView(this->_view);
 	}
-	void Camera::EndCameraRegion(sf::RenderWindow& window)
+	void Camera::EndCameraRegion(sf::RenderTarget& window)
 	{
 		window.setView(window.getDefaultView());
 	}

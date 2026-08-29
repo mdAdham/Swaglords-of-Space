@@ -4,6 +4,12 @@
 
 constexpr uint32_t WINDOW_WIDHT = 1920;
 constexpr uint32_t WINDOW_HEIGHT = 1080;
+
+constexpr uint32_t WINDOW_MIN_WIDTH = WINDOW_WIDHT/4;
+constexpr uint32_t WINDOW_MIN_HEIGHT = WINDOW_HEIGHT/4;
+
+#define GAME_WINDOW_FULLSCREEN
+
 constexpr float FRAMERATELIMIT = 120.f;
 constexpr float ENEMY_MOVEMENT_INERTIA = 0.2f;
 
@@ -31,3 +37,5 @@ const std::string GREY_SCALE_SHADER_F = Resource_root_folder + "shr/grayscale.fr
 
 const std::string GLOW_SHADER_V = Resource_root_folder + "shr/glow.vertex.glsl";
 const std::string GLOW_SHADER_F = Resource_root_folder + "shr/glow.fragment.glsl";
+
+const std::string GAME_RENDER_TEXTURE_SHADER_F = Resource_root_folder + "shr/game_renderTexture_F.glsl";

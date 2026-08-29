@@ -14,6 +14,7 @@
 
 #include <deque>
 
+
 namespace _Swag {
 	class GameState : public State
 	{
@@ -32,6 +33,8 @@ namespace _Swag {
 			int player_max_hp = 0;
 			int player_max_boost = 0;
 			float player_boost_cooldown_max = 0;
+
+			std::string Name;
 		};
 		
 		GameState(Ref<GameData> data, GameModes modes);
@@ -74,12 +77,19 @@ namespace _Swag {
 
 		//Environment
 		sf::RenderTexture _gametexture;
+		sf::Shader _gameTextureShader;
+
 		sf::Sprite _background;
 		ParticleSystem _particleSystem;
 		sf::Text pointsText{};
+		sf::VideoMode _gameTextureVM;
 
 		sf::Shader _greyScaleShader{};
 		float _shaderCounter = 0;
+
+		sf::Text _gameDifficultyText;
+
+		bool _gameover = false;
 
 	private:
 		void UpdateGui();

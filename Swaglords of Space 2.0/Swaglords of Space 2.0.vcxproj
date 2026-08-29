@@ -162,6 +162,7 @@
     <ClInclude Include="src\Managers_Impl\InputManager.hpp" />
     <ClInclude Include="src\Managers_Impl\LogManager.hpp" />
     <ClInclude Include="src\States\Game_Impl\ParticleSystem.hpp" />
+    <ClInclude Include="src\States\SettingsState.hpp" />
     <ClInclude Include="src\State_Impl\State.hpp" />
     <ClInclude Include="src\State_Impl\StateMachine.hpp" />
     <ClInclude Include="src\States\DifficultyLevelState.hpp" />
@@ -183,6 +184,7 @@
     <ClCompile Include="src\Managers_Impl\InputManager.cpp" />
     <ClCompile Include="src\Managers_Impl\LogManager.cpp" />
     <ClCompile Include="src\States\Game_Impl\ParticleSystem.cpp" />
+    <ClCompile Include="src\States\SettingsState.cpp" />
     <ClCompile Include="src\State_Impl\StateMachine.cpp" />
     <ClCompile Include="src\States\DifficultyLevelState.cpp" />
     <ClCompile Include="src\States\GameState.cpp" />

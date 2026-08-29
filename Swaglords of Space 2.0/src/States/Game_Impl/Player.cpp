@@ -396,7 +396,7 @@ namespace _Swag {
 		m_isFinished = false;
 		m_isStarted = true;
 
-		m_DeathParticleSystem.EmitFrom(m_player.getPos(), sf::Vector2f(0.0f, 0.0f), 360, 500, 30.f, 50.f, sf::Vector2f(1.0f, 1.0f), true, sf::Color(200, 100, 90), 
+		m_DeathParticleSystem.EmitFrom(m_player.getPos(), sf::Vector2f(0.0f, 0.0f), 360, 500, 30.f, 50.f, sf::Vector2f(1.0f, 1.0f), true, sf::Color(255, 255, 255), 
 			3 * glm::length(glm::vec2(m_player._sprite->getScale().x, m_player._sprite->getScale().y)), 4 * glm::length(glm::vec2(m_player._sprite->getScale().x, m_player._sprite->getScale().y)));
 	}
 	void PlayerDeathAnimation::Pause()

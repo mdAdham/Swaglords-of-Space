@@ -30,6 +30,7 @@ namespace _Swag::_gui {
 	{
 	private:
 		short unsigned buttonState;
+		short unsigned previousButtonState;
 		short unsigned id;
 
 		sf::RectangleShape shape;
