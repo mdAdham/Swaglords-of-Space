@@ -159,6 +159,7 @@
     <ClInclude Include="src\Gui_Impl\Gui.hpp" />
     <ClInclude Include="src\Managers_Impl\AssetManager.hpp" />
     <ClInclude Include="src\Managers_Impl\AssetManager_Export.hpp" />
+    <ClInclude Include="src\Managers_Impl\AudioManager.hpp" />
     <ClInclude Include="src\Managers_Impl\InputManager.hpp" />
     <ClInclude Include="src\Managers_Impl\LogManager.hpp" />
     <ClInclude Include="src\States\Game_Impl\ParticleSystem.hpp" />
@@ -181,6 +182,7 @@
     <ClCompile Include="src\Gui_Impl\Gui.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\Managers_Impl\AssetManager.cpp" />
+    <ClCompile Include="src\Managers_Impl\AudioManager.cpp" />
     <ClCompile Include="src\Managers_Impl\InputManager.cpp" />
     <ClCompile Include="src\Managers_Impl\LogManager.cpp" />
     <ClCompile Include="src\States\Game_Impl\ParticleSystem.cpp" />

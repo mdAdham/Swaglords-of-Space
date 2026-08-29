@@ -203,9 +203,25 @@ namespace _Swag {
 		this->_sound[name].setBuffer(soundBuffer);
 	}
 
+	void _AssetManager::LoadSound(std::string name, sf::SoundBuffer& soundbuffer, std::string group)
+	{
+		LoadSound(name, soundbuffer);
+		_soundGroup[group].push_back(name);
+	}
+
 	sf::Sound& _AssetManager::GetSound(std::string name)
 	{
 		return this->_sound[name];
+	}
+
+	std::vector<std::string> _AssetManager::getSoundGroup(std::string_view groupId)
+	{
+		//for (auto& i : _soundGroup)
+		//{
+		//	for (auto& j : i.second)
+		//		_SWAG_DEBUGS("{0}", j);
+		//}
+		return _soundGroup[groupId.data()];
 	}
 
 	void _AssetManager::LoadMusic(std::string name, std::string fileName)

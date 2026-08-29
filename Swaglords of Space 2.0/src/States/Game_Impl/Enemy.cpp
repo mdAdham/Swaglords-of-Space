@@ -88,6 +88,11 @@ namespace _Swag {
 		return this->shape.getRadius();
 	}
 
+	const sf::Vector2f Enemy::getPos() const
+	{
+		return this->shape.getPosition();
+	}
+
 	const bool Enemy::isAlive()
 	{
 		this->lifetimeCounter += dt;

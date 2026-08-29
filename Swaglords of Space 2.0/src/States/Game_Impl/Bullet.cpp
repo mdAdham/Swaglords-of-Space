@@ -18,6 +18,11 @@ namespace _Swag {
 		this->lifetimeCounter = 0;
 	}
 
+	const sf::Vector2f Bullet::getPos() const
+	{
+		return _shape.getPosition();
+	}
+
 	const sf::FloatRect Bullet::getBounds() const
 	{
 		return this->_shape.getGlobalBounds();

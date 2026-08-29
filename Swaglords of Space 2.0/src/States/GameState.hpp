@@ -92,6 +92,7 @@ namespace _Swag {
 		bool _gameover = false;
 
 	private:
+		void InitSounds();
 		void UpdateGui();
 		void UpdateBullets();
 		void SpawnEnemy();

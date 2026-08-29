@@ -8,7 +8,10 @@
 #include "Core/Deffinitions.hpp"
 
 namespace _Swag {
-
+	Player::Player(Ref<GameData> data)
+		:_data(data)
+	{
+	}
 	void Player::Init(float speed, float attackcooldown, int hpMax, int boostMax, sf::Texture& texture, sf::Vector2f pos)
 	{
 		this->_movementSpeed = speed;
@@ -129,6 +132,20 @@ namespace _Swag {
 		return result;
 	}
 
+	const sf::Vector3f Player::getUpVector() const
+	{
+		return sf::Vector3f(0.f, 0.f, 1.f);
+	}
+
+	const sf::Vector3f Player::getDirection() const
+	{
+		return sf::Vector3f(
+			std::cos(glm::radians(getRot() - 90.f)),
+			std::sin(glm::radians(getRot() - 90.f)),
+			0.f
+		);
+	}
+
 	void Player::setPosition(const sf::Vector2f pos)
 	{
 		this->_sprite->setPosition(pos);
@@ -213,6 +230,7 @@ namespace _Swag {
 				}
 
 				velocity += forward * _movementSpeed * 2.0f; loseBoost(1);
+				_data->audio.playLooping(S_Ship, 1, getPos());
 			}
 
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
@@ -242,6 +260,8 @@ namespace _Swag {
 		}
 		else
 		{
+			_data->audio.stopLooping(1, 0.05f);
+
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 				velocity += left * _movementSpeed;
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))

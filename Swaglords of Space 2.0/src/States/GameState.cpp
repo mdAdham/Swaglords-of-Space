@@ -40,7 +40,7 @@ namespace _Swag {
 		_background.setScale(20.f, 20.f);
 		
 
-		_Player = CreateRef<Player>();
+		_Player = CreateRef<Player>(_data);
 
 		_Player->Init(_modes.player_speed, _modes.player_attack_cooldown_max, 
 			_modes.player_max_hp, _modes.player_max_boost, 
@@ -84,8 +84,24 @@ namespace _Swag {
 		_greyScaleShader.loadFromFile(GREY_SCALE_SHADER_V, GREY_SCALE_SHADER_F);
 		//_greyScaleShader.loadFromFile(GREY_SCALE_SHADER_F, sf::Shader::Fragment);
 		//_greyScaleShader.setUniform("texture", sf::Shader::CurrentTexture);
-
+		InitSounds();
 	}
+
+	void GameState::InitSounds()
+	{
+		_data->assets.LoadSoundBuffer(SBUFFER_B_S1, SOUND_BULLET_SHOOTING1, false);
+		_data->assets.LoadSoundBuffer(SBUFFER_B_S2, SOUND_BULLET_SHOOTING2, false);
+		_data->assets.LoadSoundBuffer(SBUFFER_B_S3, SOUND_BULLET_SHOOTING3, false);
+		_data->assets.LoadSoundBuffer(SBUFFER_Ship, SOUND_ROCKET_LAUNCH, false);
+		_data->assets.LoadSoundBuffer(SBUFFER_Rock, SOUND_ROCK_COLLISION, false);
+
+		_data->assets.LoadSound(S_B_S1, _data->assets.GetSoundBuffer(SBUFFER_B_S1), GROUP_SOUND_BULLET);
+		_data->assets.LoadSound(S_B_S2, _data->assets.GetSoundBuffer(SBUFFER_B_S2), GROUP_SOUND_BULLET);
+		_data->assets.LoadSound(S_B_S3, _data->assets.GetSoundBuffer(SBUFFER_B_S3), GROUP_SOUND_BULLET);
+		_data->assets.LoadSound(S_Ship, _data->assets.GetSoundBuffer(SBUFFER_Ship));
+		_data->assets.LoadSound(S_Rock, _data->assets.GetSoundBuffer(SBUFFER_Rock));
+	}
+
 	void GameState::OnEvent(sf::Event& ev)
 	{
 		if (ev.type == ev.MouseWheelScrolled)
@@ -126,6 +142,7 @@ namespace _Swag {
 		{
 			this->_Player->move();
 
+			_data->audio.setListnerPosition(_Player->getPos(), _Player->getUpVector(), _Player->getDirection());
 			_Camera->Update(this->_Player);
 
 			UpdateBullets();
@@ -248,6 +265,8 @@ namespace _Swag {
 
 						_enemyDeathParticleSystem.EmitFrom(_Player->_collider->GetIntersectionPoint(), sf::Vector2f(0.0f, 0.0f), 360, _enemies[i]->getPointCount() * 2,
 							5.f, 10.f, emissionVec, true, _enemies[i]->getColor(), _enemies[i]->getRadius() / 8, _enemies[i]->getRadius() / 6);
+						
+						_data->audio.playSFX(S_Rock, _Player->getPos());
 					}
 					continue;
 				}
@@ -280,6 +299,7 @@ namespace _Swag {
 						}
 
 						// Play the Break Sound
+						_data->audio.playSFX(S_Rock, _enemies[i]->getPos());
 					}
 				}
 			}
@@ -497,6 +517,9 @@ namespace _Swag {
 
 			sf::Vector2f recoil = -direction * 2.f;
 			this->_Player->recoil(recoil);
+
+			//_data->audio.playSFX(S_B_S1, bullet->getPos());
+			_data->audio.playRandomSFX(GROUP_SOUND_BULLET, bullet->getPos());
 		}
 	}
 	void GameState::SpawnEnemy()

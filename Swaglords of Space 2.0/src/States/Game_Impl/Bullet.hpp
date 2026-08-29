@@ -10,6 +10,7 @@ namespace _Swag {
 		Bullet(sf::Texture& texture, float posX, float posY, float dir_X, float dir_Y, float movement_speed, float lifetime);
 		~Bullet() = default;
 
+		const sf::Vector2f getPos() const;
 		const sf::FloatRect getBounds() const;
 		const sf::Vector2f getDirection() const;
 		const bool isAlive();

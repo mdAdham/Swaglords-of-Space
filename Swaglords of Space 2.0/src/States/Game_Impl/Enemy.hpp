@@ -21,6 +21,7 @@ namespace _Swag {
 		const int getPointCount() const;
 		const sf::Color getColor() const;
 		const float getRadius() const;
+		const sf::Vector2f getPos() const;
 		const bool isAlive();
 
 		//Functions

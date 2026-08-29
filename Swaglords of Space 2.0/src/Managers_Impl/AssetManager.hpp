@@ -1,6 +1,7 @@
 #pragma once
 
 #include <map>
+#include <unordered_map>
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
@@ -32,10 +33,13 @@ namespace _Swag {
 		sf::SoundBuffer& GetSoundBuffer(std::string name);
 
 		void LoadSound(std::string name, sf::SoundBuffer& soundbuffer);
+		void LoadSound(std::string name, sf::SoundBuffer& soundbuffer, std::string group);
 		sf::Sound& GetSound(std::string name);
+		std::vector<std::string> getSoundGroup(std::string_view groupId);
 
 		void LoadMusic(std::string name, std::string fileName);
 		sf::Music& GetMusic(std::string name);
+
 
 	private:
 		std::map<std::string, sf::Texture> _textures;
@@ -46,6 +50,8 @@ namespace _Swag {
 		std::map<std::string, sf::SoundBuffer> _soundBuffer;
 		std::map<std::string, sf::Sound> _sound;
 		std::map<std::string, sf::Music> _music;
+
+		std::unordered_map<std::string, std::vector<std::string>> _soundGroup;
 
 	private:
 		bool isShutDown = false;

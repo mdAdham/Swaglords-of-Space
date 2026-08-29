@@ -131,6 +131,7 @@ namespace _Swag::Engine_2 {
 					
 					this->_fpstext.setString("FPS: " + std::to_string((int)fps));
 
+					_data->audio.update(dt);
 					this->_data->machine.GetActiveState()->OnUpdate(dt);
 				}
 

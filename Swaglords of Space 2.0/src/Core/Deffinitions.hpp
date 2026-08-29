@@ -39,3 +39,23 @@ const std::string GLOW_SHADER_V = Resource_root_folder + "shr/glow.vertex.glsl";
 const std::string GLOW_SHADER_F = Resource_root_folder + "shr/glow.fragment.glsl";
 
 const std::string GAME_RENDER_TEXTURE_SHADER_F = Resource_root_folder + "shr/game_renderTexture_F.glsl";
+
+const std::string GROUP_SOUND_BULLET = "shooting";
+
+const std::string SBUFFER_B_S1 = "sb_bs1";
+const std::string SBUFFER_B_S2 = "sb_bs2";
+const std::string SBUFFER_B_S3 = "sb_bs3";
+const std::string SBUFFER_Ship = "sb_ship";
+const std::string SBUFFER_Rock = "sb_rock";
+
+const std::string S_B_S1 = "s_bs1";
+const std::string S_B_S2 = "s_bs2";
+const std::string S_B_S3 = "s_bs3";
+const std::string S_Ship = "s_ship";
+const std::string S_Rock = "s_rock";
+
+const std::string SOUND_BULLET_SHOOTING1 = Resource_root_folder + "sounds/SHOOT011.wav";
+const std::string SOUND_BULLET_SHOOTING2 = Resource_root_folder + "sounds/SHOOT012.wav";
+const std::string SOUND_BULLET_SHOOTING3 = Resource_root_folder + "sounds/SHOOT013.wav";
+const std::string SOUND_ROCKET_LAUNCH = Resource_root_folder + "sounds/rocket_launch.wav";
+const std::string SOUND_ROCK_COLLISION = Resource_root_folder + "sounds/rock_breaking.wav";

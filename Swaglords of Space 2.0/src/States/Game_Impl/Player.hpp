@@ -8,6 +8,8 @@
 #include "Core/Animation.hpp"
 #include "ParticleSystem.hpp"
 
+#include "Core/AppData.hpp"
+
 namespace _Swag {
 
 	class PlayerDeathAnimation;
@@ -17,6 +19,8 @@ namespace _Swag {
 	public:
 		Player() = default;
 		~Player() = default;
+
+		Player(Ref<GameData> data);
 		
 		void Init(float speed, float attackcooldown, int hpMax, int boostMax, sf::Texture& texture, sf::Vector2f pos);
 		void InitParticleSystem();
@@ -31,6 +35,8 @@ namespace _Swag {
 		const int& getBoost() const;
 		const int& getBoostMax() const;
 		const sf::Vector2f getThrusterPos() const;
+		const sf::Vector3f getUpVector() const;
+		const sf::Vector3f getDirection() const;
 
 		void setPosition(const sf::Vector2f pos);
 		void setPosition(const float x, const float y);
@@ -57,6 +63,7 @@ namespace _Swag {
 
 		Ref<Collider> _collider;
 	private:
+		Ref<GameData> _data;
 		Ref<sf::Sprite> _sprite;
 		ParticleSystem _particleSystem;
 		bool _particleSysEnable = false;
