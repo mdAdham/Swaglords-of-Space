@@ -405,7 +405,7 @@ namespace _Swag {
 		Animation::Initialize(sf::seconds(5.f));
 
 		m_DeathParticleSystem.Init(player.getPos(), 500, sf::Color(200, 100, 90), sf::Vector2f(0.0f, 0.0f), sf::Vector2f(0.0f, 0.0f),
-			0.5f, 1.5f, 3 * glm::length(glm::vec2(player._sprite->getScale().x, player._sprite->getScale().y)), 4 * glm::length(glm::vec2(player._sprite->getScale().x, player._sprite->getScale().y)),
+			0.5f, 1.5f, 3 * static_cast<int>(glm::length(glm::vec2(player._sprite->getScale().x, player._sprite->getScale().y))), 4 * static_cast<int>(glm::length(glm::vec2(player._sprite->getScale().x, player._sprite->getScale().y))),
 			false, 0.1f);
 	}
 	void PlayerDeathAnimation::Start(const sf::Time& offset)

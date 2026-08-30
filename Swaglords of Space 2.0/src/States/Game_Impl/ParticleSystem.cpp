@@ -114,8 +114,8 @@ namespace _Swag {
 		if (sizeMin == 0 && sizeMax == 0);
 		else
 		{
-			m_sizeMin = sizeMin;
-			m_sizeMax = sizeMax;
+			m_sizeMin = static_cast<int>(sizeMin);
+			m_sizeMax = static_cast<int>(sizeMax);
 		}
 	
 		//Init(pos, count, m_initColor, -emitterVelocity * speedMin, -emitterVelocity * speedMax, m_durMin, m_durMax, m_sizeMin, m_sizeMax, true, m_airDrag);
@@ -298,8 +298,8 @@ namespace _Swag {
 	{
 		sf::Vector2f cvec = sf::Vector2f(pos.x - m_initPos.x, pos.y - m_initPos.y);
 	
-		sf::Vector2f normal = sf::Vector2f(cvec.x / sqrt(pow(cvec.x, 2) + pow(cvec.y, 2)),
-			cvec.y / sqrt(pow(cvec.x, 2) + pow(cvec.y, 2)));
+		sf::Vector2f normal = sf::Vector2f(cvec.x / sqrtf(pow(cvec.x, 2.f) + pow(cvec.y, 2.f)),
+			cvec.y / sqrtf(powf(cvec.x, 2.f) + powf(cvec.y, 2.f)));
 	
 		for (auto& particle : m_particles)
 		{
@@ -307,7 +307,7 @@ namespace _Swag {
 			cvec = sf::Vector2f(pos.x - particle.first.getPosition().x,
 				pos.y - particle.first.getPosition().y);
 	
-			float magnitude = (float)sqrt(pow(cvec.x, 2) + pow(cvec.y, 2));
+			float magnitude = sqrtf(powf(cvec.x, 2.f) + powf(cvec.y, 2.f));
 	
 			normal = sf::Vector2f(cvec.x / magnitude,
 				cvec.y / magnitude);
@@ -321,12 +321,12 @@ namespace _Swag {
 	
 			{
 	
-				float linearConstant = 0.14;
-				float quadraticConstant = 0.07;
+				float linearConstant = 0.14f;
+				float quadraticConstant = 0.07f;
 	
-				float attenuation = std::min(1.0 / ((1 + linearConstant *
+				float attenuation = std::min(1.0f / ((1 + linearConstant *
 					magnitude + quadraticConstant * (magnitude * magnitude))),
-					1.0
+					1.0f
 				);
 	
 				magnitude *= attenuation;
