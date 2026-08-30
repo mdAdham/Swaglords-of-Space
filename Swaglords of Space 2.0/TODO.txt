@@ -2,3 +2,5 @@ TODO: add the verson info of the project
 TODO: copyrights © 2025 BackupCookie Corporation
 
 TODO: ADD THE COOL GAME STUFFS, SETTINGS, MORE COMBAT, ETC
+
+TODO: Added Shaders
