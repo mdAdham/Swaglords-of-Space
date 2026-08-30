@@ -59,7 +59,7 @@ namespace _Swag {
 		this->boostIncrementTimer = boostIncrementTimerMax;
 
 		//_Camera = CreateRef<Camera>(_Player->getPos(), sf::Vector2f(WINDOW_WIDHT, WINDOW_HEIGHT), 1.0f, 0.5, 2.25);
-		_Camera = CreateRef<Camera>(_Player->getPos(), sf::Vector2f(_gameTextureVM.width, _gameTextureVM.height), 1.0f, 0.5, 2.25);
+		_Camera = CreateRef<Camera>(_Player->getPos(), sf::Vector2f(static_cast<float>(_gameTextureVM.width), static_cast<float>(_gameTextureVM.height)), 1.0f, 0.5f, 2.25f);
 
 		_particleSystem.Init({ 192, 108 }, 100, sf::Color::Blue, { 20.f, 20.f }, {30.f, 30.f}, 5.f, 10.f, 1, 5, true, 0.3f);
 		_enemyDeathParticleSystem.Init({ 0.0f, 0.0f }, 10, sf::Color::White, sf::Vector2f(), sf::Vector2f(), 0.1f, 1.0f, 1, 2, false, 0.3f);
@@ -250,7 +250,7 @@ namespace _Swag {
 
 				if (!_enemies[i]->isAlive())
 				{
-					_deadEnemyIndicies.push_back(i);
+					_deadEnemyIndicies.push_back(static_cast<int>(i));
 					continue;
 				}
 
@@ -258,7 +258,7 @@ namespace _Swag {
 				else if (_Player->interset(_enemies[i]->_collider) == true)
 				{
 					_Player->loseHp(_enemies[i]->getDamage());
-					_deadEnemyIndicies.push_back(i);
+					_deadEnemyIndicies.push_back(static_cast<int>(i));
 
 					{
 						sf::Vector2f emissionVec(1.f, 1.f);
@@ -280,8 +280,8 @@ namespace _Swag {
 
 						this->_Player->gainBoost(this->_enemies[i]->getDamage());
 
-						this->_deadEnemyIndicies.push_back(i);
-						this->_deadBulletIndicies.push_back(j);
+						this->_deadEnemyIndicies.push_back(static_cast<int>(i));
+						this->_deadBulletIndicies.push_back(static_cast<int>(j));
 
 						// Play the Particles
 						{
